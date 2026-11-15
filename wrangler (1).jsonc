@@ -1,0 +1,30 @@
+
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "bitter-cell-88bc",
+  "main": "src/index.js",
+  "compatibility_date": "2026-10-10",
+  "observability": {
+    "logs": {
+      "enabled": true,
+      "invocation_logs": true
+    }
+  },
+  "assets": {
+    "directory": ".",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"],
+    "exclude": [
+      "wrangler.jsonc",
+      "README.md",
+      "src/"
+    ]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "mut-championship-db",
+      "database_id": "fd8d5928-b32b-4bd5-9bd7-12fbd4538894"
+    }
+  ]
+}

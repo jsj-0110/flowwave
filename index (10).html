@@ -1,0 +1,3097 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+
+<head>
+
+  <meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+
+>
+
+  <title>MUT Championship | Jiu-Jitsu</title>
+
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Black+Ops+One&family=Bebas+Neue&display=swap" rel="stylesheet">
+
+
+  <style>
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+
+    /* ==========================================
+       EVENT SCHEDULE
+    =========================================== */
+
+    .schedule-events {
+      max-width: 1200px;
+      margin: 60px auto 0;
+      display: flex;
+      flex-direction: column;
+      gap: 70px;
+    }
+
+
+    .schedule-event-card {
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      gap: 80px;
+      align-items: center;
+      padding-bottom: 70px;
+      border-bottom: 1px solid #333;
+    }
+
+
+    .schedule-event-card:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+
+    .schedule-poster {
+      width: 100%;
+      background: #222;
+      overflow: hidden;
+    }
+
+
+    .schedule-poster img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: 620px;
+      object-fit: contain;
+    }
+
+
+    .schedule-poster.no-poster {
+      min-height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+      font-size: 12px;
+      letter-spacing: 2px;
+    }
+
+
+    .schedule-info h2 {
+      font-size: 42px;
+      letter-spacing: 2px;
+      margin: 0 0 45px;
+    }
+
+
+    .schedule-number {
+      display: inline-block;
+      margin-bottom: 12px;
+      color: #777;
+      font-size: 11px;
+      letter-spacing: 3px;
+    }
+
+
+    .schedule-item {
+      border-top: 1px solid #444;
+      padding: 22px 0;
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
+
+
+    .schedule-item:last-of-type {
+      border-bottom: 1px solid #444;
+    }
+
+
+    .schedule-item span {
+      width: 90px;
+      font-size: 12px;
+      letter-spacing: 2px;
+      color: #999;
+      flex-shrink: 0;
+    }
+
+
+    .schedule-item strong {
+      font-size: 20px;
+      font-weight: 500;
+    }
+
+
+    .schedule-description {
+      margin-top: 35px;
+    }
+
+
+    .schedule-description p {
+      color: #bbb;
+      line-height: 1.8;
+      white-space: pre-line;
+    }
+
+
+    /* ==========================================
+       EVENT ACTION BUTTONS
+    =========================================== */
+
+    .event-action-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 30px;
+    }
+
+
+    .event-action-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 20px;
+      border: 1px solid #555;
+      color: #aaa;
+      background: transparent;
+      font-size: 12px;
+      letter-spacing: 1px;
+      transition: 0.2s;
+      cursor: pointer;
+      box-sizing: border-box;
+    }
+
+
+    .event-action-button:hover {
+      border-color: #fff;
+      color: #fff;
+    }
+
+
+    .event-action-button.registration {
+      background: #fff;
+      border-color: #fff;
+      color: #000;
+      font-weight: 700;
+    }
+
+
+    .event-action-button.registration:hover {
+      background: #ddd;
+      border-color: #ddd;
+      color: #000;
+    }
+
+
+    .event-action-button.ready {
+      background: #fff;
+      border-color: #fff;
+      color: #000;
+    }
+
+
+    .event-action-button.ready:hover {
+      background: #ddd;
+      border-color: #ddd;
+    }
+
+
+    .event-action-button.disabled {
+      color: #666;
+      border-color: #333;
+      cursor: default;
+    }
+
+
+    .event-action-button.disabled:hover {
+      color: #666;
+      border-color: #333;
+    }
+
+
+    .instagram-icon {
+      width: 22px;
+      height: 22px;
+      display: block;
+      transition: transform 0.2s ease;
+    }
+
+
+    .instagram:hover .instagram-icon {
+      transform: scale(1.1);
+    }
+
+
+    /* ==========================================
+       PARTICIPATION STATUS
+    =========================================== */
+
+    .participant-status {
+      background: #090909;
+    }
+
+
+    .participant-status-box {
+      max-width: 1100px;
+      margin: 40px auto 0;
+    }
+
+
+    .participant-event-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 25px;
+    }
+
+
+    .participant-event-button {
+      width: 100%;
+      padding: 18px 20px;
+      border: 1px solid #333;
+      background: #0d0d0d;
+      color: #888;
+      text-align: left;
+      cursor: pointer;
+      transition: 0.2s;
+      box-sizing: border-box;
+    }
+
+
+    .participant-event-button:hover {
+      border-color: #777;
+      color: #fff;
+    }
+
+
+    .participant-event-button.active {
+      background: #fff;
+      border-color: #fff;
+      color: #000;
+    }
+
+
+    .participant-event-button small {
+      display: block;
+      font-size: 10px;
+      letter-spacing: 2px;
+      margin-bottom: 7px;
+      opacity: 0.6;
+    }
+
+
+    .participant-event-button strong {
+      display: block;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+
+    .participant-selected-event {
+      margin-bottom: 20px;
+      padding: 25px;
+      border: 1px solid #292929;
+      background: #0d0d0d;
+    }
+
+
+    .participant-selected-event small {
+      display: block;
+      color: #777;
+      font-size: 10px;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+    }
+
+
+    .participant-selected-event strong {
+      display: block;
+      font-size: 26px;
+      font-weight: 600;
+    }
+
+
+    .participant-table-box {
+      border: 1px solid #292929;
+      background: #0d0d0d;
+      overflow-x: auto;
+    }
+
+
+    .participant-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 860px;
+    }
+
+
+    .participant-table th {
+      padding: 15px 10px;
+      background: #151515;
+      color: #777;
+      font-size: 11px;
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
+
+
+    .participant-table td {
+      padding: 17px 10px;
+      border-top: 1px solid #222;
+      text-align: center;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+
+    .participant-table td:nth-child(2),
+    .participant-table td:nth-child(3),
+    .participant-table td:nth-child(7) {
+      text-align: left;
+    }
+
+
+    .participant-table td:nth-child(2) {
+      font-weight: 700;
+    }
+
+
+    .participant-table td:nth-child(3),
+    .participant-table td:nth-child(7) {
+      color: #999;
+    }
+
+
+    .registration-link {
+      display: inline-block;
+      margin-top: 25px;
+      padding: 15px 25px;
+      background: #fff;
+      color: #000;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+
+    /* ==========================================
+       MOBILE
+    =========================================== */
+
+    @media (max-width: 768px) {
+
+      .schedule-events {
+        margin-top: 40px;
+        gap: 55px;
+      }
+
+
+      .schedule-event-card {
+        display: block;
+        padding-bottom: 55px;
+      }
+
+
+      .schedule-poster {
+        width: 100%;
+        max-width: 420px;
+        margin: 0 auto 50px;
+      }
+
+
+      .schedule-info h2 {
+        font-size: 30px;
+        margin-bottom: 30px;
+      }
+
+
+      .schedule-item {
+        padding: 18px 0;
+        gap: 20px;
+      }
+
+
+      .schedule-item span {
+        width: 70px;
+      }
+
+
+      .schedule-item strong {
+        font-size: 17px;
+      }
+
+
+      .event-action-buttons {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+
+      .event-action-button {
+        width: 100%;
+      }
+
+
+      .participant-event-list {
+        grid-template-columns: 1fr;
+      }
+
+
+      .participant-selected-event strong {
+        font-size: 20px;
+      }
+
+    }
+
+
+    /* ==========================================
+       WEIGHT CLASS TABLE
+    =========================================== */
+
+    .weight-classes-section {
+      background: #0a0a0a;
+      border-top: 1px solid #222;
+      border-bottom: 1px solid #222;
+    }
+
+
+    .weight-table-intro {
+      margin-top: 18px;
+      color: #888;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+
+    .weight-table-block {
+      margin-top: 55px;
+    }
+
+
+    .weight-table-heading {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 18px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 15px;
+    }
+
+
+    .weight-table-heading h3 {
+      margin: 0;
+      font-size: 25px;
+      letter-spacing: -0.03em;
+    }
+
+
+    .weight-table-heading span {
+      color: #777;
+      font-size: 12px;
+      letter-spacing: .12em;
+    }
+
+
+    .weight-table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+
+    .weight-table {
+      width: 100%;
+      min-width: 760px;
+      border-collapse: collapse;
+      background: #101010;
+    }
+
+
+    .weight-table th,
+    .weight-table td {
+      border: 1px solid #292929;
+      padding: 16px 14px;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+
+    .weight-table th {
+      background: #171717;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+
+    .weight-table td {
+      color: #bbb;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+
+    .weight-table td:first-child {
+      width: 170px;
+      color: #fff;
+      font-weight: 700;
+      background: #141414;
+      white-space: nowrap;
+    }
+
+
+    .weight-table td:nth-child(2),
+    .weight-table td:nth-child(3) {
+      letter-spacing: .01em;
+    }
+
+
+    .weight-table .weight-male {
+      color: #eee;
+    }
+
+
+    .weight-table .weight-female {
+      color: #ddd;
+    }
+
+
+    .nogi-level-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+
+    .nogi-level-card {
+      border: 1px solid #292929;
+      background: #101010;
+      padding: 22px;
+    }
+
+
+    .nogi-level-card h4 {
+      margin: 0 0 18px;
+      color: #fff;
+      font-size: 17px;
+    }
+
+
+    .nogi-level-card p {
+      margin: 7px 0;
+      color: #aaa;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+
+    .nogi-level-card strong {
+      display: inline-block;
+      width: 52px;
+      color: #fff;
+    }
+
+
+    .weight-table-note {
+      margin-top: 20px;
+      padding: 18px 20px;
+      border-left: 2px solid #fff;
+      background: #111;
+      color: #888;
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+
+    @media (max-width: 768px) {
+
+      .weight-table-block {
+        margin-top: 42px;
+      }
+
+
+      .weight-table-heading {
+        display: block;
+      }
+
+
+      .weight-table-heading h3 {
+        font-size: 22px;
+        margin-bottom: 8px;
+      }
+
+
+      .weight-table-heading span {
+        font-size: 10px;
+      }
+
+
+      .weight-table th,
+      .weight-table td {
+        padding: 13px 10px;
+        font-size: 12px;
+      }
+
+
+      .weight-table {
+        min-width: 700px;
+      }
+
+
+      .nogi-level-grid {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+
+    /* ==========================================
+       HERO LAYOUT FIX
+       Keep logo above the title, centered
+    =========================================== */
+    .hero-content {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      text-align: center !important;
+    }
+
+    .hero-content .hero-logo {
+      display: block !important;
+      flex: 0 0 auto !important;
+    }
+
+    .hero-content h1 {
+      display: block !important;
+      flex: 0 0 auto !important;
+      width: auto !important;
+      max-width: 100%;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+
+    /* ==========================================
+       MUT DISPLAY TYPOGRAPHY
+       Hero brand: aggressive fighter style
+       Event names: Bebas Neue
+    =========================================== */
+    .hero-content h1 {
+      font-family: "Black Ops One", "Arial Black", sans-serif !important;
+      font-weight: 400;
+      letter-spacing: .045em;
+      line-height: 1.08;
+      text-transform: uppercase;
+      display: inline-block;
+      transform: skewX(-4deg);
+      text-shadow: 2px 2px 0 rgba(255,255,255,.12);
+    }
+
+    .schedule-info h2 {
+      font-family: "Bebas Neue", "Black Han Sans", "Noto Sans KR", sans-serif !important;
+      font-weight: 400;
+      letter-spacing: .035em;
+      line-height: 1.12;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 768px) {
+      .hero-content h1 {
+        letter-spacing: .025em;
+      }
+
+      .schedule-info h2 {
+        letter-spacing: .02em;
+      }
+    }
+
+
+
+/* SCHEDULE — confirmed visual mockup */
+#schedule {
+  background: #050505;
+  scroll-margin-top: 95px;
+  padding-left: clamp(12px, 2.2vw, 34px);
+  padding-right: clamp(12px, 2.2vw, 34px);
+}
+#schedule .mut-schedule-heading {
+  display:flex; align-items:center; justify-content:flex-start; flex-wrap:nowrap; gap:14px;
+  margin:0 auto 28px; max-width:1480px; text-align:left;
+}
+#schedule .mut-schedule-heading::before {
+  content:""; width:10px; height:38px; background:#ec071a;
+  transform:skewX(-23deg); flex:none; margin-right:4px;
+}
+#schedule .mut-schedule-heading strong {
+  font-family:"Bebas Neue",Arial,sans-serif;
+  font-size:clamp(29px,3.2vw,42px); font-weight:400; line-height:1.2; color:#fff; letter-spacing:.09em; white-space:nowrap;
+}
+#schedule .mut-schedule-heading span {
+  color:#a8a8ad; font-style:italic; font-size:clamp(12px,1.5vw,20px);
+  letter-spacing:.13em; font-weight:400;
+}
+#schedule .schedule-events {max-width:1480px;margin:0 auto;gap:20px;padding:0;}
+#schedule .schedule-event-card {
+  display:grid; grid-template-columns:minmax(230px,34%) minmax(0,1fr);
+  gap:clamp(18px,2.6vw,38px); align-items:stretch;
+  padding:clamp(16px,2vw,28px); border:1px solid #696969;
+  border-radius:20px; background:#080808; min-width:0;
+  box-shadow:none;
+}
+#schedule .schedule-event-card:last-child {border-bottom:1px solid #696969;padding-bottom:clamp(16px,2vw,28px);}
+#schedule .schedule-poster {
+  width:100%; height:100%; margin:0; min-width:0;
+  border:1px solid #606060; border-radius:13px; background:#0c0c0c;
+  display:flex; align-items:center; justify-content:center; overflow:hidden;
+}
+#schedule .schedule-poster img {
+  display:block; width:100%; height:100%; max-height:560px;
+  object-fit:cover;
+}
+#schedule .schedule-info {display:flex;flex-direction:column;min-width:0;}
+#schedule .schedule-number {display:none;}
+#schedule .schedule-info h2 {
+  font-family:Arial,"Black Han Sans","Noto Sans KR",sans-serif !important;
+  font-size:clamp(24px,2.8vw,42px); font-weight:900;
+  line-height:1.16; letter-spacing:-.035em; margin:0 0 16px;
+  overflow-wrap:anywhere; transform:none; text-shadow:none;
+}
+#schedule .schedule-item {
+  border:0; padding:4px 0; gap:12px;
+  display:flex; align-items:center; min-width:0;
+}
+#schedule .schedule-item:last-of-type {border:0;}
+#schedule .schedule-item span {display:none;}
+#schedule .schedule-item strong {
+  font-size:clamp(15px,1.8vw,24px); font-weight:500;
+  overflow-wrap:anywhere; line-height:1.4;
+}
+#schedule .schedule-item svg {width:26px;height:26px;flex:none;color:#fff;}
+#schedule .mut-registration-periods {
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;margin:clamp(14px,2vw,26px) 0 0;
+}
+#schedule .mut-registration-period {
+  min-width:0;min-height:94px;display:flex;flex-direction:column;
+  justify-content:center;align-items:center;text-align:center;
+  border:1px solid #d00a25;border-radius:15px;
+  background:linear-gradient(115deg,#320006,#120507);
+  padding:12px 9px;
+}
+#schedule .mut-registration-period.regular {
+  border-color:#1264aa;background:linear-gradient(115deg,#001b37,#07101d);
+}
+#schedule .mut-registration-period small {
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  font-size:clamp(12px,1.4vw,19px);font-weight:700;color:#fff;
+  letter-spacing:0;margin:0 0 6px;
+}
+#schedule .mut-registration-period.regular small {color:#fff;}
+#schedule .mut-registration-period small svg {width:22px;height:22px;flex:none;}
+#schedule .mut-registration-period strong {
+  font-size:clamp(14px,1.7vw,24px);line-height:1.3;
+  font-weight:800;color:#fff;overflow-wrap:anywhere;
+}
+#schedule .event-action-buttons {
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;margin-top:auto;padding-top:16px;
+}
+#schedule .event-action-button {
+  display:flex;gap:8px;align-items:center;justify-content:center;
+  width:100%;min-width:0;min-height:58px;padding:10px 6px;
+  border:1px solid #a4a4a4;border-radius:13px;
+  background:transparent;color:#fff;text-decoration:none;
+  font-size:clamp(12px,1.4vw,18px);font-weight:700;
+  letter-spacing:-.02em;white-space:normal;text-align:center;
+}
+#schedule .event-action-button svg {width:25px;height:25px;flex:none;}
+#schedule .event-action-button.registration {
+  grid-column:1/-1;min-height:72px;
+  border-color:#f20a20;background:linear-gradient(#ed001b,#a6000c);
+  font-size:clamp(19px,2vw,26px);color:#fff;
+}
+#schedule .event-action-button.registration:hover {background:#e80019;color:#fff;}
+#schedule .event-action-button.ready {background:transparent;color:#fff;border-color:#a4a4a4;}
+#schedule .event-action-button.disabled {
+  background:#101010;color:#888;border-color:#505050;cursor:default;
+}
+#schedule .event-action-button.disabled svg {opacity:.65;}
+@media(max-width:768px) {
+ #schedule {padding-left:12px;padding-right:12px;}
+ #schedule .mut-schedule-heading {gap:8px;margin-bottom:18px;}
+ #schedule .mut-schedule-heading::before {width:7px;height:28px;margin-right:2px;}
+ #schedule .mut-schedule-heading strong {font-size:29px; letter-spacing:.065em;}
+ #schedule .mut-schedule-heading span {font-size:11px;}
+ #schedule .schedule-events {gap:16px;margin-top:0;padding:0;}
+ #schedule .schedule-event-card {display:flex;flex-direction:column;gap:16px;padding:14px;border-radius:15px;}
+ #schedule .schedule-event-card:last-child {padding-bottom:14px;}
+ #schedule .schedule-poster {max-width:100%;height:auto;aspect-ratio:3/3.2;margin:0;}
+ #schedule .schedule-poster img {height:100%;max-height:none;object-fit:contain;}
+ #schedule .schedule-info h2 {font-size:clamp(23px,6vw,32px);margin-bottom:12px;}
+ #schedule .schedule-item strong {font-size:16px;}
+ #schedule .schedule-item svg {width:22px;height:22px;}
+ #schedule .mut-registration-periods {grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:16px;}
+ #schedule .mut-registration-period {min-height:82px;padding:10px 5px;border-radius:10px;}
+ #schedule .mut-registration-period small {font-size:12px;gap:4px;}
+ #schedule .mut-registration-period small svg {width:17px;height:17px;}
+ #schedule .mut-registration-period strong {font-size:clamp(12px,3.6vw,17px);}
+ #schedule .event-action-buttons {gap:7px;padding-top:12px;}
+ #schedule .event-action-button {min-height:48px;font-size:clamp(10px,3vw,14px);gap:4px;padding:7px 3px;border-radius:9px;}
+ #schedule .event-action-button svg {width:19px;height:19px;}
+ #schedule .event-action-button.registration {min-height:60px;font-size:19px;}
+}
+@media(max-width:350px) {
+ #schedule .event-action-button {flex-direction:column;gap:2px;font-size:11px;}
+ #schedule .mut-registration-period small {font-size:11px;}
+}
+
+  
+/* RANKING redesign: isolated styles, preserve original scoring logic */
+#ranking {scroll-margin-top:90px;padding-left:clamp(14px,2.5vw,38px);padding-right:clamp(14px,2.5vw,38px);}
+#ranking .mut-ranking-heading {max-width:1480px;margin:0 auto 26px;display:flex;align-items:center;gap:18px;text-align:left;}
+#ranking .mut-ranking-heading:before {content:"";display:block;width:9px;height:36px;flex:none;background:#e50920;transform:skewX(-22deg);}
+#ranking .mut-ranking-heading strong {font-family:"Bebas Neue",Arial,sans-serif;font-weight:400;font-size:clamp(30px,3.2vw,42px);line-height:1.2;letter-spacing:.09em;color:#fff;}
+#ranking .mut-ranking-tabs {max-width:1480px;margin:0 auto 28px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
+#ranking .mut-ranking-tabs button {min-height:62px;padding:12px 16px;border:1px solid #565656;border-radius:12px;background:#101010;color:#b9b9b9;font-size:clamp(15px,1.6vw,20px);font-weight:750;cursor:pointer;}
+#ranking .mut-ranking-tabs button.active {border-color:#e50920;background:linear-gradient(120deg,#4a080f,#180609);color:#fff;box-shadow:inset 0 0 0 1px #9c1423;}
+#ranking .mut-ranking-panel {max-width:1480px;margin:0 auto;min-width:0;}
+#ranking .mut-ranking-panel[hidden] {display:none!important;}
+#ranking .mut-ranking-panel .ranking-title {margin:0 0 20px!important;}
+#ranking .mut-ranking-panel .ranking-title h2 {font-size:clamp(23px,2.5vw,33px);letter-spacing:-.02em;}
+#ranking .mut-ranking-panel .ranking-title p {line-height:1.6;}
+#ranking .belt-ranking-menu {display:flex;gap:9px;flex-wrap:wrap;margin-bottom:20px;}
+#ranking .belt-ranking-btn {flex:1 1 110px;min-width:0;border-radius:10px;min-height:48px;}
+#ranking .ranking-box {border:1px solid #696969;border-radius:17px;overflow:hidden;background:#0b0b0b;}
+#ranking .ranking-box-header {padding:clamp(14px,2vw,25px);background:#111;gap:12px;flex-wrap:wrap;}
+#ranking .ranking-table {width:100%;border-collapse:collapse;}
+#ranking .ranking-table th {background:#181818;white-space:nowrap;}
+#ranking .ranking-table td {border-top:1px solid #303030;}
+#ranking .ranking-table tbody tr:nth-child(-n+3) td:first-child {color:#f3d18d;font-weight:800;}
+#ranking .mut-ranking-benefits {max-width:1480px;margin:28px auto 0;border:1px solid #535353;border-radius:16px;background:#101010;padding:clamp(18px,2vw,28px);min-width:0;overflow-wrap:anywhere;}
+#ranking .mut-ranking-benefits h2 {margin:0 0 14px;font-size:clamp(21px,2.1vw,28px);}
+#ranking .mut-ranking-benefits .category-copy {margin:0;line-height:1.95;max-width:100%;white-space:normal;overflow-wrap:anywhere;}
+#ranking .belt-grid {margin-top:28px;}
+@media(max-width:768px) {
+ #ranking {padding-left:12px;padding-right:12px;}
+ #ranking .mut-ranking-heading {gap:11px;margin-bottom:19px;}
+ #ranking .mut-ranking-heading:before {width:7px;height:29px;}
+ #ranking .mut-ranking-heading strong {font-size:29px;}
+ #ranking .mut-ranking-tabs {gap:8px;margin-bottom:22px;}
+ #ranking .mut-ranking-tabs button {min-height:52px;padding:8px;font-size:15px;border-radius:9px;}
+ #ranking .belt-ranking-menu {gap:5px;flex-wrap:nowrap;}
+ #ranking .belt-ranking-btn {flex:1 1 0;min-width:0;padding:8px 2px;font-size:clamp(10px,2.7vw,13px);min-height:40px;}
+ #ranking .ranking-box {overflow:hidden;border-radius:12px;}
+ #ranking .ranking-box-header {padding:13px;}
+ #ranking .ranking-box-header h3 {font-size:21px;}
+ #ranking .ranking-table {min-width:0!important;width:100%;table-layout:auto;}
+ #ranking .ranking-table th,#ranking .ranking-table td {padding:10px 3px;font-size:clamp(9px,2.5vw,12px);letter-spacing:-.04em;overflow-wrap:anywhere;}
+ #ranking .ranking-table th:nth-child(3),#ranking .ranking-table td:nth-child(3) {max-width:110px;}
+ #ranking .mut-ranking-benefits {margin-top:20px;padding:16px;border-radius:12px;}
+ #ranking .mut-ranking-benefits .category-copy {font-size:13px;line-height:1.85;}
+}
+
+
+/* PC SCHEDULE: 마감일 박스와 참가 신청 버튼을 함께 중앙 정렬 */
+@media (min-width: 769px) {
+  #schedule .schedule-info { justify-content: center; }
+  #schedule .mut-registration-periods { margin-top: 20px; margin-bottom: 0; }
+  #schedule .event-action-buttons { margin-top: 0; padding-top: 12px; }
+}
+
+/* RANKING refinement: PC side guide, junior divisions, 1-3 podium accents */
+#ranking .mut-ranking-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,30%);gap:18px;align-items:stretch}
+#ranking .mut-ranking-layout>.ranking-box{min-width:0}
+#ranking .mut-ranking-aside{border:1px solid #5a5a5a;border-radius:17px;background:linear-gradient(150deg,#161616,#090909);padding:clamp(18px,2vw,30px);color:#e9e9e9;overflow-wrap:anywhere}
+#ranking .mut-ranking-aside h3{font-family:'Bebas Neue',Arial,sans-serif;font-weight:400;letter-spacing:.11em;font-size:clamp(24px,2.2vw,33px);margin:0 0 14px;color:#fff}
+#ranking .mut-ranking-aside h4{font-size:16px;color:#fff;margin:22px 0 8px;border-left:3px solid #d50921;padding-left:10px}
+#ranking .mut-ranking-aside p{color:#bdbdbd;font-size:14px;line-height:1.7;margin:0}
+#ranking .mut-ranking-aside small{display:block;color:#929292;font-size:12px;line-height:1.7;margin-top:20px}
+#ranking .mut-guide-points{display:grid;gap:8px;margin-top:19px}
+#ranking .mut-guide-points span{display:flex;justify-content:space-between;gap:10px;padding:11px 12px;background:#222;border:1px solid #393939;border-radius:9px;font-size:14px}
+#ranking .mut-guide-points b{color:#fff}
+#ranking .mut-age-tabs{display:flex;gap:8px;margin:0 0 18px;flex-wrap:wrap}
+#ranking .mut-age-tabs button{flex:1;min-width:80px;min-height:44px;background:#151515;border:1px solid #505050;border-radius:9px;color:#c9c9c9;font-size:14px;font-weight:700;cursor:pointer}
+#ranking .mut-age-tabs button.active{background:#ae0819;border-color:#f0172c;color:#fff}
+#ranking .ranking-table td:first-child{white-space:nowrap}
+#ranking .mut-rank-medal{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:52px;min-height:35px;padding:4px 8px;border-radius:9px;font-size:16px}
+#ranking .mut-rank-medal b{font-size:15px}
+#ranking .mut-rank-1{color:#ffd66b;background:rgba(212,156,18,.17);border:1px solid rgba(239,196,75,.5)}
+#ranking .mut-rank-2{color:#d8e3ed;background:rgba(148,169,192,.16);border:1px solid rgba(170,190,210,.4)}
+#ranking .mut-rank-3{color:#e6a87a;background:rgba(165,90,47,.16);border:1px solid rgba(194,119,77,.4)}
+#ranking .mut-rank-other{color:#b6b6b6}
+#ranking .ranking-table tbody tr:has(.mut-rank-1){background:rgba(210,150,20,.065)}
+#ranking .ranking-table tbody tr:has(.mut-rank-2){background:rgba(165,183,200,.05)}
+#ranking .ranking-table tbody tr:has(.mut-rank-3){background:rgba(171,93,52,.05)}
+@media(max-width:900px){#ranking .mut-ranking-layout{grid-template-columns:1fr}#ranking .mut-ranking-aside{padding:19px}}
+@media(max-width:768px){#ranking .mut-age-tabs{gap:6px}#ranking .mut-age-tabs button{min-width:0;padding:7px 3px;font-size:12px}#ranking .mut-rank-medal{min-width:28px;min-height:29px;padding:2px 3px;gap:2px;font-size:12px}#ranking .mut-rank-medal b{font-size:11px}}
+
+
+/* Exactly six ranking divisions: combined middle/high, then five belts */
+#ranking .belt-ranking-menu{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;max-width:none}
+#ranking .belt-ranking-btn{min-width:0;white-space:normal;overflow-wrap:normal;padding:12px 5px}
+@media(max-width:768px){#ranking .belt-ranking-menu{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}#ranking .belt-ranking-btn{font-size:12px;padding:10px 3px}}
+
+
+/* RANKING final mockup alignment — wide table + two separate sidebar cards */
+@media(min-width:901px){
+ #ranking .mut-ranking-panel{max-width:1560px}
+ #ranking .mut-ranking-layout{grid-template-columns:minmax(0, 2.25fr) minmax(285px,1fr);gap:12px;align-items:stretch}
+ #ranking .mut-ranking-tabs{max-width:1560px}
+ #ranking .mut-ranking-heading{max-width:1560px}
+ #ranking .ranking-box{width:100%;min-width:0}
+ #ranking .ranking-table th,#ranking .ranking-table td{padding:13px 10px}
+ #ranking .ranking-box-header{padding:14px 18px}
+}
+#ranking .mut-ranking-aside{display:flex;flex-direction:column;gap:8px;padding:0;background:none;border:0;border-radius:0;min-width:0}
+#ranking .mut-ranking-guide-card{border:1px solid #777;border-radius:13px;background:#080808;padding:clamp(13px,1.3vw,20px);min-width:0}
+#ranking .mut-ranking-guide-card h3{font-family:Arial,"Noto Sans KR",sans-serif;font-size:clamp(17px,1.55vw,23px);font-weight:800;letter-spacing:-.04em;display:flex;align-items:center;gap:9px;margin:0 0 10px;padding:0 0 9px;border-bottom:1px solid #363636}
+#ranking .mut-guide-icon{font-size:23px;color:#fff;line-height:1}
+#ranking .mut-ranking-guide-card p{font-size:clamp(12px,1.03vw,15px);line-height:1.45;color:#e3e3e3;margin:7px 0;word-break:keep-all;overflow-wrap:anywhere}
+#ranking .mut-guide-points{border:1px solid #434343;border-radius:8px;margin:9px 0;padding:5px 10px;gap:0}
+#ranking .mut-guide-points span{display:grid;grid-template-columns:25px 1fr auto;align-items:center;gap:5px;padding:4px 3px;border:0;border-radius:0;background:transparent;font-size:clamp(12px,1.1vw,15px)}
+#ranking .mut-guide-points b{font-weight:500}
+#ranking .mut-guide-points strong{font-weight:800}
+#ranking .mut-benefit-row{display:grid;grid-template-columns:36% minmax(0,1fr);gap:8px;align-items:center;border:1px solid #ae071a;border-radius:8px;padding:10px 8px;margin-top:8px;min-width:0}
+#ranking .mut-benefit-row b{font-size:clamp(11px,1.02vw,14px);border-right:1px solid #5d2029;padding-right:6px;word-break:keep-all}
+#ranking .mut-benefit-row span{font-size:clamp(11px,1vw,14px);line-height:1.4;word-break:keep-all;overflow-wrap:anywhere}
+#ranking .ranking-box{border-radius:13px}
+#ranking .ranking-table{width:100%}
+#ranking .mut-rank-medal{background:transparent;border:0;border-radius:0;font-weight:800;min-width:0;padding:3px 5px}
+#ranking .mut-rank-1{color:#f9c743}
+#ranking .mut-rank-2{color:#d9d9d9}
+#ranking .mut-rank-3{color:#d99a5d}
+#ranking .ranking-table tbody tr:has(.mut-rank-1),#ranking .ranking-table tbody tr:has(.mut-rank-2),#ranking .ranking-table tbody tr:has(.mut-rank-3){background:transparent}
+@media(max-width:900px){
+ #ranking .mut-ranking-layout{grid-template-columns:1fr}
+ #ranking .mut-ranking-aside{gap:10px}
+ #ranking .mut-ranking-guide-card{padding:16px}
+ #ranking .mut-ranking-guide-card h3{font-size:19px}
+ #ranking .mut-ranking-guide-card p{font-size:13px}
+ #ranking .mut-guide-points span{font-size:13px}
+ #ranking .mut-benefit-row b,#ranking .mut-benefit-row span{font-size:12px}
+}
+
+
+/* Top-three podium: mockup's laurel-framed numbers, no medal emoji or colored pills */
+#ranking .mut-rank-medal{display:inline-flex;align-items:center;justify-content:center;gap:0;min-width:48px;min-height:29px;padding:0;background:none!important;border:0!important;border-radius:0!important;font-size:17px;font-weight:800;line-height:1}
+#ranking .mut-rank-medal b{font-size:16px;font-weight:900;line-height:1}
+#ranking .mut-rank-1{color:#f6c83c!important}
+#ranking .mut-rank-2{color:#e2e2e2!important}
+#ranking .mut-rank-3{color:#d68b4b!important}
+#ranking .mut-rank-1::before,#ranking .mut-rank-2::before,#ranking .mut-rank-3::before{content:"❮";font-size:23px;transform:scaleX(.65) rotate(-9deg);margin-right:1px}
+#ranking .mut-rank-1::after,#ranking .mut-rank-2::after,#ranking .mut-rank-3::after{content:"❯";font-size:23px;transform:scaleX(.65) rotate(9deg);margin-left:1px}
+#ranking .ranking-table tbody tr:has(.mut-rank-1),#ranking .ranking-table tbody tr:has(.mut-rank-2),#ranking .ranking-table tbody tr:has(.mut-rank-3){background:transparent!important}
+/* Decorative belt swatches are no longer navigation links */
+#ranking .belt-grid .belt-item{cursor:default;text-decoration:none}
+@media(max-width:768px){#ranking .mut-rank-medal{min-width:34px;min-height:25px}#ranking .mut-rank-medal b{font-size:12px}#ranking .mut-rank-1::before,#ranking .mut-rank-2::before,#ranking .mut-rank-3::before,#ranking .mut-rank-1::after,#ranking .mut-rank-2::after,#ranking .mut-rank-3::after{font-size:16px}}
+
+/* 체급표 섹션 제목: SCHEDULE/RANKING과 동일한 스타일 */
+#weight-classes .mut-weight-heading{max-width:1480px;margin:0 auto 26px;display:flex;align-items:center;gap:18px;text-align:left}
+#weight-classes .mut-weight-heading::before{content:"";display:block;width:9px;height:36px;flex:none;background:#e50920;transform:skewX(-22deg)}
+#weight-classes .mut-weight-heading strong{font-family:"Bebas Neue",Arial,sans-serif;font-size:clamp(30px,3.2vw,42px);font-weight:400;line-height:1.2;letter-spacing:.09em;color:#fff}
+@media(max-width:900px){#weight-classes .mut-weight-heading{gap:11px;margin-bottom:19px}#weight-classes .mut-weight-heading::before{width:7px;height:29px}#weight-classes .mut-weight-heading strong{font-size:29px}}
+
+/* Footer: replace wordmark text with official metallic logo */
+footer .footer-logo{display:flex;justify-content:center;align-items:center;margin:0 auto 12px;}
+footer .footer-logo img{display:block;width:clamp(100px,16vw,180px);max-width:100%;height:auto;object-fit:contain;}
+/* Weight-class title follows the exact schedule/ranking title scale */
+#weight-classes .mut-weight-heading{max-width:1480px;margin:0 auto 26px;gap:18px;}
+#weight-classes .mut-weight-heading strong{font-size:clamp(30px,3.2vw,42px);}
+#weight-classes .ranking-title{margin-top:0;}
+@media(max-width:900px){#weight-classes .mut-weight-heading{gap:11px;margin-bottom:19px;}#weight-classes .mut-weight-heading strong{font-size:29px;}}
+
+/* FIX: weight-class heading uses the identical scale as SCHEDULE and RANKING */
+#weight-classes .mut-weight-heading {max-width:1480px;margin:0 auto 28px;display:flex;align-items:center;justify-content:flex-start;gap:14px;}
+#weight-classes .mut-weight-heading::before {content:"";width:10px;height:38px;margin-right:4px;background:#ec071a;transform:skewX(-23deg);flex:none;}
+#weight-classes .mut-weight-heading strong {display:block;font-family:"Bebas Neue",Arial,sans-serif!important;font-size:clamp(29px,3.2vw,42px)!important;font-weight:400!important;line-height:1.2!important;letter-spacing:.09em!important;color:#fff;}
+@media(max-width:768px){#weight-classes .mut-weight-heading{gap:8px;margin-bottom:18px}#weight-classes .mut-weight-heading::before{width:7px;height:28px;margin-right:2px}#weight-classes .mut-weight-heading strong{font-size:29px!important;letter-spacing:.065em!important}}
+/* Active menu underline follows the section, rather than staying on HOME */
+.site-header .desktop-nav a.active{border-bottom-color:#e50920;color:#fff;}
+
+
+/* WEIGHT CLASSES: align the entire section content to SCHEDULE / RANKING */
+#weight-classes {
+  box-sizing:border-box;
+  padding-left:clamp(14px,2.5vw,38px);
+  padding-right:clamp(14px,2.5vw,38px);
+}
+#weight-classes > .mut-weight-heading,
+#weight-classes > .ranking-title,
+#weight-classes > .weight-table-block,
+#weight-classes > .weight-table-note {
+  box-sizing:border-box;
+  width:100%;
+  max-width:1480px;
+  margin-left:auto;
+  margin-right:auto;
+}
+#weight-classes > .ranking-title {
+  padding:0;
+  text-align:left;
+}
+#weight-classes .weight-table-intro {
+  max-width:100%;
+  margin:0;
+  font-size:14px;
+  line-height:1.7;
+}
+#weight-classes .weight-table-block {margin-top:28px;}
+#weight-classes .weight-table-heading h3 {font-size:clamp(19px,2vw,25px);}
+#weight-classes .weight-table-wrap {max-width:100%;}
+#weight-classes .weight-table {width:100%;table-layout:fixed;}
+#weight-classes .weight-table th,
+#weight-classes .weight-table td {padding:13px 12px;font-size:13px;}
+#weight-classes .weight-table-note {margin-top:22px;font-size:12px;}
+@media(max-width:768px){
+  #weight-classes {padding-left:12px;padding-right:12px;}
+  #weight-classes .weight-table-block {margin-top:24px;}
+  #weight-classes .weight-table {table-layout:auto;min-width:700px;}
+  #weight-classes .weight-table th,
+  #weight-classes .weight-table td {padding:11px 9px;font-size:12px;}
+  #weight-classes .weight-table-intro {font-size:13px;}
+}
+
+
+/* MUT NOTICE — approved desktop/mobile design */
+#notice{background:#050505!important;color:#fff!important;padding:90px clamp(14px,3vw,44px)!important;border:0!important}
+#notice .mut-notice-wrap{max-width:1480px;margin:auto}
+#notice .mut-notice-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:25px}
+#notice .mut-notice-heading h2{margin:0;display:flex;align-items:center;gap:17px;font-family:"Bebas Neue",Arial,sans-serif;font-weight:400;font-size:clamp(29px,3.2vw,42px);letter-spacing:.09em}
+#notice .mut-notice-heading h2:before{content:"";width:10px;height:38px;background:#e50920;transform:skewX(-23deg)}
+#notice .mut-notice-all{color:#fff;text-decoration:none;font-weight:700;font-size:16px;white-space:nowrap}
+#notice .mut-notice-all span{color:#e50920;font-size:24px;vertical-align:-2px;margin-left:5px}
+#notice .mut-notice-list{border:1px solid #565656;background:#0b0b0b;border-radius:17px;padding:12px 27px;overflow:hidden}
+#notice .mut-notice-row{display:grid;grid-template-columns:95px minmax(0,1fr) 125px;gap:14px;align-items:center;padding:19px 5px;border-bottom:1px solid #343434;text-decoration:none;color:#fff;min-height:65px}
+#notice .mut-notice-row:last-child{border-bottom:0}
+#notice .mut-notice-row:hover .mut-notice-title{color:#ff5b64}
+#notice .mut-notice-number{font-size:22px;color:#9a9a9a;font-weight:700}
+#notice .mut-notice-important{display:inline-block;background:#b00008;color:white;border-radius:5px;padding:6px 10px;font-size:14px;font-weight:800;width:max-content}
+#notice .mut-notice-title{font-size:17px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#notice .mut-notice-date{text-align:right;color:#aaa;font-size:14px}
+#notice .mut-notice-state{text-align:center;color:#999;padding:35px 10px}
+@media(max-width:700px){#notice{padding:60px 16px!important}#notice .mut-notice-heading h2{gap:10px;font-size:29px}#notice .mut-notice-heading h2:before{width:7px;height:28px}#notice .mut-notice-all{font-size:13px}#notice .mut-notice-list{padding:7px 14px}#notice .mut-notice-row{grid-template-columns:56px minmax(0,1fr);gap:10px;padding:15px 0}#notice .mut-notice-number{font-size:15px}#notice .mut-notice-important{font-size:11px;padding:5px 6px}#notice .mut-notice-title{font-size:13px}#notice .mut-notice-date{grid-column:2;text-align:left;font-size:11px;margin-top:-6px}}
+
+/* MUT PHOTO — event-linked list */
+.mut-photo-wrap{max-width:1480px;margin:auto}
+#photo{padding:90px clamp(14px,3vw,44px);background:#050505;color:#fff}
+.mut-photo-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:25px}
+.mut-photo-heading h2{display:flex;align-items:center;gap:17px;font:400 clamp(29px,3.2vw,42px) "Bebas Neue",Arial,sans-serif;letter-spacing:.09em;margin:0}
+.mut-photo-heading h2:before{content:"";width:10px;height:38px;background:#e50920;transform:skewX(-23deg)}
+.mut-photo-all{color:#fff;text-decoration:none;font-size:16px;font-weight:700;white-space:nowrap}
+.mut-photo-all span{color:#e50920;font-size:24px;margin-left:5px}
+.mut-photo-list{border:1px solid #565656;background:#0b0b0b;border-radius:17px;padding:12px 27px}
+.mut-photo-row{display:flex;align-items:center;gap:20px;justify-content:space-between;padding:20px 5px;border-bottom:1px solid #343434;min-height:80px}
+.mut-photo-row:last-child{border-bottom:0}
+.mut-photo-info{min-width:0}.mut-photo-name{font-size:18px;font-weight:800;overflow-wrap:anywhere}.mut-photo-date{font-size:13px;color:#999;margin-top:7px}
+.mut-photo-button{flex:none;display:inline-flex;align-items:center;justify-content:center;min-width:116px;min-height:43px;padding:10px 16px;border-radius:5px;background:#c20d24;border:1px solid #e33b4c;color:#fff;text-decoration:none;font-size:14px;font-weight:800;transition:.2s}
+.mut-photo-button:hover{background:#ed1934}.mut-photo-button.is-pending{background:#262626;border-color:#444;color:#aaa;cursor:default}
+.mut-photo-state{padding:35px 10px;text-align:center;color:#aaa}
+@media(max-width:700px){#photo{padding:60px 16px}.mut-photo-heading h2{font-size:29px;gap:10px}.mut-photo-heading h2:before{width:7px;height:28px}.mut-photo-all{font-size:13px}.mut-photo-list{padding:6px 14px}.mut-photo-row{gap:10px;padding:17px 0}.mut-photo-name{font-size:13px}.mut-photo-date{font-size:11px}.mut-photo-button{min-width:86px;min-height:37px;padding:8px;font-size:12px}}
+
+/* ==========================================================
+   SPONSOR — confirmed home design, isolated from other sections.
+   3 equal square images per PC row, 2 per mobile row.
+   flex + justify-content:center centers any incomplete final row.
+========================================================== */
+#sponsor.mut-sponsor-section {
+  background:#050505;
+  color:#fff;
+  padding:90px clamp(14px,3vw,44px);
+  scroll-margin-top:90px;
+}
+#sponsor .mut-sponsor-wrap {max-width:1480px;margin:0 auto;min-width:0;}
+#sponsor .mut-sponsor-heading {margin:0 0 30px;display:flex;align-items:center;gap:17px;}
+#sponsor .mut-sponsor-heading::before {
+  content:"";display:block;flex:none;width:10px;height:38px;
+  background:#e50920;transform:skewX(-23deg);
+}
+#sponsor .mut-sponsor-heading h2 {
+  margin:0;font:400 clamp(29px,3.2vw,42px) "Bebas Neue",Arial,sans-serif;
+  letter-spacing:.09em;line-height:1.2;color:#fff;
+}
+#sponsor .mut-sponsor-grid {
+  display:flex;flex-wrap:wrap;justify-content:center;
+  column-gap:20px;row-gap:20px;width:100%;
+}
+#sponsor .mut-sponsor-card {
+  flex:0 0 calc((100% - 40px)/3);
+  min-width:0;aspect-ratio:1 / 1;
+  display:flex;align-items:center;justify-content:center;
+  padding:clamp(16px,2.4vw,32px);
+  border:1px solid #414141;border-radius:14px;background:#111;
+  box-sizing:border-box;overflow:hidden;
+}
+#sponsor .mut-sponsor-card img {
+  display:block;width:100%;height:100%;object-fit:contain;
+}
+#sponsor .mut-sponsor-empty {
+  margin:0;padding:35px 15px;text-align:center;
+  border:1px solid #3d3d3d;border-radius:14px;
+  color:#999;background:#0b0b0b;font-size:14px;
+}
+@media (max-width:768px) {
+  #sponsor.mut-sponsor-section {padding:60px 16px;}
+  #sponsor .mut-sponsor-heading {gap:10px;margin-bottom:22px;}
+  #sponsor .mut-sponsor-heading::before {width:7px;height:28px;}
+  #sponsor .mut-sponsor-heading h2 {font-size:29px;}
+  #sponsor .mut-sponsor-grid {column-gap:12px;row-gap:12px;}
+  #sponsor .mut-sponsor-card {
+    flex-basis:calc((100% - 12px)/2);padding:clamp(8px,3vw,18px);border-radius:10px;
+  }
+}
+</style>
+
+</head>
+
+<body>
+
+<header class="site-header">
+
+<a
+class="brand"
+href="#home"
+
+>
+
+<img
+class="header-logo"
+src="images/MUT_metallic_logo.png"
+alt="MUT Championship"
+
+>
+
+</a>
+
+<nav class="desktop-nav" aria-label="메인 메뉴">
+<a class="active" href="#home">HOME</a>
+<a href="#schedule">SCHEDULE</a>
+<a href="#ranking">RANKING</a>
+<a href="#notice">NOTICE</a>
+<a href="#photo">PHOTO</a>
+<a href="#sponsor">SPONSOR</a>
+</nav>
+
+<div class="header-actions">
+
+<a
+class="instagram"
+href="https://www.instagram.com/bjj_mutchampionship/"
+target="_blank"
+rel="noopener noreferrer"
+aria-label="인스타그램"
+
+>
+
+<svg
+class="instagram-icon"
+viewBox="0 0 24 24"
+fill="none"
+xmlns="http://www.w3.org/2000/svg"
+aria-hidden="true"
+
+>
+
+```
+<rect
+  x="3"
+  y="3"
+  width="18"
+  height="18"
+  rx="5"
+  stroke="currentColor"
+  stroke-width="2"
+/>
+
+<circle
+  cx="12"
+  cy="12"
+  r="4"
+  stroke="currentColor"
+  stroke-width="2"
+/>
+
+<circle
+  cx="17.5"
+  cy="6.5"
+  r="1.2"
+  fill="currentColor"
+/>
+```
+
+  </svg>
+
+</a>
+
+<button
+class="menu-button"
+type="button"
+aria-label="메뉴 열기"
+aria-expanded="false"
+aria-controls="mut-mobile-menu"
+
+>
+
+</button>
+
+</div>
+
+</header>
+
+<div class="mobile-menu" id="mut-mobile-menu">
+<a href="#home">HOME</a>
+<a href="#schedule">SCHEDULE</a>
+<a href="#ranking">RANKING</a>
+<a href="#notice">NOTICE</a>
+<a href="#photo">PHOTO</a>
+<a href="#sponsor">SPONSOR</a>
+</div>
+
+<main id="home">
+
+<!-- ==========================================
+     HERO
+========================================== -->
+
+<section class="hero">
+
+<div class="hero-bg-shape"></div>
+
+<div class="hero-content">
+
+<img
+class="hero-logo"
+src="images/MUT_metallic_logo.png"
+alt="MUT Championship"
+
+>
+
+<p class="eyebrow mut-hero-tagline">JIU-JITSU · BRINGS · PEOPLE · TOGETHER</p>
+
+<div class="hero-buttons">
+
+<a
+class="btn btn-white"
+href="#schedule"
+
+>
+
+대회 일정 보기 <span>→</span> </a>
+
+</div>
+
+</div>
+
+<div class="scroll-text">
+
+SCROLL <i></i>
+
+</div>
+
+</section>
+
+<!-- ==========================================
+     EVENT SCHEDULE
+========================================== -->
+
+<section
+  class="event-schedule"
+  id="schedule"
+>
+
+<div class="mut-schedule-heading"><strong>EVENT SCHEDULE</strong></div>
+
+<div
+  class="schedule-events"
+  id="scheduleEvents"
+></div>
+
+</section>
+
+<!-- ==========================================
+     RANKING
+========================================== -->
+
+<section
+  class="belts section"
+  id="ranking"
+>
+
+<div class="mut-ranking-heading"><strong>RANKING</strong></div>
+<div class="mut-ranking-tabs" role="tablist" aria-label="랭킹 종류"><button type="button" id="mut-player-tab" class="active" role="tab" aria-selected="true" aria-controls="mut-player-panel" onclick="changeRankingView('player')">선수 랭킹</button><button type="button" id="mut-gym-tab" role="tab" aria-selected="false" aria-controls="mut-gym-panel" onclick="changeRankingView('gym')">체육관 랭킹</button></div>
+
+<div id="mut-player-panel" class="mut-ranking-panel" role="tabpanel" aria-labelledby="mut-player-tab">
+<div class="ranking-title">
+
+<h2>
+  벨트별 랭킹
+</h2>
+
+<p>
+  벨트를 선택하면 해당 벨트의 랭킹을 확인할 수 있습니다.
+</p>
+
+</div>
+
+<div class="belt-ranking-menu">
+
+<button type="button" class="belt-ranking-btn active" data-belt="STUDENT" onclick="changeRankingBelt('STUDENT')">중·고등부</button>
+
+<button
+type="button"
+class="belt-ranking-btn"
+data-belt="WHITE"
+onclick="changeRankingBelt('WHITE')"
+
+>
+
+WHITE </button>
+
+<button
+type="button"
+class="belt-ranking-btn"
+data-belt="BLUE"
+onclick="changeRankingBelt('BLUE')"
+
+>
+
+BLUE </button>
+
+<button
+type="button"
+class="belt-ranking-btn"
+data-belt="PURPLE"
+onclick="changeRankingBelt('PURPLE')"
+
+>
+
+PURPLE </button>
+
+<button
+type="button"
+class="belt-ranking-btn"
+data-belt="BROWN"
+onclick="changeRankingBelt('BROWN')"
+
+>
+
+BROWN </button>
+
+<button
+type="button"
+class="belt-ranking-btn"
+data-belt="BLACK"
+onclick="changeRankingBelt('BLACK')"
+
+>
+
+BLACK </button>
+
+</div>
+
+<div class="mut-ranking-layout"><div class="ranking-box">
+
+<div class="ranking-box-header">
+
+<div>
+
+<small>
+  MUT BELT RANKING
+</small>
+
+<h3 id="rankingBeltTitle">
+  중·고등부
+</h3>
+
+</div>
+
+<p>
+  🥇 금 5점 · 🥈 은 3점 · 🥉 동 1점
+</p>
+
+</div>
+
+<table class="ranking-table">
+
+<thead>
+
+<tr>
+
+<th>순위</th>
+<th>이름</th>
+<th>소속</th>
+<th>금</th>
+<th>은</th>
+<th>동</th>
+<th>점수</th>
+
+</tr>
+
+</thead>
+
+<tbody id="rankingList"></tbody>
+
+</table>
+
+</div><aside class="mut-ranking-aside" aria-label="랭킹 안내와 혜택"><div class="mut-ranking-guide-card">
+  <h3><span class="mut-guide-icon">♜</span> 랭킹 안내</h3>
+  <p>• 대회에서 획득한 메달을 기준으로 포인트를 합산하여 랭킹이 산정됩니다.</p>
+  <div class="mut-guide-points">
+    <span>🥇 <b>금메달</b> <strong>5점</strong></span>
+    <span>🥈 <b>은메달</b> <strong>3점</strong></span>
+    <span>🥉 <b>동메달</b> <strong>1점</strong></span>
+  </div>
+  <p>• 동일한 점수는 공동 순위로 표시됩니다.</p>
+  <p>• 동일한 이름과 소속(체육관)의 기록은 자동으로 합산됩니다.</p>
+</div>
+<div class="mut-ranking-guide-card">
+  <h3><span class="mut-guide-icon">♔</span> 랭킹 혜택</h3>
+  <p>• 랭킹 혜택은 MUT Championship 3차 대회 종료 이후부터 적용됩니다.</p>
+  <div class="mut-benefit-row"><b>♙ 체급 랭킹</b><span>각 체급 랭킹 1위, 2위는<br>다음 대회 참가비 면제</span></div>
+  <div class="mut-benefit-row"><b>♙ 체육관 랭킹</b><span>체육관 종합 랭킹 1위 팀은<br>다음 대회 참가 신청 시 얼리버드 가격 적용 (체육관 소속 전체)</span></div>
+</div></aside></div>
+
+</div>
+<div id="mut-gym-panel" class="mut-ranking-panel" role="tabpanel" aria-labelledby="mut-gym-tab" hidden>
+<div class="ranking-title">
+
+<h2>
+  체육관 랭킹
+</h2>
+
+<p>
+  선수들의 메달 점수를 체육관별로 합산한 순위입니다.
+</p>
+
+</div>
+
+<div class="mut-ranking-layout"><div class="ranking-box">
+
+<div class="ranking-box-header">
+
+<div>
+
+<small>
+  MUT GYM RANKING
+</small>
+
+<h3>
+  GYM RANKING
+</h3>
+
+</div>
+
+<p>
+  🥇 금 5점 · 🥈 은 3점 · 🥉 동 1점
+</p>
+
+</div>
+
+<table class="ranking-table">
+
+<thead>
+
+<tr>
+
+<th>순위</th>
+<th>체육관</th>
+<th>금</th>
+<th>은</th>
+<th>동</th>
+<th>점수</th>
+
+</tr>
+
+</thead>
+
+<tbody id="gymRankingList"></tbody>
+
+</table>
+
+</div><aside class="mut-ranking-aside" aria-label="랭킹 안내와 혜택"><div class="mut-ranking-guide-card">
+  <h3><span class="mut-guide-icon">♜</span> 랭킹 안내</h3>
+  <p>• 대회에서 획득한 메달을 기준으로 포인트를 합산하여 랭킹이 산정됩니다.</p>
+  <div class="mut-guide-points">
+    <span>🥇 <b>금메달</b> <strong>5점</strong></span>
+    <span>🥈 <b>은메달</b> <strong>3점</strong></span>
+    <span>🥉 <b>동메달</b> <strong>1점</strong></span>
+  </div>
+  <p>• 동일한 점수는 공동 순위로 표시됩니다.</p>
+  <p>• 동일한 이름과 소속(체육관)의 기록은 자동으로 합산됩니다.</p>
+</div>
+<div class="mut-ranking-guide-card">
+  <h3><span class="mut-guide-icon">♔</span> 랭킹 혜택</h3>
+  <p>• 랭킹 혜택은 MUT Championship 3차 대회 종료 이후부터 적용됩니다.</p>
+  <div class="mut-benefit-row"><b>♙ 체급 랭킹</b><span>각 체급 랭킹 1위, 2위는<br>다음 대회 참가비 면제</span></div>
+  <div class="mut-benefit-row"><b>♙ 체육관 랭킹</b><span>체육관 종합 랭킹 1위 팀은<br>다음 대회 참가 신청 시 얼리버드 가격 적용 (체육관 소속 전체)</span></div>
+</div></aside></div>
+</div>
+
+<div class="belt-grid">
+
+<div class="belt-item" role="presentation">
+
+<div class="belt white">
+  <span></span>
+</div>
+
+<b>WHITE</b> <small>(화이트)</small>
+
+</div>
+
+<div class="belt-item" role="presentation">
+
+<div class="belt blue">
+  <span></span>
+</div>
+
+<b>BLUE</b> <small>(블루)</small>
+
+</div>
+
+<div class="belt-item" role="presentation">
+
+<div class="belt purple">
+  <span></span>
+</div>
+
+<b>PURPLE</b> <small>(퍼플)</small>
+
+</div>
+
+<div class="belt-item" role="presentation">
+
+<div class="belt brown">
+  <span></span>
+</div>
+
+<b>BROWN</b> <small>(브라운)</small>
+
+</div>
+
+<div class="belt-item" role="presentation">
+
+<div class="belt black">
+  <span></span>
+</div>
+
+<b>BLACK</b> <small>(블랙)</small>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ==========================================
+     WEIGHT CLASSES
+========================================== -->
+
+<section
+  class="weight-classes-section section"
+  id="weight-classes"
+>
+
+<div class="mut-weight-heading"><strong>WEIGHT CLASSES</strong></div>
+
+<div class="ranking-title">
+
+<p class="weight-table-intro">
+
+참가신청서에 적용된 연령·성별·부문별 체급표입니다.<br>
+도복과 노기 체급을 각각 확인해주세요.
+
+</p>
+
+</div>
+
+<div class="weight-table-block">
+
+<div class="weight-table-heading">
+
+  <h3>도복 (GI)</h3>
+
+  <span>
+    AGE · GENDER · WEIGHT
+  </span>
+
+</div>
+
+<div class="weight-table-wrap">
+
+<table class="weight-table">
+
+<thead>
+
+<tr>
+
+  <th>연령</th>
+  <th>남성</th>
+  <th>여성</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+  <td>초등부 1·2학년</td>
+
+  <td class="weight-male">
+    -30 / -35 / -40 / -45 / -50 / -55 / +55kg
+  </td>
+
+  <td class="weight-female">
+    -30 / -35 / -40 / -45 / -50 / -55 / +55kg
+  </td>
+
+</tr>
+
+<tr>
+
+  <td>초등부 3·4학년</td>
+
+  <td class="weight-male">
+    -30 / -35 / -40 / -45 / -50 / -55 / +55kg
+  </td>
+
+  <td class="weight-female">
+    -30 / -35 / -40 / -45 / -50 / -55 / +55kg
+  </td>
+
+</tr>
+
+<tr>
+
+  <td>초등부 5·6학년</td>
+
+  <td class="weight-male">
+    -30 / -35 / -40 / -45 / -50 / -55 / +55kg
+  </td>
+
+  <td class="weight-female">
+    -30 / -35 / -40 / -45 / -50 / -55 / +55kg
+  </td>
+
+</tr>
+
+<tr>
+
+  <td>중등부</td>
+
+  <td class="weight-male">
+    -49 / -54 / -59 / -63 / -70 / -76 / -84 / +84kg
+  </td>
+
+  <td class="weight-female">
+    -44 / -48 / -52 / -60 / -64 / -68 / +68kg
+  </td>
+
+</tr>
+
+<tr>
+
+  <td>고등부</td>
+
+  <td class="weight-male">
+    -54 / -58 / -64 / -70 / -76 / -82 / -88 / +88kg
+  </td>
+
+  <td class="weight-female">
+    -44 / -48 / -52 / -56 / -60 / -64 / -68 / +68kg
+  </td>
+
+</tr>
+
+<tr>
+
+  <td>어덜트</td>
+
+  <td class="weight-male">
+    -57 / -64 / -70 / -76 / -82 / -88 / -94 / +94kg
+  </td>
+
+  <td class="weight-female">
+    -48 / -53 / -58 / -64 / -69 / -74 / +74kg
+  </td>
+
+</tr>
+
+<tr>
+
+  <td>마스터1</td>
+
+  <td class="weight-male">
+    -57 / -64 / -70 / -76 / -82 / -88 / -94 / +94kg
+  </td>
+
+  <td class="weight-female">
+    -48 / -53 / -58 / -64 / -69 / -74 / +74kg
+  </td>
+
+</tr>
+
+<tr>
+
+  <td>마스터2</td>
+
+  <td class="weight-male">
+    -57 / -64 / -70 / -76 / -82 / -88 / -94 / +94kg
+  </td>
+
+  <td class="weight-female">
+    -48 / -53 / -58 / -64 / -69 / -74 / +74kg
+  </td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<div class="weight-table-block">
+
+<div class="weight-table-heading">
+
+  <h3>노기 (NO-GI)</h3>
+
+  <span>
+    LEVEL · GENDER · WEIGHT
+  </span>
+
+</div>
+
+<div class="weight-table-wrap">
+
+<table class="weight-table">
+
+<thead>
+
+<tr>
+
+  <th>부문</th>
+  <th>남성</th>
+  <th>여성</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+  <td>
+    학생부<br>
+    (중등부·고등부)
+  </td>
+
+  <td class="weight-male">
+    -55 / -66 / -77 / -88 / -99 / +99kg
+  </td>
+
+  <td class="weight-female">
+    -44 / -55 / -60 / -66 / -77 / +77kg
+  </td>
+
+</tr>
+
+<tr>
+
+  <td>초급</td>
+
+  <td class="weight-male">
+    -55 / -66 / -77 / -88 / -99 / +99kg
+  </td>
+
+  <td class="weight-female">
+    -44 / -55 / -60 / -66 / -77 / +77kg
+  </td>
+
+</tr>
+
+<tr>
+
+  <td>중급</td>
+
+  <td class="weight-male">
+    -55 / -66 / -77 / -88 / -99 / +99kg
+  </td>
+
+  <td class="weight-female">
+    -44 / -55 / -60 / -66 / -77 / +77kg
+  </td>
+
+</tr>
+
+<tr>
+
+  <td>고급</td>
+
+  <td class="weight-male">
+    -55 / -66 / -77 / -88 / -99 / +99kg
+  </td>
+
+  <td class="weight-female">
+    -44 / -55 / -60 / -66 / -77 / +77kg
+  </td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<div class="weight-table-note">
+
+※ 체급 계체 허용 오차 범위 500g.
+
+</div>
+
+</section>
+
+<!-- ========================================== NOTICE ========================================== -->
+<section class="news section-light" id="notice">
+  <div class="mut-notice-wrap">
+    <div class="mut-notice-heading"><h2>NOTICE</h2><a class="mut-notice-all" href="notice.html">전체보기 <span>❯</span></a></div>
+    <div class="mut-notice-list" id="noticeList"><div class="mut-notice-state">공지사항을 불러오는 중입니다.</div></div>
+  </div>
+</section>
+
+<section id="photo" aria-labelledby="mut-photo-title"><div class="mut-photo-wrap"><div class="mut-photo-heading"><h2 id="mut-photo-title">PHOTO</h2><a class="mut-photo-all" href="photo.html">전체보기 <span>❯</span></a></div><div id="mutPhotoList" class="mut-photo-list" data-limit="5"><div class="mut-photo-state">대회 사진 목록을 불러오는 중입니다.</div></div></div></section>
+<section id="sponsor" class="mut-sponsor-section" aria-labelledby="mut-sponsor-title">
+  <div class="mut-sponsor-wrap">
+    <div class="mut-sponsor-heading"><h2 id="mut-sponsor-title">SPONSOR</h2></div>
+    <div id="mutSponsorGrid" class="mut-sponsor-grid" aria-live="polite">
+      <p class="mut-sponsor-empty">공식 스폰서 공개를 준비하고 있습니다.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+
+<div class="footer-logo"><img src="images/MUT_metallic_logo.png" alt="MUT Championship 로고" loading="lazy"></div>
+
+<div>
+  MUT CHAMPIONSHIP
+  &nbsp;
+</div>
+
+<small>
+  © MUT CHAMPIONSHIP. ALL RIGHTS RESERVED.
+</small>
+
+</footer>
+
+<script>
+
+/* ==================================================
+   공통 함수
+================================================== */
+
+function escapeHTML(value) {
+  if (value === undefined || value === null) return "";
+
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+
+/* 서버 랭킹 캐시: 공개 데이터는 D1이 유일한 기준입니다. */
+let mutServerRankingPlayers = [];
+let mutRankingFetchError = false;
+async function refreshMUTRankings() {
+  try {
+    const response = await fetch("/api/rankings", { cache: "no-store" });
+    if (!response.ok) throw new Error("HTTP " + response.status);
+    const data = await response.json();
+    if (!data.ok || !Array.isArray(data.rankings)) throw new Error("Invalid rankings response");
+    mutServerRankingPlayers = data.rankings.map(item => ({
+      id: item.id, name: item.player_name, gym: item.affiliation,
+      belt: String(item.belt || "").toUpperCase(),
+      gold: Number(item.gold || 0), silver: Number(item.silver || 0),
+      bronze: Number(item.bronze || 0), points: Number(item.points || 0)
+    }));
+    mutRankingFetchError = false;
+  } catch (error) {
+    console.error("랭킹 서버 조회 실패:", error);
+    mutRankingFetchError = true;
+  }
+  const active = document.querySelector(".belt-ranking-btn.active");
+  loadMUTRanking(active?.dataset.belt || "STUDENT");
+  loadMUTGymRanking();
+}
+
+/* ==================================================
+   MUT BELT RANKING
+================================================== */
+
+function loadMUTRanking(belt) {
+  const rankingList = document.getElementById("rankingList");
+  const rankingTitle = document.getElementById("rankingBeltTitle");
+
+  if (!rankingList || !rankingTitle) return;
+
+  rankingTitle.textContent = belt === "STUDENT" ? "중·고등부" : belt + " BELT";
+
+  let players = mutServerRankingPlayers.slice();
+
+  players = players
+    .filter(player => {
+      if (belt === "STUDENT") {
+        const age = String(player.ageDivision ?? player.ageGroup ?? player.ageCategory ?? player.divisionAge ?? player.age ?? "").toLowerCase().replace(/\s/g, "");
+        return String(player.belt || "").toUpperCase() === "STUDENT" ||
+          /중등|중학생|고등|고등학생|middle|junior|high/.test(age);
+      }
+      return String(player.belt || "").toUpperCase() === belt;
+    })
+    .map(player => {
+      const gold = Number(player.gold || 0);
+      const silver = Number(player.silver || 0);
+      const bronze = Number(player.bronze || 0);
+
+      return {
+        ...player,
+        gold,
+        silver,
+        bronze,
+        points: gold * 5 + silver * 3 + bronze
+      };
+    });
+
+  players.sort((a, b) =>
+    b.points - a.points ||
+    b.gold - a.gold ||
+    b.silver - a.silver ||
+    b.bronze - a.bronze ||
+    String(a.name || "").localeCompare(String(b.name || ""), "ko")
+  );
+
+  players = players.slice(0, 10);
+  rankingList.innerHTML = "";
+
+  if (players.length === 0) {
+    rankingList.innerHTML = `
+      <tr>
+        <td colspan="7">${mutRankingFetchError ? "랭킹을 불러오지 못했습니다. 새로고침해 주세요." : "아직 등록된 선수가 없습니다."}</td>
+      </tr>
+    `;
+    return;
+  }
+
+  // 같은 점수는 공동 순위로 표시하고, 다음 순위는 인원수만큼 건너뜁니다.
+  let currentRank = 0;
+  let previousPoints = null;
+
+  players.forEach((player, index) => {
+    if (index === 0 || player.points !== previousPoints) {
+      currentRank = index + 1;
+      previousPoints = player.points;
+    }
+
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+      <td><span class="mut-rank-medal mut-rank-${currentRank <= 3 ? currentRank : 'other'}"><b>${currentRank}</b></span></td>
+      <td>${escapeHTML(player.name || "-")}</td>
+      <td>${escapeHTML(player.gym || "-")}</td>
+      <td>${player.gold}</td>
+      <td>${player.silver}</td>
+      <td>${player.bronze}</td>
+      <td>${player.points}점</td>
+    `;
+
+    rankingList.appendChild(row);
+  });
+}
+
+
+/* ==================================================
+   MUT GYM RANKING
+================================================== */
+
+function loadMUTGymRanking() {
+  const rankingList = document.getElementById("gymRankingList");
+  if (!rankingList) return;
+
+  let players = mutServerRankingPlayers.slice();
+
+  const gyms = {};
+
+  players.forEach(player => {
+    const gym = String(player.gym || "").trim();
+    if (!gym) return;
+
+    const gold = Number(player.gold || 0);
+    const silver = Number(player.silver || 0);
+    const bronze = Number(player.bronze || 0);
+
+    if (!gyms[gym]) {
+      gyms[gym] = {
+        gym,
+        gold: 0,
+        silver: 0,
+        bronze: 0,
+        points: 0
+      };
+    }
+
+    gyms[gym].gold += gold;
+    gyms[gym].silver += silver;
+    gyms[gym].bronze += bronze;
+    gyms[gym].points += gold * 5 + silver * 3 + bronze;
+  });
+
+  const rankings = Object.values(gyms)
+    .sort((a, b) =>
+      b.points - a.points ||
+      b.gold - a.gold ||
+      b.silver - a.silver ||
+      b.bronze - a.bronze ||
+      a.gym.localeCompare(b.gym, "ko")
+    )
+    .slice(0, 10);
+
+  rankingList.innerHTML = "";
+
+  if (rankings.length === 0) {
+    rankingList.innerHTML = `
+      <tr>
+        <td colspan="6">${mutRankingFetchError ? "랭킹을 불러오지 못했습니다. 새로고침해 주세요." : "아직 등록된 체육관이 없습니다."}</td>
+      </tr>
+    `;
+    return;
+  }
+
+  // 체육관도 점수가 같으면 공동 순위로 표시합니다.
+  let currentRank = 0;
+  let previousPoints = null;
+
+  rankings.forEach((gym, index) => {
+    if (index === 0 || gym.points !== previousPoints) {
+      currentRank = index + 1;
+      previousPoints = gym.points;
+    }
+
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+      <td><span class="mut-rank-medal mut-rank-${currentRank <= 3 ? currentRank : 'other'}"><b>${currentRank}</b></span></td>
+      <td>${escapeHTML(gym.gym)}</td>
+      <td>${gym.gold}</td>
+      <td>${gym.silver}</td>
+      <td>${gym.bronze}</td>
+      <td>${gym.points}점</td>
+    `;
+
+    rankingList.appendChild(row);
+  });
+}
+
+
+/* ==================================================
+   랭킹 벨트 변경
+================================================== */
+
+function changeRankingBelt(belt) {
+  document.querySelectorAll(".belt-ranking-btn").forEach(button => {
+    button.classList.remove("active");
+  });
+
+  const selectedButton = document.querySelector(
+    '.belt-ranking-btn[data-belt="' + belt + '"]'
+  );
+
+  if (selectedButton) {
+    selectedButton.classList.add("active");
+  }
+
+  loadMUTRanking(belt);
+}
+
+
+/* ==================================================
+   대회 일정 데이터 가져오기
+================================================== */
+
+function getMUTEvents() {
+  try {
+    const parsed = JSON.parse(
+      localStorage.getItem("MUT_EVENTS") || "[]"
+    );
+
+    if (Array.isArray(parsed)) return parsed;
+
+    if (parsed && Array.isArray(parsed.events)) {
+      return parsed.events;
+    }
+
+    if (parsed && typeof parsed === "object") {
+      return Object.values(parsed);
+    }
+
+    return [];
+  } catch (error) {
+    console.error("MUT_EVENTS 불러오기 오류:", error);
+    return [];
+  }
+}
+
+
+/* ==================================================
+   Cloudflare DB에서 대회 일정 불러오기
+================================================== */
+
+async function loadMUTEventsFromAPI() {
+  try {
+    const response = await fetch("/api/events", {
+      method: "GET",
+      cache: "no-store"
+    });
+
+    if (!response.ok) {
+      throw new Error("대회 일정 API 연결 실패: " + response.status);
+    }
+
+    const data = await response.json();
+
+    if (!data.ok || !Array.isArray(data.events)) {
+      throw new Error("대회 일정 데이터 형식 오류");
+    }
+
+    const events = data.events.map(event => {
+      const registrationValue =
+        event.registration_open ?? event.registrationOpen;
+
+      return {
+        ...event,
+
+        id: event.id,
+
+        name: event.name || "MUT CHAMPIONSHIP",
+
+        date: event.event_date || event.date || "",
+
+        place: event.venue || event.place || "",
+
+        time: event.event_time || event.time || "",
+
+        poster: event.poster_url || event.poster || "",
+
+        description: event.description || "",
+
+        registrationOpen:
+          registrationValue === true ||
+          Number(registrationValue) === 1,
+
+        bracket: event.bracket_url || event.bracket || "",
+
+        timetable: event.timetable_url || event.timetable || "",
+
+        earlyBirdStart: event.early_bird_start ?? event.earlyBirdStart ?? event.early_start ?? "",
+        earlyBirdEnd: event.early_bird_end ?? event.earlyBirdEnd ?? event.early_end ?? "",
+        regularStart: event.regular_start ?? event.regularStart ?? event.registration_start ?? "",
+        regularEnd: event.registration_end ?? event.regular_end ?? event.regularEnd ?? ""
+      };
+    });
+
+    // 기존 홈페이지 기능과 연결하기 위해 저장
+    localStorage.setItem(
+      "MUT_EVENTS",
+      JSON.stringify(events)
+    );
+
+    // 참가현황 공개 여부를 DB 기준으로 저장
+    const visibilityMap = {};
+
+    events.forEach(event => {
+      visibilityMap[String(event.id)] =
+        Number(event.participants_public) === 1 ||
+        event.participants_public === true;
+    });
+
+    localStorage.setItem(
+      "MUT_PARTICIPANTS_VISIBLE_BY_EVENT",
+      JSON.stringify(visibilityMap)
+    );
+
+    console.log("MUT 대회 일정 DB 연결 성공:", events);
+
+    loadMUTSchedule();
+    renderParticipantEventButtons();
+    loadMUTParticipants();
+
+    return true;
+
+  } catch (error) {
+    console.error("대회 일정 DB 불러오기 오류:", error);
+
+    // DB 연결에 실패하면 기존 브라우저 저장 데이터를 표시
+    loadMUTSchedule();
+    renderParticipantEventButtons();
+    loadMUTParticipants();
+
+    return false;
+  }
+}
+
+
+/* ==================================================
+   대회 ID
+================================================== */
+
+function getEventId(event, index) {
+  if (!event) return "event-" + (index + 1);
+
+  return String(
+    event.id ||
+    event.eventId ||
+    event.eventID ||
+    "event-" + (index + 1)
+  );
+}
+
+
+/* ==================================================
+   참가신청 URL
+================================================== */
+
+function makeRegistrationURL(event, index) {
+  const params = new URLSearchParams();
+
+  params.set("event", getEventId(event, index));
+  params.set("name", event.name || "MUT CHAMPIONSHIP");
+  params.set("date", event.date || "");
+  params.set("place", event.place || "");
+  params.set("time", event.time || "");
+  params.set("description", event.description || "");
+
+  if (event.poster) {
+    params.set("poster", event.poster);
+  }
+
+  return "registration.html?" + params.toString();
+}
+
+
+/* ==================================================
+   참가현황 - 선택된 대회
+================================================== */
+
+let selectedParticipantEventId = null;
+
+function selectParticipantEvent(eventId) {
+  selectedParticipantEventId = String(eventId);
+
+  renderParticipantEventButtons();
+  loadMUTParticipants();
+
+  const section = document.getElementById("participants");
+
+  if (section) {
+    section.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }
+}
+
+
+/* ==================================================
+   참가현황 - 대회 선택 버튼
+================================================== */
+
+function renderParticipantEventButtons() {
+  const container = document.getElementById("participantEventList");
+  if (!container) return;
+
+  const events = getMUTEvents();
+
+  container.innerHTML = "";
+
+  if (events.length === 0) {
+    container.innerHTML = `
+      <div style="
+        grid-column:1/-1;
+        padding:25px;
+        border:1px solid #292929;
+        color:#777;
+      ">
+        등록된 대회가 없습니다.
+      </div>
+    `;
+    return;
+  }
+
+  if (
+    !selectedParticipantEventId ||
+    !events.some((event, index) =>
+      getEventId(event, index) === String(selectedParticipantEventId)
+    )
+  ) {
+    selectedParticipantEventId = getEventId(events[0], 0);
+  }
+
+  events.forEach((event, index) => {
+    const eventId = getEventId(event, index);
+    const button = document.createElement("button");
+
+    button.type = "button";
+    button.className = "participant-event-button";
+
+    if (String(eventId) === String(selectedParticipantEventId)) {
+      button.classList.add("active");
+    }
+
+    button.innerHTML = `
+      <small>EVENT ${index + 1}</small>
+      <strong>${escapeHTML(event.name || "MUT CHAMPIONSHIP")}</strong>
+    `;
+
+    button.addEventListener("click", () => {
+      selectParticipantEvent(eventId);
+    });
+
+    container.appendChild(button);
+  });
+}
+
+
+/* ==================================================
+   참가현황 - 선택된 대회 정보
+================================================== */
+
+function getSelectedParticipantEvent() {
+  const events = getMUTEvents();
+
+  if (events.length === 0) return null;
+
+  if (selectedParticipantEventId) {
+    const found = events.find((event, index) =>
+      getEventId(event, index) === String(selectedParticipantEventId)
+    );
+
+    if (found) return found;
+  }
+
+  selectedParticipantEventId = getEventId(events[0], 0);
+
+  return events[0];
+}
+
+
+/* ==================================================
+   대회 일정 표시
+================================================== */
+
+function loadMUTSchedule() {
+  const scheduleEvents = document.getElementById("scheduleEvents");
+  if (!scheduleEvents) return;
+
+  const events = getMUTEvents();
+
+  scheduleEvents.innerHTML = "";
+
+  if (events.length === 0) {
+    scheduleEvents.innerHTML = `
+      <div style="
+        padding:80px 20px;
+        text-align:center;
+        color:#777;
+        border:1px solid #292929;
+      ">
+        등록된 대회 일정이 없습니다.
+      </div>
+    `;
+
+    renderParticipantEventButtons();
+    loadMUTParticipants();
+    return;
+  }
+
+  events.forEach((event, index) => {
+    const card = document.createElement("div");
+    card.className = "schedule-event-card";
+
+    const formattedDate = event.date
+      ? String(event.date).replace(/-/g, ".")
+      : "-";
+
+    const eventName = escapeHTML(
+      event.name || "MUT CHAMPIONSHIP"
+    );
+
+    const eventPlace = escapeHTML(event.place || "-");
+    const eventTime = escapeHTML(event.time || "-");
+
+    const eventDescription = escapeHTML(
+      event.description || "MUT Championship 대회 일정입니다."
+    );
+
+    const posterHTML = event.poster
+      ? `
+        <div class="schedule-poster">
+          <img
+            src="${escapeHTML(event.poster)}"
+            alt="${eventName} 포스터"
+          >
+        </div>
+      `
+      : `
+        <div class="schedule-poster no-poster">
+          NO POSTER
+        </div>
+      `;
+
+    const registrationOpen =
+      event.registrationOpen !== false;
+
+    const registrationURL =
+      makeRegistrationURL(event, index);
+
+    const registrationButton = registrationOpen
+      ? `
+        <a
+          class="event-action-button registration"
+          href="${escapeHTML(registrationURL)}"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4H5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h13a2 2 0 0 0 2-2v-7"/><path d="m12 13 8-8 2 2-8 8-4 1 1-4Z"/></svg> 참가 신청
+        </a>
+      `
+      : `
+        <span class="event-action-button disabled">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4H5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h13a2 2 0 0 0 2-2v-7"/><path d="m12 13 8-8 2 2-8 8-4 1 1-4Z"/></svg> 신청 마감
+        </span>
+      `;
+
+    const bracketButton = event.bracket
+      ? `
+        <a
+          class="event-action-button ready"
+          href="${escapeHTML(event.bracket)}"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="6" height="5" rx="1"/><rect x="2" y="16" width="6" height="5" rx="1"/><rect x="16" y="10" width="6" height="5" rx="1"/><path d="M8 5.5h4v7h4M8 18.5h4v-6"/></svg> 대진표
+        </a>
+      `
+      : `
+        <span class="event-action-button disabled">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="6" height="5" rx="1"/><rect x="2" y="16" width="6" height="5" rx="1"/><rect x="16" y="10" width="6" height="5" rx="1"/><path d="M8 5.5h4v7h4M8 18.5h4v-6"/></svg> 대진표 준비중
+        </span>
+      `;
+
+    const timetableButton = event.timetable
+      ? `
+        <a
+          class="event-action-button ready"
+          href="${escapeHTML(event.timetable)}"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18M7 14h.01M12 14h.01M17 14h.01M7 18h.01M12 18h.01"/></svg> 타임테이블
+        </a>
+      `
+      : `
+        <span class="event-action-button disabled">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18M7 14h.01M12 14h.01M17 14h.01M7 18h.01M12 18h.01"/></svg> 타임테이블 준비중
+        </span>
+      `;
+
+    const eventId = getEventId(event, index);
+
+    // 관리자 DB에 저장된 마감일만 표시합니다. 날짜가 없으면 '미등록' 표시.
+    const firstNonEmpty = (...values) => values.find(value => value != null && String(value).trim() !== "") || "";
+    const formatDeadline = value => {
+      if (!value) return "미등록";
+      const text = String(value).trim().slice(0, 10);
+      const match = text.match(/^(\\d{4})-(\\d{2})-(\\d{2})$/);
+      if (!match) return escapeHTML(text);
+      const date = new Date(Number(match[1]), Number(match[2])-1, Number(match[3]));
+      const day = ["일","월","화","수","목","금","토"][date.getDay()];
+      return `${match[1]}. ${match[2]}. ${match[3]} (${day})`;
+    };
+    const earlyEnd = firstNonEmpty(event.earlyBirdEnd, event.early_bird_end, event.early_end);
+    const regularEnd = firstNonEmpty(event.regularEnd, event.regular_end, event.registrationEnd, event.registration_end);
+    const periodHTML = `
+      <div class="mut-registration-periods">
+        <div class="mut-registration-period">
+          <small><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg> 얼리버드 마감</small>
+          <strong>${formatDeadline(earlyEnd)}</strong>
+        </div>
+        <div class="mut-registration-period regular">
+          <small><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18M7 14h.01M12 14h.01M17 14h.01M7 18h.01M12 18h.01"/></svg> 접수 마감</small>
+          <strong>${formatDeadline(regularEnd)}</strong>
+        </div>
+      </div>`;
+    card.innerHTML = `
+      ${posterHTML}
+
+      <div class="schedule-info">
+
+        <h2>${eventName}</h2>
+
+        <div class="schedule-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18M7 14h.01M12 14h.01M17 14h.01M7 18h.01M12 18h.01"/></svg>
+          <strong>${formattedDate}</strong>
+        </div>
+
+        <div class="schedule-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          <strong>${eventPlace}</strong>
+        </div>
+
+        ${periodHTML}
+
+        <div class="event-action-buttons">
+
+          ${registrationButton}
+
+          <button
+            type="button"
+            class="event-action-button"
+            data-event-id="${escapeHTML(eventId)}"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2M17 5a3 3 0 0 1 0 6M18 14a5 5 0 0 1 3 5v1"/></svg> 참가자 현황
+          </button>
+
+          ${bracketButton}
+          ${timetableButton}
+
+        </div>
+
+      </div>
+    `;
+
+    const participantButton = card.querySelector("[data-event-id]");
+
+    if (participantButton) {
+      participantButton.addEventListener("click", () => {
+        selectParticipantEvent(eventId);
+      });
+    }
+
+    scheduleEvents.appendChild(card);
+  });
+
+  renderParticipantEventButtons();
+  loadMUTParticipants();
+}
+
+
+/* ==================================================
+   참가현황 정렬 - 성별
+================================================== */
+
+function getGenderOrder(player) {
+  const gender = String(
+    player.gender || player.sex || ""
+  ).trim().toLowerCase();
+
+  if (["남", "남자", "남성", "male", "m"].includes(gender)) {
+    return 0;
+  }
+
+  if (["여", "여자", "여성", "female", "f"].includes(gender)) {
+    return 1;
+  }
+
+  return 2;
+}
+
+
+/* ==================================================
+   참가현황 정렬 - 연령
+================================================== */
+
+function getAgeOrder(player) {
+  const age = String(
+    player.ageDivision || player.age || player.ageGroup || ""
+  )
+    .trim()
+    .replace(/\s+/g, "")
+    .toLowerCase();
+
+  if (
+    age.includes("유치부") ||
+    age.includes("1·2학년") ||
+    age.includes("1.2학년") ||
+    age.includes("1,2학년") ||
+    age.includes("1·2") ||
+    age.includes("1/2")
+  ) return 0;
+
+  if (
+    age.includes("3·4학년") ||
+    age.includes("3.4학년") ||
+    age.includes("3,4학년") ||
+    age.includes("3·4") ||
+    age.includes("3/4")
+  ) return 1;
+
+  if (
+    age.includes("5·6학년") ||
+    age.includes("5.6학년") ||
+    age.includes("5,6학년") ||
+    age.includes("5·6") ||
+    age.includes("5/6")
+  ) return 2;
+
+  if (age.includes("중등부")) return 3;
+  if (age.includes("고등부")) return 4;
+
+  if (
+    age.includes("성인부") ||
+    age === "성인" ||
+    age.includes("어덜트") ||
+    age.includes("adult")
+  ) return 5;
+
+  if (age.includes("마스터1") || age.includes("master1")) return 6;
+  if (age.includes("마스터2") || age.includes("master2")) return 7;
+
+  return 99;
+}
+
+
+/* ==================================================
+   참가현황 정렬 - 벨트
+================================================== */
+
+function getBeltOrder(player) {
+  const belt = String(player.belt || "")
+    .trim()
+    .toLowerCase();
+
+  if (
+    belt.includes("화이트") ||
+    belt.includes("white") ||
+    belt.includes("그레이") ||
+    belt.includes("gray") ||
+    belt.includes("grey")
+  ) return 0;
+
+  if (
+    belt.includes("옐로우") ||
+    belt.includes("yellow") ||
+    belt.includes("오렌지") ||
+    belt.includes("orange") ||
+    belt.includes("그린") ||
+    belt.includes("green")
+  ) return 1;
+
+  if (belt.includes("블루") || belt.includes("blue")) return 2;
+  if (belt.includes("퍼플") || belt.includes("purple")) return 3;
+  if (belt.includes("브라운") || belt.includes("brown")) return 4;
+  if (belt.includes("블랙") || belt.includes("black")) return 5;
+
+  return 99;
+}
+
+
+/* ==================================================
+   참가현황 정렬 - 체급
+================================================== */
+
+function getWeightOrder(player) {
+  const weight = String(
+    player.weight || player.category || ""
+  ).trim().toLowerCase();
+
+  const match = weight.match(/(\d+(?:\.\d+)?)/);
+
+  if (!match) return 999999;
+
+  const number = Number(match[1]);
+
+  if (weight.includes("+") || weight.includes("이상")) {
+    return 100000 + number;
+  }
+
+  return number;
+}
+
+
+/* ==================================================
+   참가현황 전체 정렬
+================================================== */
+
+function sortMUTParticipants(players) {
+  return players.sort((a, b) =>
+    getGenderOrder(a) - getGenderOrder(b) ||
+    getAgeOrder(a) - getAgeOrder(b) ||
+    getBeltOrder(a) - getBeltOrder(b) ||
+    getWeightOrder(a) - getWeightOrder(b) ||
+    String(a.name || "").localeCompare(String(b.name || ""), "ko")
+  );
+}
+
+
+/* ==================================================
+   참가현황 공개 설정
+================================================== */
+
+function getParticipantVisibilityMap() {
+  try {
+    const parsed = JSON.parse(
+      localStorage.getItem("MUT_PARTICIPANTS_VISIBLE_BY_EVENT") || "{}"
+    );
+
+    if (parsed && typeof parsed === "object") {
+      return parsed;
+    }
+  } catch (error) {}
+
+  return {};
+}
+
+
+function isMUTParticipantListPublic(eventId) {
+  const map = getParticipantVisibilityMap();
+
+  return map[String(eventId)] === true;
+}
+
+
+/* ==================================================
+   참가현황 표시
+================================================== */
+
+async function loadMUTParticipants() {
+  const list = document.getElementById("participantList");
+  const eventNameElement = document.getElementById("participantEventName");
+  const participantSection = document.getElementById("participants");
+
+  if (!list) return;
+
+  const selectedEvent = getSelectedParticipantEvent();
+  const selectedEventId = selectedEvent ? String(selectedEvent.id || "") : "";
+
+  if (!selectedEventId || !/^\d+$/.test(selectedEventId)) {
+    if (participantSection) participantSection.classList.add("hidden");
+    list.innerHTML = `<tr><td colspan="8">참가현황을 표시할 대회를 찾을 수 없습니다.</td></tr>`;
+    return;
+  }
+
+  if (eventNameElement) {
+    eventNameElement.textContent = selectedEvent.name || "MUT CHAMPIONSHIP";
+  }
+
+  list.innerHTML = `<tr><td colspan="8">참가자 현황을 불러오는 중입니다.</td></tr>`;
+
+  try {
+    // 공개 여부와 참가자 명단은 방문자 개인 저장소가 아닌 서버 DB에서 확인합니다.
+    const response = await fetch(
+      "/api/participants?event_id=" + encodeURIComponent(selectedEventId),
+      {
+        method: "GET",
+        cache: "no-store",
+        headers: { "Accept": "application/json" }
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("참가자 현황 조회 실패 (" + response.status + ")");
+    }
+
+    const result = await response.json();
+
+    if (result.public !== true) {
+      if (participantSection) participantSection.classList.add("hidden");
+      list.innerHTML = "";
+      return;
+    }
+
+    if (participantSection) participantSection.classList.remove("hidden");
+
+    let registrations = Array.isArray(result.participants)
+      ? result.participants.map(player => ({
+          ...player,
+          gym: player.affiliation || "",
+          ageDivision: player.age || "",
+          weight: player.weight_class || "",
+          absoluteParticipation: player.absolute || ""
+        }))
+      : [];
+
+    registrations = sortMUTParticipants(registrations);
+    list.innerHTML = "";
+
+    if (registrations.length === 0) {
+      list.innerHTML = `<tr><td colspan="8">아직 입금 확인이 완료된 참가자가 없습니다.</td></tr>`;
+      return;
+    }
+
+    registrations.forEach((player, index) => {
+      const row = document.createElement("tr");
+      const playerAge = player.ageDivision || player.age || "-";
+      const playerBelt = player.belt || "-";
+      const playerWeight = player.weight || player.category || "-";
+      const playerCoach = player.coach || "-";
+      const playerAbsolute = player.absoluteParticipation || player.absolute || "-";
+
+      row.innerHTML = `
+        <td>${index + 1}</td>
+        <td>${escapeHTML(player.name || "-")}</td>
+        <td>${escapeHTML(player.gym || "-")}</td>
+        <td>${escapeHTML(playerAge)}</td>
+        <td>${escapeHTML(playerBelt)}</td>
+        <td>${escapeHTML(playerWeight)}</td>
+        <td>${escapeHTML(playerCoach)}</td>
+        <td>${escapeHTML(playerAbsolute)}</td>
+      `;
+      list.appendChild(row);
+    });
+  } catch (error) {
+    console.error("홈페이지 참가자 현황 조회 오류:", error);
+    if (participantSection) participantSection.classList.remove("hidden");
+    list.innerHTML = `<tr><td colspan="8">참가자 현황을 불러오지 못했습니다. 잠시 후 다시 확인해 주세요.</td></tr>`;
+  }
+}
+
+/* ==================================================
+   공지사항
+================================================== */
+
+async function loadMUTNotices(){
+ const box=document.getElementById('noticeList');if(!box)return;
+ box.innerHTML='<div class="mut-notice-state">공지사항을 불러오는 중입니다.</div>';
+ try{
+  const response=await fetch('/api/notices',{cache:'no-store'});
+  if(!response.ok)throw new Error('HTTP '+response.status);
+  const data=await response.json();
+  const items=(Array.isArray(data.notices)?data.notices:[]).slice().sort((a,b)=>Number(b.important||0)-Number(a.important||0)||String(b.created_at||'').localeCompare(String(a.created_at||''))||Number(b.id)-Number(a.id)).slice(0,5);
+  box.replaceChildren();
+  if(!items.length){box.innerHTML='<div class="mut-notice-state">등록된 공지사항이 없습니다.</div>';return}
+  items.forEach((n,i)=>{
+   const a=document.createElement('a');a.className='mut-notice-row';a.href='notice-detail.html?id='+encodeURIComponent(n.id);
+   const num=document.createElement('span');num.className=Number(n.important)?'mut-notice-important':'mut-notice-number';num.textContent=Number(n.important)?'중요':String(i+1).padStart(2,'0');
+   const title=document.createElement('span');title.className='mut-notice-title';title.textContent=n.title||'-';
+   const date=document.createElement('time');date.className='mut-notice-date';date.textContent=String(n.created_at||'').slice(0,10).replace(/-/g,'.');
+   a.append(num,title,date);box.append(a);
+  });
+ }catch(e){console.error('NOTICE:',e);box.innerHTML='<div class="mut-notice-state">공지사항을 불러오지 못했습니다.</div>'}
+}
+
+/* RANKING view toggle; data renderers are unchanged */
+function changeRankingView(view) {
+  const isGym = view === "gym";
+  const playerPanel = document.getElementById("mut-player-panel");
+  const gymPanel = document.getElementById("mut-gym-panel");
+  const playerTab = document.getElementById("mut-player-tab");
+  const gymTab = document.getElementById("mut-gym-tab");
+  if (!playerPanel || !gymPanel || !playerTab || !gymTab) return;
+  playerPanel.hidden = isGym;
+  gymPanel.hidden = !isGym;
+  playerTab.classList.toggle("active", !isGym);
+  gymTab.classList.toggle("active", isGym);
+  playerTab.setAttribute("aria-selected", String(!isGym));
+  gymTab.setAttribute("aria-selected", String(isGym));
+  if (isGym) loadMUTGymRanking();
+}
+
+/* ==================================================
+   페이지 시작
+================================================== */
+
+document.addEventListener("DOMContentLoaded", async function() {
+
+  // 랭킹은 서버 D1에서 공통 조회
+  await refreshMUTRankings();
+
+  // 공지사항은 기존 방식 유지
+  loadMUTNotices();
+
+  // 대회 일정은 Cloudflare DB에서 불러오기
+  await loadMUTEventsFromAPI();
+
+});
+
+
+/* ==================================================
+   데이터 변경 감지
+================================================== */
+
+window.addEventListener("storage", function(event) {
+
+  if (event.key === "MUT_REGISTRATIONS") {
+    loadMUTParticipants();
+  }
+
+  if (event.key === "MUT_PARTICIPANTS_VISIBLE_BY_EVENT") {
+    renderParticipantEventButtons();
+    loadMUTParticipants();
+  }
+
+  if (event.key === "MUT_EVENTS") {
+    loadMUTSchedule();
+    renderParticipantEventButtons();
+    loadMUTParticipants();
+  }
+
+  if (event.key === "MUT_NOTICES") {
+    loadMUTNotices();
+  }
+
+});
+
+</script>
+
+
+<script>
+/* MUT mobile navigation: isolated from ranking, registration and API logic */
+(function(){
+  const button=document.querySelector('.site-header .menu-button');
+  const menu=document.getElementById('mut-mobile-menu');
+  if(!button||!menu)return;
+  function closeMenu(){
+    menu.classList.remove('open');
+    button.setAttribute('aria-expanded','false');
+    button.setAttribute('aria-label','메뉴 열기');
+  }
+  button.addEventListener('click',function(){
+    const open=!menu.classList.contains('open');
+    menu.classList.toggle('open',open);
+    button.setAttribute('aria-expanded',String(open));
+    button.setAttribute('aria-label',open?'메뉴 닫기':'메뉴 열기');
+  });
+  menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeMenu));
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu()});
+  window.addEventListener('resize',()=>{if(window.innerWidth>850)closeMenu()});
+})();
+</script>
+<script>
+
+/* MUT navigation: update red underline as the visitor scrolls */
+(function(){
+  const navLinks=Array.from(document.querySelectorAll('.site-header .desktop-nav a[href^="#"]'));
+  if(!navLinks.length)return;
+  const ids=['home','schedule','ranking','weight-classes','notice','photo','sponsor'];
+  const sections=ids.map(id=>({id,element:id==='home'?document.querySelector('.hero'):document.getElementById(id)})).filter(item=>item.element);
+  let ticking=false;
+  function updateActiveMenu(){
+    ticking=false;
+    const offset=window.scrollY+Math.max(110,window.innerHeight*.27);
+    let current='home';
+    for(const section of sections){
+      const top=section.element.getBoundingClientRect().top+window.scrollY;
+      if(top<=offset)current=section.id;
+    }
+    // Weight classes belong to the RANKING navigation group.
+    if(current==='weight-classes')current='ranking';
+    for(const link of navLinks){
+      const selected=link.getAttribute('href')==='#'+current;
+      link.classList.toggle('active',selected);
+      if(selected)link.setAttribute('aria-current','location');
+      else link.removeAttribute('aria-current');
+    }
+  }
+  function scheduleUpdate(){if(!ticking){ticking=true;requestAnimationFrame(updateActiveMenu)}}
+  window.addEventListener('scroll',scheduleUpdate,{passive:true});
+  window.addEventListener('resize',scheduleUpdate);
+  window.addEventListener('hashchange',scheduleUpdate);
+  document.addEventListener('DOMContentLoaded',updateActiveMenu);
+  updateActiveMenu();
+})();
+
+</script>
+<script>
+
+/* PHOTO: server events are the sole source; no separate albums or posters */
+function mutPhotoEscape(value){return String(value??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");}
+function mutPhotoLink(value){try{const url=new URL(String(value||""));return url.protocol==="https:" && (url.hostname==="drive.google.com"||url.hostname==="docs.google.com")?url.href:"";}catch{return "";}}
+function mutPhotoRows(events,limit){return events.slice().sort((a,b)=>String(b.event_date||"").localeCompare(String(a.event_date||""))||Number(b.id)-Number(a.id)).slice(0,limit).map(event=>{const url=mutPhotoLink(event.photo_url);return `<div class="mut-photo-row"><div class="mut-photo-info"><div class="mut-photo-name">${mutPhotoEscape(event.name||"MUT CHAMPIONSHIP")}</div><div class="mut-photo-date">${mutPhotoEscape(String(event.event_date||"").replace(/-/g,"."))}</div></div>${url?`<a class="mut-photo-button" href="${mutPhotoEscape(url)}" target="_blank" rel="noopener noreferrer" aria-label="${mutPhotoEscape(event.name)} 사진 보기">PHOTO ↗</a>`:'<span class="mut-photo-button is-pending" aria-disabled="true">준비중</span>'}</div>`;}).join("");}
+async function mutLoadPhotoList(){const target=document.getElementById("mutPhotoList");if(!target)return;try{const response=await fetch("/api/events",{cache:"no-store"});if(!response.ok)throw new Error("대회 조회 실패");const data=await response.json();if(!data.ok||!Array.isArray(data.events))throw new Error("대회 데이터 오류");target.innerHTML=data.events.length?mutPhotoRows(data.events,target.dataset.limit?Number(target.dataset.limit):999999):'<div class="mut-photo-state">등록된 대회가 없습니다.</div>';}catch(e){console.error("PHOTO 목록 오류",e);target.innerHTML='<div class="mut-photo-state">대회 사진 목록을 불러오지 못했습니다.</div>';}}
+document.addEventListener("DOMContentLoaded",mutLoadPhotoList);
+</script>
+
+<script>
+/* SPONSOR presentation only: admin upload / API will be connected later.
+   When GET /api/sponsors returns { ok:true, sponsors:[{image_url:"..."}] },
+   approved images appear automatically; no placeholder or fake sponsors.
+   Optional window.MUT_SPONSORS array can be supplied by site owner. */
+(function(){
+  function normaliseSponsorItems(input){
+    if(!Array.isArray(input))return [];
+    return input.filter(item=>item && typeof item==="object")
+      .map(item=>({image_url:item.image_url||item.imageUrl||item.logo_url||item.logoUrl||""}))
+      .filter(item=>{
+        if(typeof item.image_url!=="string"||!item.image_url.trim())return false;
+        try{
+          if(/^data:image\/(?:png|jpeg|webp);base64,[A-Za-z0-9+/]+={0,2}$/.test(item.image_url) && item.image_url.length<=350000)return true;
+          const imageUrl=new URL(item.image_url,location.origin);
+          return imageUrl.protocol==="https:" || (imageUrl.origin===location.origin&&imageUrl.protocol==="http:");
+        }catch{return false;}
+      });
+  }
+  function renderSponsors(items){
+    const grid=document.getElementById("mutSponsorGrid");
+    if(!grid)return;
+    grid.replaceChildren();
+    if(!items.length){
+      const empty=document.createElement("p");
+      empty.className="mut-sponsor-empty";
+      empty.textContent="공식 스폰서 공개를 준비하고 있습니다.";
+      grid.appendChild(empty);
+      return;
+    }
+    items.forEach((item,index)=>{
+      const card=document.createElement("div");
+      card.className="mut-sponsor-card";
+      const photo=document.createElement("img");
+      photo.src=item.image_url;
+      photo.alt="공식 스폰서 로고 "+(index+1);
+      photo.loading="lazy";
+      photo.decoding="async";
+      card.appendChild(photo);
+      grid.appendChild(card);
+    });
+  }
+  async function loadSponsors(){
+    let items=normaliseSponsorItems(window.MUT_SPONSORS);
+    try{
+      const response=await fetch("/api/sponsors",{cache:"no-store",headers:{Accept:"application/json"}});
+      if(response.ok){
+        const data=await response.json();
+        if(data&&data.ok&&Array.isArray(data.sponsors)){
+          items=normaliseSponsorItems(data.sponsors);
+        }
+      }
+    }catch(error){
+      // The sponsor API is added with the admin integration; this page remains usable meanwhile.
+    }
+    renderSponsors(items);
+  }
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",loadSponsors);
+  else loadSponsors();
+})();
+</script>
+</body>
+
+</html>

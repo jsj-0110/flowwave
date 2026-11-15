@@ -1,0 +1,2588 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=Noto+Sans+KR:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/><link href="style.css" rel="stylesheet"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MUT Championship 참가 신청</title>
+<style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #080808;
+      color: #fff;
+      font-family: Arial, "Noto Sans KR", sans-serif;
+    }
+
+    .registration-page {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    .registration-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .registration-header h1 {
+      margin: 0 0 12px;
+      font-size: 36px;
+      letter-spacing: 3px;
+    }
+
+    .registration-header p {
+      margin: 0;
+      color: #888;
+    }
+
+    .event-info {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 35px;
+      padding: 30px;
+      background: #111;
+      border: 1px solid #292929;
+      margin-bottom: 30px;
+    }
+
+    .event-poster {
+      background: #080808;
+      overflow: hidden;
+    }
+
+    .event-poster img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: contain;
+    }
+
+    .event-poster.no-poster {
+      min-height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+      font-size: 12px;
+      letter-spacing: 2px;
+    }
+
+    .event-details h2 {
+      margin: 0 0 25px;
+      font-size: 26px;
+    }
+
+    .event-details p {
+      margin: 13px 0;
+      color: #aaa;
+    }
+
+    .event-details strong {
+      display: inline-block;
+      width: 75px;
+      color: #fff;
+    }
+
+    .event-description {
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 1px solid #333;
+      color: #aaa;
+      line-height: 1.7;
+      white-space: pre-line;
+    }
+
+    .closed-box {
+      display: none;
+      padding: 30px;
+      background: #111;
+      border: 1px solid #333;
+      text-align: center;
+    }
+
+    .closed-box h2 {
+      margin: 0 0 10px;
+      color: #888;
+    }
+
+    .closed-box p {
+      margin: 0;
+      color: #666;
+    }
+
+    .registration-form {
+      display: none;
+      padding: 35px;
+      background: #111;
+      border: 1px solid #292929;
+    }
+
+    .registration-form h2 {
+      margin: 0 0 30px;
+      font-size: 25px;
+    }
+
+    .form-group {
+      margin-bottom: 22px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 9px;
+      color: #aaa;
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 15px;
+      background: #080808;
+      border: 1px solid #333;
+      color: #fff;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .form-group input:focus {
+      border-color: #777;
+    }
+
+    /* 생년월일 날짜 입력칸: iOS 인앱 브라우저 너비 보정 */
+    #playerBirth {
+      display: block;
+      width: 100%;
+      width: -webkit-fill-available;
+      min-width: 0 !important;
+      max-width: 100% !important;
+      height: 49px;
+      padding: 12px 10px;
+      box-sizing: border-box !important;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    #playerBirth::-webkit-date-and-time-value {
+      text-align: left;
+    }
+
+    #playerBirth::-webkit-calendar-picker-indicator {
+      margin: 0;
+      padding: 0;
+    }
+
+    .choice-group {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .choice-button {
+      min-height: 52px;
+      padding: 12px 8px;
+      background: #080808;
+      border: 1px solid #333;
+      color: #aaa;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .choice-button:hover {
+      border-color: #777;
+      color: #fff;
+    }
+
+    .choice-button.active {
+      background: #fff;
+      color: #000;
+      border-color: #fff;
+    }
+
+    .choice-empty {
+      grid-column: 1 / -1;
+      padding: 18px;
+      background: #080808;
+      border: 1px solid #333;
+      color: #666;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .section-divider {
+      margin: 35px 0;
+      border-top: 1px solid #292929;
+    }
+
+    .absolute-section {
+      padding: 25px;
+      background: #0c0c0c;
+      border: 1px solid #292929;
+    }
+
+    .participation-section {
+      padding: 20px;
+      background: #0c0c0c;
+      border: 1px solid #292929;
+    }
+
+    .participation-section p {
+      margin: 0 0 18px;
+      color: #777;
+      font-size: 13px;
+    }
+
+    .nogi-level-section {
+      display: none;
+      margin-top: 18px;
+    }
+
+    .nogi-level-section.show {
+      display: block;
+    }
+
+    .hidden-division {
+      display: none !important;
+    }
+
+    .bank-account {
+      margin-top: 18px;
+      padding: 15px;
+      background: #111;
+      border: 1px solid #333;
+      text-align: center;
+      color: #aaa;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .bank-account strong {
+      display: block;
+      margin-top: 3px;
+      color: #fff;
+      font-size: 15px;
+    }
+
+    .complete-box .bank-account {
+      margin-top: 20px;
+    }
+
+    .absolute-section h3 {
+      margin: 0 0 8px;
+      font-size: 20px;
+    }
+
+    .absolute-section > p {
+      margin: 0 0 20px;
+      color: #777;
+      font-size: 13px;
+    }
+
+    .absolute-detail {
+      display: none;
+      margin-top: 18px;
+    }
+
+    .absolute-detail.show {
+      display: block;
+    }
+
+    .absolute-detail label {
+      display: block;
+      margin-bottom: 10px;
+      color: #aaa;
+      font-size: 13px;
+    }
+
+    /* ================================
+       참가비 표시
+    ================================= */
+
+    .price-box {
+      margin-top: 25px;
+      padding: 22px;
+      background: #080808;
+      border: 1px solid #333;
+    }
+
+    .price-box .price-status {
+      color: #888;
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
+
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      margin: 8px 0;
+      color: #aaa;
+      font-size: 14px;
+    }
+
+    .price-row strong {
+      color: #fff;
+    }
+
+    .price-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #333;
+      font-size: 17px;
+      font-weight: bold;
+    }
+
+    .price-total strong {
+      font-size: 25px;
+      color: #fff;
+    }
+
+    .submit-button {
+      width: 100%;
+      padding: 17px;
+      margin-top: 30px;
+      border: none;
+      background: #fff;
+      color: #000;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .submit-button:hover {
+      background: #ddd;
+    }
+
+    .consent-section {
+      margin-top: 25px;
+      padding: 22px;
+      background: #0c0c0c;
+      border: 1px solid #292929;
+    }
+
+    .consent-section h3 {
+      margin: 0 0 8px;
+      font-size: 20px;
+    }
+
+    .consent-section > p {
+      margin: 0 0 18px;
+      color: #777;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .consent-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 14px 0;
+      border-top: 1px solid #242424;
+      cursor: pointer;
+    }
+
+    .consent-item input[type="checkbox"] {
+      flex: 0 0 auto;
+      width: 18px;
+      height: 18px;
+      margin: 2px 0 0;
+      accent-color: #fff;
+      cursor: pointer;
+    }
+
+    .consent-item span {
+      color: #aaa;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .consent-item strong {
+      color: #fff;
+    }
+
+    .complete-box {
+      display: none;
+      padding: 40px 30px;
+      background: #111;
+      border: 1px solid #333;
+      text-align: center;
+    }
+
+
+    .complete-box h2 {
+      margin: 0 0 15px;
+      font-size: 28px;
+    }
+
+    .complete-box p {
+      margin: 8px 0;
+      color: #aaa;
+      line-height: 1.7;
+    }
+
+    .back-button {
+      display: inline-block;
+      margin-top: 25px;
+      padding: 14px 25px;
+      background: #fff;
+      color: #000;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    @media (max-width: 768px) {
+      .registration-page {
+        padding: 35px 15px 70px;
+      }
+
+      .registration-header h1 {
+        font-size: 27px;
+      }
+
+      .event-info {
+        grid-template-columns: 1fr;
+        padding: 20px;
+      }
+
+      .event-poster {
+        max-width: 350px;
+        margin: 0 auto;
+      }
+
+      .event-details h2 {
+        font-size: 23px;
+      }
+
+      .registration-form {
+        padding: 25px 20px;
+      }
+
+      .form-group,
+      .form-group input,
+      #playerBirth {
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+      }
+
+      /* iPhone 날짜 입력창의 고유 최소 너비가 부모를 넘지 않도록 제한 */
+      #playerBirth {
+        width: -webkit-fill-available;
+        min-width: 0 !important;
+        max-width: 100% !important;
+      }
+
+      .choice-group {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .registration-weight-table {
+        padding: 16px;
+      }
+
+      .consent-section {
+        padding: 18px;
+      }
+
+      .consent-item span {
+        font-size: 12px;
+      }
+    }
+  
+
+/* =============================================================
+   MUT REGISTRATION 2026 — approved black/red/silver mockup
+   Existing form IDs, server fetch, price, rules and consent remain.
+============================================================= */
+
+:root{--reg-red:#e00822;--reg-line:#494949;--reg-black:#060606}
+body{background:#050505;color:#f6f6f6;font-family:Arial,'Noto Sans KR',sans-serif}
+body a{text-decoration:none;color:inherit}
+.reg-redesign{max-width:1536px;margin:0 auto;padding:29px clamp(15px,2.4vw,38px) 100px;min-width:0}
+/* Header matches public MUT site; mobile menu/brand/Instagram position is exact */
+.site-header.mut-reg-site-header{height:70px;padding:0 clamp(16px,3.2vw,52px);width:100%;display:grid;grid-template-columns:minmax(140px,1fr) auto minmax(45px,1fr);align-items:center;gap:20px;background:rgba(3,3,3,.97);border-bottom:1px solid #484848;position:sticky;top:0;z-index:90;box-shadow:0 3px 20px #000}
+.mut-reg-site-header .brand{display:flex;justify-self:start;align-items:center;min-width:0}
+.mut-reg-site-header .header-logo{display:block;width:clamp(125px,12vw,174px);height:60px;object-fit:contain}
+.mut-reg-site-header .desktop-nav{display:flex;gap:clamp(12px,2.1vw,34px);align-items:center;justify-self:center;white-space:nowrap}
+.mut-reg-site-header .desktop-nav a{color:#fff;font:400 clamp(18px,1.7vw,24px)/1 'Bebas Neue',Arial,sans-serif;font-style:italic;letter-spacing:.025em;padding:12px 6px;border-bottom:2px solid transparent;transition:.2s}
+.mut-reg-site-header .desktop-nav a:hover{color:#f44;border-bottom-color:var(--reg-red)}
+.mut-reg-site-header .desktop-nav a+a::before{content:'|';font:400 13px Arial,sans-serif;color:#636363;display:inline-block;margin-right:clamp(10px,1.6vw,24px);vertical-align:middle}
+.mut-reg-insta{justify-self:end;display:flex;align-items:center;justify-content:center;color:#fff;width:38px;height:38px;border:1px solid #999;border-radius:7px}
+.mut-reg-insta svg{width:27px;height:27px}
+.mut-reg-site-header .mut-reg-menu-button{display:none;border:0;background:transparent;color:#fff;padding:10px 3px;width:36px;min-height:42px;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer}
+.mut-reg-menu-button span{display:block;width:26px;height:2px;background:#fff;border-radius:1px}
+.mut-reg-mobile-menu[hidden]{display:none!important}
+.mut-reg-mobile-menu{position:fixed;left:0;right:0;top:70px;z-index:89;background:#0b0b0b;border-bottom:1px solid #404040;padding:12px 22px 24px;box-shadow:0 15px 32px #000}
+.mut-reg-mobile-menu a{display:block;color:#fff;padding:13px 8px;font:400 21px 'Bebas Neue',Arial,sans-serif;letter-spacing:.07em;border-bottom:1px solid #292929}
+/* Registration heading */
+.reg-redesign .registration-header{text-align:left;max-width:none;margin:0 0 18px;padding:0 0 18px;border-bottom:1px solid #981020}
+.reg-heading-line{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.reg-heading-slash{display:block;width:17px;height:46px;background:var(--reg-red);transform:skewX(-22deg);margin-right:3px;flex:none}
+.reg-redesign .registration-header h1{font-size:clamp(30px,3.3vw,46px);font-weight:900;letter-spacing:-.05em;margin:0;line-height:1.15}
+.reg-heading-en{font:italic 400 clamp(20px,2vw,30px) 'Bebas Neue',Arial,sans-serif;letter-spacing:.035em;color:#ddd}
+.reg-redesign .registration-header p{font:italic 600 clamp(10px,1vw,14px) Arial,sans-serif;letter-spacing:.26em;color:#b5b5b5;margin:4px 0 0 42px}
+/* True two-column form layout */
+.registration-layout{display:grid;grid-template-columns:minmax(260px,31%) minmax(0,1fr);align-items:start;gap:16px;min-width:0}
+.registration-main-col{min-width:0}
+.reg-redesign .event-info{display:flex;flex-direction:column;gap:0;padding:16px 16px 22px;background:#0a0a0a;border:1px solid #666;border-radius:14px;margin:0;position:sticky;top:87px;min-width:0}
+.reg-redesign .event-poster{width:100%;background:linear-gradient(135deg,#060606,#202020 45%,#050505);border:1px solid #494949;border-radius:9px;max-height:none;min-height:90px;overflow:hidden}
+.reg-redesign .event-poster img{display:block;width:100%;height:auto;max-height:580px;object-fit:contain}
+.reg-redesign .event-poster.no-poster{min-height:280px;margin:0;max-width:none}
+.reg-redesign .event-details{padding:19px 3px 0}
+.reg-redesign .event-details h2{font-size:clamp(19px,1.8vw,28px);line-height:1.24;letter-spacing:-.03em;margin:0 0 16px;color:#fff;font-weight:900;overflow-wrap:anywhere}
+.reg-redesign .event-details p{display:flex;align-items:flex-start;gap:13px;margin:0;padding:11px 0;border-bottom:1px solid #252525;color:#e0e0e0;font-size:13px;line-height:1.55}
+.reg-redesign .event-details p strong{font:700 12px Arial,sans-serif;letter-spacing:.08em;width:68px;flex:none;color:#e4e4e4;padding-top:2px}
+.reg-redesign .event-details p span{min-width:0;overflow-wrap:anywhere}
+.reg-redesign .event-description{margin:15px 0 0;padding:12px 4px 0;border-top:1px solid #292929;font-size:12px;line-height:1.7;color:#9f9f9f;white-space:pre-line;overflow-wrap:anywhere}
+.reg-period{margin-top:16px;border:1px solid var(--reg-red);border-radius:8px;padding:15px 13px;background:#0b0708}
+.reg-period-title{margin:0 0 12px;font-size:18px;font-weight:900;letter-spacing:-.02em}
+.reg-period-title::before{content:'▣';display:inline-block;color:var(--reg-red);font-size:16px;margin-right:8px}
+.reg-period-row{display:flex;justify-content:space-between;gap:8px;padding:9px 0;border-top:1px solid #292021;color:#fff;font-size:12px;line-height:1.45}
+.reg-period-row span{color:#f23d4d;flex:none;font-weight:700}
+.reg-period-row strong{color:#e8e8e8;font-weight:600;text-align:right;overflow-wrap:anywhere}
+.reg-redesign .registration-form{display:none;border:0;background:transparent;padding:0}
+.reg-redesign .closed-box,.reg-redesign .complete-box{background:#0e0e0e;border:1px solid #555;border-radius:12px;padding:38px 22px;text-align:center}
+.reg-panel{border:1px solid #535353;background:#080808;border-radius:12px;padding:17px 18px;margin-bottom:10px;min-width:0}
+.reg-panel-heading{font-size:20px!important;letter-spacing:-.035em!important;line-height:1.2;margin:0 0 14px!important;color:#fff!important;font-weight:900!important}
+.reg-panel-heading::before{content:'';display:inline-block;width:8px;height:20px;margin:0 9px 0 0;transform:skewX(-23deg);background:var(--reg-red);vertical-align:-3px}
+.reg-help{font-size:12px;color:#999;line-height:1.5;margin:0 0 12px}
+.reg-redesign .form-group{min-width:0;margin:0 0 14px}
+.reg-redesign .form-group label{display:block;font-size:13px;line-height:1.45;letter-spacing:0;margin:0 0 6px;color:#fff;font-weight:700}
+.reg-redesign .field-required{font-style:normal;color:#f32d40;font-weight:900;margin-left:4px}
+.reg-redesign .form-group input{min-width:0;width:100%;height:43px;border:1px solid #555;border-radius:5px;background:#121212;padding:10px 12px;color:#fff;font-size:13px;font-family:inherit;outline:none}
+.reg-redesign .form-group input:focus-visible{border-color:#ff4a5f;box-shadow:0 0 0 2px #920e2433}
+.reg-redesign #playerBirth{height:43px;min-height:43px;display:block;width:100%!important;max-width:100%!important;min-width:0!important;-webkit-appearance:none;appearance:none;color-scheme:dark}
+.reg-redesign #playerBirth::-webkit-date-and-time-value{min-height:1em;text-align:left}
+.reg-redesign .reg-athlete-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 16px}
+.reg-redesign .choice-group{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;min-width:0}
+.reg-redesign .choice-button{min-height:39px;background:#111;border:1px solid #666;border-radius:6px;color:#ddd;padding:7px 7px;font-size:12px;line-height:1.35;font-weight:800;transition:.2s;overflow-wrap:anywhere}
+.reg-redesign .choice-button:hover{border-color:#f23d4d;color:#fff}
+.reg-redesign .choice-button.active{background:linear-gradient(180deg,#a60017,#6b000d);border-color:#f40021;color:#fff;box-shadow:inset 0 0 0 1px #ff244433}
+.reg-redesign .choice-empty{grid-column:1/-1;padding:15px 8px;border:1px dashed #444;border-radius:6px;font-size:12px;color:#919191}
+.reg-redesign .reg-athlete-grid .choice-group{grid-template-columns:repeat(2,minmax(0,1fr))}
+.reg-redesign .reg-participation-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.reg-participation-option{padding:12px;border:1px solid #5a5a5a;border-radius:9px;min-width:0}
+.reg-participation-option h4{font-size:19px;margin:0 0 12px;text-align:center;font-weight:900}
+.reg-participation-option h4 small{font-size:13px;font-style:italic;color:#aaa}
+.reg-participation-option .form-group{margin-bottom:0}
+.reg-participation-option .form-group > label{font-size:0;height:0;overflow:hidden;margin:0}
+.reg-redesign .reg-division-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.reg-division-column{border:1px solid #3e3e3e;border-radius:9px;padding:13px;min-width:0;background:#080808}
+.reg-division-column h4{margin:0 0 14px;font-size:17px;font-weight:900}
+.reg-division-column h4 small{font:italic 11px Arial,sans-serif;color:#aaa;margin-left:5px}
+.reg-division-column .choice-group{grid-template-columns:repeat(3,minmax(0,1fr))}
+.reg-division-column .choice-button{font-size:11px;padding:7px 4px;min-height:39px}
+.reg-redesign .nogi-level-section{display:none}
+.reg-redesign .nogi-level-section.show{display:block}
+.reg-redesign .hidden-division{display:none!important}
+.reg-redesign .absolute-section{padding:18px;background:#080808;border:1px solid #535353;border-radius:12px;margin:0 0 10px}
+.reg-redesign .absolute-section > p{font-size:12px;color:#999;line-height:1.55;margin:0 0 14px}
+.reg-redesign .absolute-detail{display:none;margin:11px 0 14px;padding:11px;border:1px solid #333;border-radius:7px;background:#0e0e0e}
+.reg-redesign .absolute-detail.show{display:block}
+.reg-redesign .absolute-detail .choice-group{grid-template-columns:repeat(3,minmax(0,1fr))}
+.reg-redesign .absolute-section .form-group{margin-bottom:13px}
+.reg-redesign .reg-strongest{border-color:#6a363c}
+.reg-redesign .reg-strongest .choice-group{grid-template-columns:repeat(2,minmax(0,1fr))}
+.reg-redesign .reg-summary-section{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.reg-redesign .reg-price-guide{margin:0;padding:17px}
+.reg-guide-line{display:flex;justify-content:space-between;gap:10px;font-size:11px;line-height:1.45;border-bottom:1px solid #242424;padding:8px 0;color:#ddd}
+.reg-guide-line span{flex:1}
+.reg-guide-line b{color:#fff;max-width:60%;text-align:right;font-size:11px}
+.reg-price-guide>p{font-size:11px;line-height:1.6;color:#999;margin:12px 0 0}
+.reg-redesign .reg-price-col{min-width:0;display:flex;flex-direction:column;gap:9px}
+.reg-redesign .price-box{margin:0;padding:17px;background:#101010;border:1px solid #535353;border-radius:12px;flex:1}
+.reg-redesign .price-status{display:block;color:#f44053!important;font-weight:800;font-size:12px!important;line-height:1.5;border-bottom:1px solid #292929;padding:0 0 10px;margin-bottom:12px}
+.reg-redesign .price-row{font-size:12px;line-height:1.5;color:#ddd;padding:3px 0;margin:0;align-items:center}
+.reg-redesign .price-row strong{font-size:12px;white-space:nowrap}
+.reg-redesign .price-total{border-color:#555;margin-top:12px;padding-top:11px;font-size:16px}
+.reg-redesign .price-total strong{color:#f01d39;font-size:clamp(21px,2.3vw,31px)}
+.reg-redesign .bank-account{margin:0;padding:13px;background:#0b0b0b;border:1px solid #444;border-radius:8px;text-align:left;font-size:11px;color:#b4b4b4;line-height:1.5}
+.reg-redesign .bank-account strong{font-size:12px;display:block;margin:5px 0 0;color:#f1f1f1;overflow-wrap:anywhere}
+.reg-redesign .consent-section{margin:0 0 10px;padding:17px;border:1px solid #535353;background:#080808;border-radius:12px}
+.reg-redesign .consent-section > p{color:#aaa;font-size:12px;line-height:1.6;margin:0 0 12px}
+.reg-redesign .consent-item{padding:13px 0;margin:0;gap:12px;border-top:1px solid #252525;display:flex;align-items:flex-start;cursor:pointer}
+.reg-redesign .consent-item input{flex:none;width:20px;height:20px;margin:2px 0 0;accent-color:var(--reg-red);cursor:pointer}
+.reg-redesign .consent-item span{display:block;font-size:12px;line-height:1.7;color:#c6c6c6;white-space:normal;overflow:visible;text-overflow:clip}
+.reg-redesign .consent-item strong{font-size:13px;display:inline-block;color:#fff;margin-bottom:3px}
+.reg-redesign .submit-button{margin:0;min-height:55px;border:1px solid #fc1a35;border-radius:9px;color:#fff;background:linear-gradient(180deg,#f90018,#a90012);font-size:19px;font-weight:900;box-shadow:inset 0 1px 0 #ff5b67;cursor:pointer}
+.reg-redesign .submit-button:hover{background:linear-gradient(180deg,#ff233b,#d40019)}
+.reg-redesign .submit-button::before{content:'✓';font-size:24px;margin-right:10px;vertical-align:-1px}
+.reg-redesign .complete-box .bank-account{margin-top:20px}
+@media(max-width:1200px){
+  .registration-layout{grid-template-columns:minmax(240px,34%) minmax(0,1fr)}
+  .reg-redesign .reg-athlete-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .reg-redesign .reg-summary-section{grid-template-columns:1fr}
+}
+@media(max-width:850px){
+  .site-header.mut-reg-site-header{height:68px;padding:0 15px;grid-template-columns:42px minmax(0,1fr) 42px;gap:5px}
+  .mut-reg-site-header .desktop-nav{display:none}
+  .mut-reg-site-header .mut-reg-menu-button{display:flex;grid-column:1;grid-row:1;justify-self:start}
+  .mut-reg-site-header .brand{grid-column:2;grid-row:1;justify-self:center}
+  .mut-reg-site-header .header-logo{width:135px;height:56px;max-width:100%}
+  .mut-reg-site-header .mut-reg-insta{grid-column:3;grid-row:1;justify-self:end;width:34px;height:34px}
+  .mut-reg-site-header .mut-reg-insta svg{width:22px;height:22px}
+  .mut-reg-mobile-menu{top:68px}
+  .reg-redesign{padding:20px 14px 70px}
+  .registration-layout{grid-template-columns:1fr;gap:12px}
+  .reg-redesign .event-info{position:static;padding:11px;display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:start}
+  .reg-redesign .event-poster{grid-column:1/-1;width:100%;max-width:none;max-height:215px;min-height:115px}
+  .reg-redesign .event-poster img{width:100%;height:200px;max-height:none;object-fit:cover;object-position:center 36%}
+  .reg-redesign .event-poster.no-poster{min-height:145px}
+  .reg-redesign .event-details{padding:6px 3px}
+  .reg-redesign .event-details h2{font-size:17px;margin-bottom:10px}
+  .reg-redesign .event-details p{padding:6px 0;gap:8px;font-size:11px}
+  .reg-redesign .event-details p strong{font-size:10px;width:42px}
+  .reg-redesign .event-description{font-size:11px;margin-top:8px;padding-top:7px;line-height:1.5}
+  .reg-period{margin-top:6px;padding:10px;border-radius:8px}
+  .reg-period-title{font-size:15px;margin-bottom:8px}
+  .reg-period-row{display:block;font-size:11px;padding:6px 0}
+  .reg-period-row strong{display:block;text-align:left;margin-top:3px;font-size:10px}
+  .reg-redesign .registration-header{padding-bottom:11px;margin-bottom:13px}
+  .reg-redesign .registration-header h1{font-size:27px}
+  .reg-heading-slash{width:9px;height:29px}
+  .reg-heading-line{gap:10px}
+  .reg-heading-en{font-size:20px}
+  .reg-redesign .registration-header p{font-size:9px;margin-left:23px;letter-spacing:.13em}
+  .reg-panel{padding:13px;margin-bottom:9px;border-radius:10px}
+  .reg-panel-heading{font-size:17px!important;margin-bottom:12px!important}
+  .reg-panel-heading::before{height:17px;width:7px;margin-right:7px}
+}
+@media(max-width:600px){
+  .reg-redesign .reg-athlete-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:0 9px}
+  .reg-redesign .reg-athlete-grid .reg-depositor{grid-column:1/-1}
+  .reg-redesign .form-group label{font-size:12px}
+  .reg-redesign .form-group input{padding:9px;font-size:12px;height:40px}
+  .reg-redesign #playerBirth{height:40px;min-height:40px;padding:7px!important;font-size:12px!important}
+  .reg-redesign .choice-button{font-size:11px;min-height:38px;padding:6px 3px}
+  .reg-redesign .reg-participation-grid{gap:7px}
+  .reg-participation-option{padding:10px 7px;border-radius:8px}
+  .reg-participation-option h4{font-size:16px}
+  .reg-redesign .reg-division-grid{grid-template-columns:1fr}
+  .reg-division-column{padding:11px}
+  .reg-division-column .choice-group{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .reg-redesign .reg-summary-section{grid-template-columns:1fr}
+  .reg-redesign .consent-item span{font-size:12px}
+  .reg-redesign .submit-button{min-height:54px;font-size:17px}
+}
+@media(max-width:360px){
+  .reg-redesign .event-info{grid-template-columns:1fr}
+  .reg-period{margin-top:0}
+  .reg-heading-en{font-size:17px}
+  .reg-redesign .registration-header h1{font-size:24px}
+}
+</style>
+</head>
+<body><header class="mut-reg-site-header site-header">
+<button aria-controls="mut-registration-mobile-menu" aria-expanded="false" aria-label="메뉴 열기" class="menu-button mut-reg-menu-button" type="button"><span></span><span></span><span></span></button>
+<a aria-label="MUT Championship 홈" class="brand" href="index.html#home"><img alt="MUT Championship" class="header-logo" src="images/MUT_metallic_logo.png"/></a>
+<nav aria-label="주 메뉴" class="desktop-nav">
+<a href="index.html#home">HOME</a><a href="index.html#schedule">SCHEDULE</a><a href="index.html#ranking">RANKING</a><a href="index.html#notice">NOTICE</a><a href="index.html#photo">PHOTO</a><a href="index.html#sponsor">SPONSOR</a>
+</nav>
+<a aria-label="MUT Championship 인스타그램" class="instagram mut-reg-insta" href="https://www.instagram.com/bjj_mutchampionship/" rel="noopener noreferrer" target="_blank"><svg aria-hidden="true" fill="none" height="26" viewbox="0 0 24 24" width="26" xmlns="http://www.w3.org/2000/svg"><rect height="18" rx="5" stroke="currentColor" stroke-width="2" width="18" x="3" y="3"></rect><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"></circle><circle cx="17.5" cy="6.5" fill="currentColor" r="1.2"></circle></svg></a>
+</header>
+<div class="mut-reg-mobile-menu" hidden="" id="mut-registration-mobile-menu">
+<a href="index.html#home">HOME</a><a href="index.html#schedule">SCHEDULE</a><a href="index.html#ranking">RANKING</a><a href="index.html#notice">NOTICE</a><a href="index.html#photo">PHOTO</a><a href="index.html#sponsor">SPONSOR</a>
+</div>
+<main class="registration-page reg-redesign">
+<header class="registration-header"><div class="reg-heading-line"><span aria-hidden="true" class="reg-heading-slash"></span><h1>참가 신청</h1><span class="reg-heading-en">REGISTRATION</span></div><p>MUT CHAMPIONSHIP JIU-JITSU TOURNAMENT</p></header>
+
+
+
+
+<div class="registration-layout"><section class="event-info reg-sidebar" id="eventInfo">
+<div class="event-poster" id="eventPosterBox">
+<img alt="대회 포스터" id="eventPoster" src=""/>
+</div>
+<div class="event-details">
+<h2 id="eventName">
+        대회 정보를 불러오는 중...
+      </h2>
+<p>
+<strong>DATE</strong>
+<span id="eventDate">-</span>
+</p>
+<p>
+<strong>PLACE</strong>
+<span id="eventPlace">-</span>
+</p>
+<p>
+<strong>TIME</strong>
+<span id="eventTime">-</span>
+</p>
+<div class="event-description" id="eventDescription"></div>
+</div>
+<div class="reg-period" id="eventPeriod"><h3 class="reg-period-title">접수 마감 안내</h3><div class="reg-period-row"><span>얼리버드 접수 마감</span><strong id="regEarlyPeriod">마감일 확인 중</strong></div><div class="reg-period-row"><span>일반접수 마감</span><strong id="regNormalPeriod">마감일 확인 중</strong></div></div></section><div class="registration-main-col"><section class="closed-box" id="closedBox">
+<h2>참가 신청 마감</h2>
+<p>
+      현재 이 대회는 참가 신청을 받고 있지 않습니다.
+    </p>
+</section><section class="registration-form" id="registrationForm">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="reg-panel reg-athlete"><h3 class="reg-panel-heading">참가자 정보</h3><div class="reg-athlete-grid"><div class="form-group">
+<label for="playerName">성함<em aria-label="필수" class="field-required">*</em></label>
+<input autocomplete="name" id="playerName" placeholder="성함을 입력해주세요" type="text"/>
+</div><div class="form-group">
+<label for="playerBirth">생년월일<em aria-label="필수" class="field-required">*</em></label>
+<input autocomplete="bday" id="playerBirth" type="date"/>
+</div><div class="form-group reg-small-field">
+<label>성별<em aria-label="필수" class="field-required">*</em></label>
+<div class="choice-group" id="genderChoices">
+<button class="choice-button" data-value="남성부" onclick="selectGender(this)" type="button">
+          남성부
+        </button>
+<button class="choice-button" data-value="여성부" onclick="selectGender(this)" type="button">
+          여성부
+        </button>
+</div>
+</div><div class="form-group">
+<label for="playerPhone">연락처<em aria-label="필수" class="field-required">*</em></label>
+<input autocomplete="tel" id="playerPhone" inputmode="numeric" maxlength="13" placeholder="010-0000-0000" type="tel"/>
+</div><div class="form-group">
+<label for="playerGym">소속(도장)<em aria-label="필수" class="field-required">*</em></label>
+<input autocomplete="organization" id="playerGym" placeholder="소속 체육관을 입력해주세요" type="text"/>
+</div><div class="form-group">
+<label for="playerCoach">지도자명<em aria-label="필수" class="field-required">*</em></label>
+<input autocomplete="off" id="playerCoach" placeholder="지도자 성함을 입력해주세요" type="text"/>
+</div><div class="form-group reg-depositor">
+<label for="depositorName">입금자명<em aria-label="필수" class="field-required">*</em></label>
+<input autocomplete="off" id="depositorName" placeholder="입금자 성함을 입력해주세요" type="text"/>
+</div></div></section><section class="reg-panel reg-participation"><h3 class="reg-panel-heading">참가 종목 선택</h3><div class="reg-participation-grid"><div class="reg-participation-option"><h4>도복 <small>(GI)</small></h4><div class="form-group">
+<label>도복 참가여부</label>
+<div class="choice-group" id="dobokParticipation">
+<button class="choice-button" data-value="참가" onclick="selectDobokParticipation(this)" type="button">참가</button>
+<button class="choice-button" data-value="미참가" onclick="selectDobokParticipation(this)" type="button">미참가</button>
+</div>
+</div></div><div class="reg-participation-option"><h4>노기 <small>(NO-GI)</small></h4><div class="form-group">
+<label>노기 참가여부</label>
+<div class="choice-group" id="nogiParticipation">
+<button class="choice-button" data-value="참가" onclick="selectNogiParticipation(this)" type="button">참가</button>
+<button class="choice-button" data-value="미참가" onclick="selectNogiParticipation(this)" type="button">미참가</button>
+</div>
+</div></div></div></section><section class="reg-panel reg-divisions"><h3 class="reg-panel-heading">체급 및 참가 부문</h3><p class="reg-help">선택한 참가 종목에 따라 필요한 체급과 부문이 표시됩니다.</p><div class="reg-division-grid"><div class="reg-division-column"><h4>도복 체급 정보 <small>GI DIVISION</small></h4><div class="form-group" id="ageSection">
+<label>나이</label>
+<div class="choice-group" id="ageChoices">
+<button class="choice-button" data-value="초등부 1·2학년" onclick="selectAge(this)" type="button">
+        초등부<br/>1·2학년
+        </button>
+<button class="choice-button" data-value="초등부 3·4학년" onclick="selectAge(this)" type="button">
+          초등부<br/>3·4학년
+        </button>
+<button class="choice-button" data-value="초등부 5·6학년" onclick="selectAge(this)" type="button">
+          초등부<br/>5·6학년
+        </button>
+<button class="choice-button" data-value="중등부" onclick="selectAge(this)" type="button">
+          중등부
+        </button>
+<button class="choice-button" data-value="고등부" onclick="selectAge(this)" type="button">
+          고등부
+        </button>
+<button class="choice-button" data-value="어덜트" onclick="selectAge(this)" type="button">
+          어덜트
+        </button>
+<button class="choice-button" data-value="마스터1" onclick="selectAge(this)" type="button">
+          마스터1<br/><small>만 30세 이상</small>
+</button>
+<button class="choice-button" data-value="마스터2" onclick="selectAge(this)" type="button">
+          마스터2<br/><small>만 40세 이상</small>
+</button>
+</div>
+</div><div class="form-group" id="dobokBeltSection">
+<label>도복 벨트</label>
+<div class="choice-group" id="beltChoices">
+<div class="choice-empty">
+          먼저 나이를 선택해주세요.
+        </div>
+</div>
+</div><div class="form-group" id="dobokWeightSection">
+<label>도복 체급</label>
+<div class="choice-group" id="dobokWeightChoices">
+<div class="choice-empty">
+          성별과 나이를 먼저 선택해주세요.
+        </div>
+</div>
+</div></div><div class="reg-division-column"><h4>노기 체급 정보 <small>NO-GI DIVISION</small></h4><div class="form-group nogi-level-section" id="nogiLevelSection">
+<label>노기 부문</label>
+<div class="choice-group" id="nogiLevelChoices">
+<button class="choice-button" data-value="학생부(중등부,고등부)" onclick="selectNogiLevel(this)" type="button">학생부(중등부,고등부)</button>
+<button class="choice-button" data-value="초급" onclick="selectNogiLevel(this)" type="button">초급</button>
+<button class="choice-button" data-value="중급" onclick="selectNogiLevel(this)" type="button">중급</button>
+<button class="choice-button" data-value="고급" onclick="selectNogiLevel(this)" type="button">고급</button>
+</div>
+</div><div class="form-group nogi-level-section" id="nogiWeightSection">
+<label>노기 체급</label>
+<div class="choice-group" id="nogiWeightChoices">
+<div class="choice-empty">
+          성별을 먼저 선택해주세요.
+        </div>
+</div>
+</div></div></div></section><section class="absolute-section reg-panel reg-extra">
+<h3 class="reg-panel-heading">앱솔루트</h3>
+<p>도복 앱솔루트와 노기 앱솔루트를 각각 선택할 수 있습니다.</p>
+<div class="form-group">
+<label>도복 앱솔루트 참가</label>
+<div class="choice-group" id="dobokAbsoluteParticipation">
+<button class="choice-button" data-value="참가" onclick="selectDobokAbsoluteParticipation(this)" type="button">참가</button>
+<button class="choice-button" data-value="미참가" onclick="selectDobokAbsoluteParticipation(this)" type="button">미참가</button>
+</div>
+</div>
+<div class="absolute-detail" id="dobokAbsoluteDetail">
+<label>도복 앱솔루트 부문</label>
+<div class="choice-group" id="dobokAbsoluteChoices">
+<button class="choice-button" data-value="중·고등부" onclick="selectDobokAbsolute(this)" type="button">중·고등부</button>
+<button class="choice-button" data-value="화이트벨트" onclick="selectDobokAbsolute(this)" type="button">화이트벨트</button>
+<button class="choice-button" data-value="블루벨트" onclick="selectDobokAbsolute(this)" type="button">블루벨트</button>
+<button class="choice-button" data-value="퍼플벨트" onclick="selectDobokAbsolute(this)" type="button">퍼플벨트</button>
+<button class="choice-button" data-value="브라운벨트" onclick="selectDobokAbsolute(this)" type="button">브라운벨트</button>
+<button class="choice-button" data-value="블랙벨트" onclick="selectDobokAbsolute(this)" type="button">블랙벨트</button>
+</div>
+</div>
+<div class="form-group" style="margin-top:25px;">
+<label>노기 앱솔루트 참가</label>
+<div class="choice-group" id="nogiAbsoluteParticipation">
+<button class="choice-button" data-value="참가" onclick="selectNogiAbsoluteParticipation(this)" type="button">참가</button>
+<button class="choice-button" data-value="미참가" onclick="selectNogiAbsoluteParticipation(this)" type="button">미참가</button>
+</div>
+</div>
+<div class="absolute-detail" id="nogiAbsoluteDetail">
+<label>노기 앱솔루트 부문</label>
+<div class="choice-group" id="nogiAbsoluteChoices">
+<button class="choice-button" data-value="학생부(중등부,고등부)" onclick="selectNogiAbsolute(this)" type="button">학생부(중등부,고등부)</button>
+<button class="choice-button" data-value="초급" onclick="selectNogiAbsolute(this)" type="button">초급</button>
+<button class="choice-button" data-value="중급" onclick="selectNogiAbsolute(this)" type="button">중급</button>
+<button class="choice-button" data-value="고급" onclick="selectNogiAbsolute(this)" type="button">고급</button>
+</div>
+</div>
+</section><section class="absolute-section reg-panel reg-extra reg-strongest" style="margin-top:20px;">
+<h3 class="reg-panel-heading">최강자전</h3>
+<p>최강자전 참가 여부를 선택해주세요.</p>
+<div class="choice-group" id="strongestParticipation">
+<button class="choice-button" data-value="참가" onclick="selectStrongestParticipation(this)" type="button">참가</button>
+<button class="choice-button" data-value="미참가" onclick="selectStrongestParticipation(this)" type="button">미참가</button>
+</div>
+</section><section class="reg-summary-section"><div class="reg-price-guide reg-panel"><h3 class="reg-panel-heading">참가비 안내</h3><div class="reg-guide-line"><span>도복 / 노기 기본 참가비</span><b>얼리버드 45,000원 · 일반 55,000원</b></div><div class="reg-guide-line"><span>도복 + 노기 동시 참가 추가비</span><b>얼리버드 20,000원 · 일반 30,000원</b></div><div class="reg-guide-line"><span>도복 / 노기 앱솔루트</span><b>각 얼리버드 20,000원 · 일반 30,000원</b></div><div class="reg-guide-line"><span>최강자전 추가비</span><b>얼리버드 20,000원 · 일반 30,000원</b></div><p>※ 실제 참가비는 접수 시점과 선택 항목에 따라 자동 계산됩니다.</p></div><div class="reg-price-col"><section class="price-box reg-summary-price" id="priceBox">
+<div class="price-status" id="priceStatus">
+        참가비를 계산하는 중...
+      </div>
+<div class="price-row">
+<span>기본 참가비</span>
+<strong id="basePrice">45,000원</strong>
+</div>
+<div class="price-row">
+<span>노기 참가 추가</span>
+<strong id="nogiAdditionalPrice">+ 0원</strong>
+</div>
+<div class="price-row">
+<span>도복 앱솔루트</span>
+<strong id="dobokAbsolutePrice">+ 0원</strong>
+</div>
+<div class="price-row">
+<span>노기 앱솔루트</span>
+<strong id="nogiAbsolutePrice">+ 0원</strong>
+</div>
+<div class="price-row">
+<span>최강자전</span>
+<strong id="strongestPrice">+ 0원</strong>
+</div>
+<div class="price-total">
+<span>총 참가비</span>
+<strong id="totalPrice">45,000원</strong>
+</div>
+</section><div class="bank-account">
+      입금계좌
+      <strong>카카오뱅크 3333-38-35507719 · 예금주 김우준</strong>
+</div></div></section><section class="consent-section reg-panel" id="consentSection">
+<h3 class="reg-panel-heading">필수 동의사항</h3>
+<p>참가신청을 완료하려면 아래 3가지 사항에 모두 동의해야 합니다.</p>
+<label class="consent-item">
+<input id="consent1" type="checkbox"/>
+<span><strong>부상 및 개인 보험 관련 동의</strong><br/>시합에서 부상 발생 시 스포츠 안전재단을 통해 치료비를 지원받을 수 있으며 현장에선 응급처치만 도와드립니다. 추가적 개인 비용이 청구 될 수 있으며 필수로 개인 보험을 들어놔주시길 바랍니다. 동의하시면 체크 버튼을 눌러주세요.</span>
+</label>
+<label class="consent-item">
+<input id="consent2" type="checkbox"/>
+<span><strong>사진 및 동영상 촬영 관련 동의</strong><br/>동영상 촬영 및 사진에 대한 개인정보 수집에 대해 동의하시면 체크 버튼을 눌러주세요.</span>
+</label>
+<label class="consent-item">
+<input id="consent3" type="checkbox"/>
+<span><strong>안내사항 및 환불 규정 관련 동의</strong><br/>시합 안내사항 및 환불 규정에 관한 내용을 숙지했으며 환불에 대한 규정 및 추가적인 공지사항과 규정에 대해서 동의하시면 체크 버튼을 눌러주세요.</span>
+</label>
+</section><button class="submit-button" onclick="submitRegistration()" type="button">
+      참가 신청하기
+    </button></section><section class="complete-box" id="completeBox">
+<h2>참가 신청 완료</h2>
+<p>
+      참가 신청이 정상적으로 접수되었습니다.
+    </p>
+<p id="completeEventName"></p>
+<div class="bank-account">
+      입금계좌
+      <strong>카카오뱅크 3333-38-35507719 · 예금주 김우준</strong>
+</div>
+<a class="back-button" href="index.html">
+      홈페이지로 돌아가기
+    </a>
+</section></div></div></main>
+<script>
+
+/* ==================================================
+   URL에서 대회 ID / 포스터 가져오기
+================================================== */
+
+const params =
+  new URLSearchParams(
+    window.location.search
+  );
+
+const eventId =
+  params.get("event") ||
+  params.get("eventId") ||
+  "";
+
+const urlPoster =
+  params.get("poster") ||
+  "";
+
+
+/* ==================================================
+   현재 대회 정보
+================================================== */
+
+let event = null;
+
+
+/* ==================================================
+   선택값
+================================================== */
+
+let selectedDobokParticipation = "";
+let selectedNogiParticipation = "";
+let selectedNogiLevel = "";
+let selectedStrongestParticipation = "";
+
+let selectedDobokAbsoluteParticipation = "";
+let selectedNogiAbsoluteParticipation = "";
+let selectedDobokAbsolute = "";
+let selectedNogiAbsolute = "";
+
+let selectedGender = "";
+
+let selectedAge = "";
+
+let selectedBelt = "";
+
+let selectedDobokWeight = "";
+let selectedNogiWeight = "";
+
+let selectedAbsoluteParticipation = "";
+
+let selectedAbsolute = "";
+
+
+/* ==================================================
+   체급
+================================================== */
+
+const weightClasses = {
+
+  "초등부 1·2학년": {
+    male: ["-30.0kg", "-35.0kg", "-40.0kg", "-45.0kg", "-50.0kg", "-55.0kg", "+55.0kg"],
+    female: ["-30.0kg", "-35.0kg", "-40.0kg", "-45.0kg", "-50.0kg", "-55.0kg", "+55.0kg"]
+  },
+
+  "초등부 3·4학년": {
+    male: ["-30.0kg", "-35.0kg", "-40.0kg", "-45.0kg", "-50.0kg", "-55.0kg", "+55.0kg"],
+    female: ["-30.0kg", "-35.0kg", "-40.0kg", "-45.0kg", "-50.0kg", "-55.0kg", "+55.0kg"]
+  },
+
+  "초등부 5·6학년": {
+    male: ["-30.0kg", "-35.0kg", "-40.0kg", "-45.0kg", "-50.0kg", "-55.0kg", "+55.0kg"],
+    female: ["-30.0kg", "-35.0kg", "-40.0kg", "-45.0kg", "-50.0kg", "-55.0kg", "+55.0kg"]
+  },
+
+  "중등부": {
+    male: ["-49.0kg", "-54.0kg", "-59.0kg", "-63.0kg", "-70.0kg", "-76.0kg", "-84.0kg", "+84.0kg"],
+    female: ["-44.0kg", "-48.0kg", "-52.0kg", "-60.0kg", "-64.0kg", "-68.0kg", "+68.0kg"]
+  },
+
+  "고등부": {
+    male: ["-54.0kg", "-58.0kg", "-64.0kg", "-70.0kg", "-76.0kg", "-82.0kg", "-88.0kg", "+88.0kg"],
+    female: ["-44.0kg", "-48.0kg", "-52.0kg", "-56.0kg", "-60.0kg", "-64.0kg", "-68.0kg", "+68.0kg"]
+  },
+
+  "어덜트": {
+    male: ["-57.0kg", "-64.0kg", "-70.0kg", "-76.0kg", "-82.0kg", "-88.0kg", "-94.0kg", "+94.0kg"],
+    female: ["-48.0kg", "-53.0kg", "-58.0kg", "-64.0kg", "-69.0kg", "-74.0kg", "+74.0kg"]
+  },
+
+  "마스터1": {
+    male: ["-57.0kg", "-64.0kg", "-70.0kg", "-76.0kg", "-82.0kg", "-88.0kg", "-94.0kg", "+94.0kg"],
+    female: ["-48.0kg", "-53.0kg", "-58.0kg", "-64.0kg", "-69.0kg", "-74.0kg", "+74.0kg"]
+  },
+
+  "마스터2": {
+    male: ["-57.0kg", "-64.0kg", "-70.0kg", "-76.0kg", "-82.0kg", "-88.0kg", "-94.0kg", "+94.0kg"],
+    female: ["-48.0kg", "-53.0kg", "-58.0kg", "-64.0kg", "-69.0kg", "-74.0kg", "+74.0kg"]
+  }
+
+};
+
+
+/* ==================================================
+   벨트
+================================================== */
+
+const beltClasses = {
+
+  "초등부 1·2학년": [
+    "화이트/그레이",
+    "옐로우/오렌지/그린"
+  ],
+
+  "초등부 3·4학년": [
+    "화이트/그레이",
+    "옐로우/오렌지/그린"
+  ],
+
+  "초등부 5·6학년": [
+    "화이트/그레이",
+    "옐로우/오렌지/그린"
+  ],
+
+  "중등부": [
+    "화이트/그레이",
+    "옐로우/오렌지/그린"
+  ],
+
+  "고등부": [
+    "화이트/그레이",
+    "옐로우/오렌지/그린"
+  ],
+
+  "어덜트": [
+    "화이트 비기너",
+    "화이트벨트",
+    "블루벨트",
+    "퍼플벨트",
+    "브라운벨트",
+    "블랙벨트"
+  ],
+
+  "마스터1": [
+    "화이트 비기너",
+    "화이트벨트",
+    "블루벨트",
+    "퍼플벨트",
+    "브라운벨트",
+    "블랙벨트"
+  ],
+
+  "마스터2": [
+    "화이트 비기너",
+    "화이트벨트",
+    "블루벨트",
+    "퍼플벨트",
+    "브라운벨트",
+    "블랙벨트"
+  ]
+
+};
+
+
+/* ==================================================
+   MUT_EVENTS 가져오기
+================================================== */
+
+function getMUTEvents() {
+
+  const saved =
+    localStorage.getItem(
+      "MUT_EVENTS"
+    );
+
+  if (!saved) {
+    return [];
+  }
+
+  try {
+
+    const events =
+      JSON.parse(saved);
+
+    if (!Array.isArray(events)) {
+      return [];
+    }
+
+    return events;
+
+  } catch (error) {
+
+    return [];
+
+  }
+
+}
+
+
+/* ==================================================
+   현재 대회 실제 정보 가져오기
+================================================== */
+
+function getCurrentEvent() {
+
+  const events =
+    getMUTEvents();
+
+  if (!eventId) {
+    return events.length > 0 ? events[0] : null;
+  }
+
+  const foundEvent =
+    events.find(function(item, index) {
+
+      const currentId =
+        item.id ||
+        item.eventId ||
+        item.eventID ||
+        "event-" + (index + 1);
+
+      return String(currentId) === String(eventId) ||
+        String(item.legacyId || "") === String(eventId);
+
+    });
+
+  return foundEvent || (events.length === 1 ? events[0] : null);
+
+}
+
+
+/* ==================================================
+   포스터 주소 가져오기
+================================================== */
+
+function getPosterSource(currentEvent) {
+
+  if (!currentEvent) {
+    return "";
+  }
+
+  /*
+    관리자에서 포스터를 저장하는 방식이
+    어떤 형태인지에 따라 여러 이름을 지원.
+  */
+
+  const poster =
+    currentEvent.poster ||
+    currentEvent.posterImage ||
+    currentEvent.posterUrl ||
+    currentEvent.image ||
+    currentEvent.imageUrl ||
+    "";
+
+  if (poster) {
+    return String(poster);
+  }
+
+  /*
+    혹시 URL로 넘어온 포스터가 있다면
+    마지막 보조 수단으로 사용.
+  */
+
+  if (urlPoster) {
+    return String(urlPoster);
+  }
+
+  return "";
+
+}
+
+
+/* ==================================================
+   신청 가능 여부
+================================================== */
+
+function isRegistrationOpen() {
+
+  const currentEvent =
+    getCurrentEvent();
+
+  if (!currentEvent) {
+    return false;
+  }
+
+  /*
+    registrationOpen이 false일 때만
+    신청 마감으로 처리.
+
+    기존에 만들어진 오래된 대회처럼
+    값이 없는 경우에는 신청 가능으로 처리.
+  */
+
+  return currentEvent.registrationOpen !== false;
+
+}
+
+
+/* ==================================================
+   포스터 로딩 실패 처리
+================================================== */
+
+function showNoPoster() {
+
+  const eventPoster =
+    document.getElementById(
+      "eventPoster"
+    );
+
+  const eventPosterBox =
+    document.getElementById(
+      "eventPosterBox"
+    );
+
+  eventPoster.style.display =
+    "none";
+
+  eventPosterBox.classList.add(
+    "no-poster"
+  );
+
+  eventPosterBox.innerHTML =
+    "NO POSTER";
+
+}
+
+
+/* ==================================================
+   대회 정보 불러오기
+================================================== */
+
+async function loadEvent() {
+
+  // 대회 정보는 서버 DB를 기준으로 불러옵니다.
+  // 서버 연결에 실패하면 기존 브라우저 저장 정보를 사용합니다.
+  try {
+    const response = await fetch("/api/events", {
+      method: "GET",
+      headers: { "Accept": "application/json" }
+    });
+    const result = await response.json();
+    if (response.ok && result.ok && Array.isArray(result.events) && result.events.length > 0) {
+      const localEvents = getMUTEvents();
+      const serverEvents = result.events.map(function(dbEvent) {
+        const local = localEvents.find(function(item) {
+          return String(item.id || "") === String(dbEvent.id) || (
+            String(item.name || "").trim() === String(dbEvent.name || "").trim() &&
+            String(item.date || "") === String(dbEvent.event_date || "") &&
+            String(item.place || "").trim() === String(dbEvent.venue || "").trim()
+          );
+        }) || {};
+        return {
+          ...local,
+          id: dbEvent.id,
+          legacyId: local.id && String(local.id) !== String(dbEvent.id) ? local.id : (local.legacyId || null),
+          name: dbEvent.name || local.name || "MUT CHAMPIONSHIP",
+          date: dbEvent.event_date || local.date || "",
+          place: dbEvent.venue || local.place || "",
+          time: dbEvent.event_time || local.time || "",
+          description: dbEvent.description || local.description || "",
+          registrationOpen: dbEvent.registration_open === true || Number(dbEvent.registration_open) === 1,
+          earlyBirdStart: dbEvent.early_bird_start || "",
+          earlyBirdEnd: dbEvent.early_bird_end || "",
+          registrationStart: dbEvent.registration_start || local.registrationStart || "",
+          registrationEnd: dbEvent.registration_end || local.registrationEnd || "",
+          poster: local.poster || dbEvent.poster_url || ""
+        };
+      });
+      localStorage.setItem("MUT_EVENTS", JSON.stringify(serverEvents));
+    }
+  } catch (error) {
+    console.warn("서버 대회 정보를 불러오지 못했습니다. 저장된 대회 정보를 사용합니다.", error);
+  }
+
+  const eventName =
+    document.getElementById("eventName");
+
+  const eventDate =
+    document.getElementById("eventDate");
+
+  const eventPlace =
+    document.getElementById("eventPlace");
+
+  const eventTime =
+    document.getElementById("eventTime");
+
+  const eventDescription =
+    document.getElementById("eventDescription");
+
+  const eventPoster =
+    document.getElementById("eventPoster");
+
+  const eventPosterBox =
+    document.getElementById("eventPosterBox");
+
+  const registrationForm =
+    document.getElementById("registrationForm");
+
+  const closedBox =
+    document.getElementById("closedBox");
+
+
+  /* ==========================================
+     실제 MUT_EVENTS에서 대회 찾기
+  ========================================== */
+
+  event =
+    getCurrentEvent();
+
+
+  /* ==========================================
+     대회가 존재하지 않는 경우
+  ========================================== */
+
+  if (!event) {
+
+    eventName.textContent =
+      "대회를 찾을 수 없습니다.";
+
+    eventDate.textContent =
+      "-";
+
+    eventPlace.textContent =
+      "-";
+
+    eventTime.textContent =
+      "-";
+
+    eventDescription.textContent =
+      "홈페이지에서 참가할 대회를 다시 선택해주세요.";
+
+    showNoPoster();
+
+    registrationForm.style.display =
+      "none";
+
+    closedBox.style.display =
+      "block";
+
+    closedBox.querySelector("h2").textContent =
+      "대회 정보를 찾을 수 없습니다.";
+
+    closedBox.querySelector("p").textContent =
+      "홈페이지에서 참가할 대회를 다시 선택해주세요.";
+
+    return;
+
+  }
+
+
+  /* ==========================================
+     대회 정보 표시
+  ========================================== */
+
+  eventName.textContent =
+    event.name ||
+    "MUT CHAMPIONSHIP";
+
+  eventDate.textContent =
+    event.date
+      ? String(event.date).replace(/-/g, ".")
+      : "-";
+
+  eventPlace.textContent =
+    event.place ||
+    "-";
+
+  eventTime.textContent =
+    event.time ||
+    "-";
+
+  eventDescription.textContent =
+    event.description ||
+    "MUT Championship 대회 일정입니다.";
+
+  // PHOTO/NOTICE와 동일하게 서버에 저장된 접수 기간 표시 (표시 전용)
+  renderRegistrationPeriods(event);
+
+
+
+  /* ==========================================
+     포스터
+  ========================================== */
+
+  const posterSource =
+    getPosterSource(event);
+
+
+  if (posterSource) {
+
+    /*
+      먼저 이미지 영역을 정상 상태로 복구
+    */
+
+    eventPosterBox.classList.remove(
+      "no-poster"
+    );
+
+    eventPosterBox.innerHTML =
+      "";
+
+    /*
+      기존 img를 다시 생성해서
+      어떤 형태의 이미지 주소든 그대로 사용.
+    */
+
+    const posterImage =
+      document.createElement("img");
+
+    posterImage.id =
+      "eventPoster";
+
+    posterImage.alt =
+      (
+        event.name ||
+        "MUT Championship"
+      ) +
+      " 포스터";
+
+    posterImage.src =
+      posterSource;
+
+    posterImage.onload =
+      function() {
+
+        posterImage.style.display =
+          "block";
+
+      };
+
+    posterImage.onerror =
+      function() {
+
+        showNoPoster();
+
+      };
+
+    eventPosterBox.appendChild(
+      posterImage
+    );
+
+  } else {
+
+    showNoPoster();
+
+  }
+
+
+  /* ==========================================
+     신청 가능 / 마감
+  ========================================== */
+
+  if (isRegistrationOpen()) {
+
+    registrationForm.style.display =
+      "block";
+
+    closedBox.style.display =
+      "none";
+
+  } else {
+
+    registrationForm.style.display =
+      "none";
+
+    closedBox.style.display =
+      "block";
+
+    closedBox.querySelector("h2").textContent =
+      "참가 신청 마감";
+
+    closedBox.querySelector("p").textContent =
+      "현재 이 대회는 참가 신청을 받고 있지 않습니다.";
+
+  }
+
+  updateDivisionDisplay();
+  updateRegistrationPrice();
+
+}
+
+
+/* ==================================================
+   도복 / 노기 참가여부
+================================================== */
+
+function selectParticipation(groupId, button) {
+  document.querySelectorAll("#" + groupId + " .choice-button").forEach(function(item) {
+    item.classList.remove("active");
+  });
+  button.classList.add("active");
+}
+
+function selectDobokParticipation(button) {
+  selectParticipation("dobokParticipation", button);
+  selectedDobokParticipation = button.dataset.value;
+  updateDivisionDisplay();
+  updateRegistrationPrice();
+}
+
+function selectNogiParticipation(button) {
+  selectParticipation("nogiParticipation", button);
+  selectedNogiParticipation = button.dataset.value;
+  updateDivisionDisplay();
+  updateRegistrationPrice();
+}
+
+function updateDivisionDisplay() {
+  const beltSection = document.getElementById("dobokBeltSection");
+  const nogiLevelSection = document.getElementById("nogiLevelSection");
+  const nogiAbsoluteParticipationSection = document.querySelector("#nogiAbsoluteParticipation")?.closest(".form-group");
+  const strongestSection = document.getElementById("strongestParticipation")?.closest(".absolute-section");
+  const ageSection = document.getElementById("ageSection");
+
+  const dobokOn = selectedDobokParticipation === "참가";
+  const nogiOn = selectedNogiParticipation === "참가";
+  const bothNotParticipating =
+    selectedDobokParticipation === "미참가" &&
+    selectedNogiParticipation === "미참가";
+
+  // 도복과 노기가 모두 미참가이면 최강자전도 신청할 수 없습니다.
+  if (strongestSection) {
+    strongestSection.classList.toggle("hidden-division", bothNotParticipating);
+  }
+
+  if (bothNotParticipating) {
+    selectedStrongestParticipation = "";
+    document.querySelectorAll("#strongestParticipation .choice-button").forEach(function(item) {
+      item.classList.remove("active");
+    });
+  }
+
+  // 도복을 참가하지 않고 노기만 참가하는 경우에는 나이 선택을 숨깁니다.
+  // 도복도 함께 참가하면 도복 체급 때문에 나이가 필요하므로 다시 표시합니다.
+  if (ageSection) {
+    ageSection.classList.toggle("hidden-division", !dobokOn);
+  }
+
+  if (dobokOn) {
+    beltSection.classList.remove("hidden-division");
+  } else {
+    beltSection.classList.add("hidden-division");
+    selectedBelt = "";
+    selectedAge = "";
+    document.querySelectorAll("#beltChoices .choice-button").forEach(function(item) {
+      item.classList.remove("active");
+    });
+    document.querySelectorAll("#ageChoices .choice-button").forEach(function(item) {
+      item.classList.remove("active");
+    });
+  }
+
+  if (nogiOn) {
+    nogiLevelSection.classList.add("show");
+    if (nogiAbsoluteParticipationSection) {
+      nogiAbsoluteParticipationSection.classList.remove("hidden-division");
+    }
+  } else {
+    nogiLevelSection.classList.remove("show");
+    if (nogiAbsoluteParticipationSection) {
+      nogiAbsoluteParticipationSection.classList.add("hidden-division");
+    }
+    selectedNogiLevel = "";
+    selectedNogiWeight = "";
+    selectedNogiAbsoluteParticipation = "";
+    selectedNogiAbsolute = "";
+    document.querySelectorAll("#nogiLevelChoices .choice-button").forEach(function(item) {
+      item.classList.remove("active");
+    });
+    document.querySelectorAll("#nogiAbsoluteParticipation .choice-button").forEach(function(item) {
+      item.classList.remove("active");
+    });
+    document.getElementById("nogiAbsoluteDetail").classList.remove("show");
+    document.querySelectorAll("#nogiAbsoluteChoices .choice-button").forEach(function(item) {
+      item.classList.remove("active");
+    });
+  }
+
+  renderBeltChoices();
+  renderWeightChoices();
+}
+
+/* ==================================================
+   성별 선택
+================================================== */
+
+function selectGender(button) {
+  document.querySelectorAll("#genderChoices .choice-button").forEach(function(item) {
+    item.classList.remove("active");
+  });
+  button.classList.add("active");
+  selectedGender = button.dataset.value;
+  selectedDobokWeight = "";
+  selectedNogiWeight = "";
+  renderWeightChoices();
+}
+
+/* ==================================================
+   나이 선택
+================================================== */
+
+function selectAge(button) {
+  document.querySelectorAll("#ageChoices .choice-button").forEach(function(item) {
+    item.classList.remove("active");
+  });
+  button.classList.add("active");
+  selectedAge = button.dataset.value;
+  selectedBelt = "";
+  selectedDobokWeight = "";
+  selectedNogiWeight = "";
+  renderBeltChoices();
+  renderWeightChoices();
+}
+
+/* ==================================================
+   벨트 표시
+================================================== */
+
+function renderBeltChoices() {
+  const container = document.getElementById("beltChoices");
+  container.innerHTML = "";
+
+  if (selectedDobokParticipation !== "참가") {
+    return;
+  }
+
+  if (!selectedAge) {
+    container.innerHTML = '<div class="choice-empty">먼저 나이를 선택해주세요.</div>';
+    return;
+  }
+
+  const belts = beltClasses[selectedAge] || [];
+  belts.forEach(function(belt) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "choice-button";
+    button.dataset.value = belt;
+    button.textContent = belt;
+    button.onclick = function() { selectBelt(button); };
+    container.appendChild(button);
+  });
+}
+
+function selectBelt(button) {
+  document.querySelectorAll("#beltChoices .choice-button").forEach(function(item) {
+    item.classList.remove("active");
+  });
+  button.classList.add("active");
+  selectedBelt = button.dataset.value;
+}
+
+function selectNogiLevel(button) {
+  document.querySelectorAll("#nogiLevelChoices .choice-button").forEach(function(item) {
+    item.classList.remove("active");
+  });
+  button.classList.add("active");
+  selectedNogiLevel = button.dataset.value;
+}
+
+/* ==================================================
+   체급 표시
+================================================== */
+
+const nogiWeightClasses = {
+  male: ["-55.0kg", "-66.0kg", "-77.0kg", "-88.0kg", "-99.0kg", "+99.0kg"],
+  female: ["-44.0kg", "-55.0kg", "-60.0kg", "-66.0kg", "-77.0kg", "+77.0kg"]
+};
+
+function renderWeightChoices() {
+  const dobokContainer = document.getElementById("dobokWeightChoices");
+  const nogiContainer = document.getElementById("nogiWeightChoices");
+  const dobokSection = document.getElementById("dobokWeightSection");
+  const nogiSection = document.getElementById("nogiWeightSection");
+
+  dobokContainer.innerHTML = "";
+  nogiContainer.innerHTML = "";
+
+  const dobokOn = selectedDobokParticipation === "참가";
+  const nogiOn = selectedNogiParticipation === "참가";
+
+  dobokSection.classList.toggle("hidden-division", !dobokOn);
+  nogiSection.classList.toggle("show", nogiOn);
+
+  if (dobokOn) {
+    if (!selectedGender || !selectedAge) {
+      dobokContainer.innerHTML = '<div class="choice-empty">성별과 나이를 먼저 선택해주세요.</div>';
+    } else {
+      const genderKey = selectedGender === "남성부" ? "male" : "female";
+      const weights = weightClasses[selectedAge] ? weightClasses[selectedAge][genderKey] : [];
+      if (!weights.length) {
+        dobokContainer.innerHTML = '<div class="choice-empty">도복 체급 정보를 불러올 수 없습니다.</div>';
+      } else {
+        weights.forEach(function(weight) {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "choice-button";
+          button.dataset.value = weight;
+          button.textContent = weight;
+          button.onclick = function() { selectDobokWeight(button); };
+          dobokContainer.appendChild(button);
+        });
+      }
+    }
+  }
+
+  if (nogiOn) {
+    if (!selectedGender) {
+      nogiContainer.innerHTML = '<div class="choice-empty">성별을 먼저 선택해주세요.</div>';
+    } else {
+      const genderKey = selectedGender === "남성부" ? "male" : "female";
+      nogiWeightClasses[genderKey].forEach(function(weight) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "choice-button";
+        button.dataset.value = weight;
+        button.textContent = weight;
+        button.onclick = function() { selectNogiWeight(button); };
+        nogiContainer.appendChild(button);
+      });
+    }
+  }
+}
+
+function selectDobokWeight(button) {
+  document.querySelectorAll("#dobokWeightChoices .choice-button").forEach(function(item) {
+    item.classList.remove("active");
+  });
+  button.classList.add("active");
+  selectedDobokWeight = button.dataset.value;
+}
+
+function selectNogiWeight(button) {
+  document.querySelectorAll("#nogiWeightChoices .choice-button").forEach(function(item) {
+    item.classList.remove("active");
+  });
+  button.classList.add("active");
+  selectedNogiWeight = button.dataset.value;
+}
+
+
+/* ==================================================
+   참가비 계산
+================================================== */
+
+function isEarlyBirdActive(currentEvent) {
+  if (!currentEvent || !currentEvent.earlyBirdStart || !currentEvent.earlyBirdEnd) {
+    return false;
+  }
+  const now = new Date();
+  const today = now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, "0") + "-" + String(now.getDate()).padStart(2, "0");
+  return today >= currentEvent.earlyBirdStart && today <= currentEvent.earlyBirdEnd;
+}
+
+function getRegistrationPrice(currentEvent) {
+  const earlyBird = isEarlyBirdActive(currentEvent);
+  const basePrice = earlyBird ? 45000 : 55000;
+  const nogiAdditional = (selectedDobokParticipation === "참가" && selectedNogiParticipation === "참가")
+    ? (earlyBird ? 20000 : 30000)
+    : 0;
+  const absoluteUnitPrice = earlyBird ? 20000 : 30000;
+  const dobokAbsolutePrice = selectedDobokAbsoluteParticipation === "참가" ? absoluteUnitPrice : 0;
+  const nogiAbsolutePrice = selectedNogiAbsoluteParticipation === "참가" ? absoluteUnitPrice : 0;
+  const strongestPrice = selectedStrongestParticipation === "참가" ? absoluteUnitPrice : 0;
+  const divisionPrice = basePrice + nogiAdditional;
+  const total = divisionPrice + dobokAbsolutePrice + nogiAbsolutePrice + strongestPrice;
+
+  return {
+    earlyBird,
+    basePrice,
+    nogiAdditional,
+    divisionPrice,
+    dobokAbsolutePrice,
+    nogiAbsolutePrice,
+    strongestPrice,
+    absolutePrice: dobokAbsolutePrice + nogiAbsolutePrice,
+    total
+  };
+}
+
+function updateRegistrationPrice() {
+  const result = getRegistrationPrice(getCurrentEvent());
+  const status = document.getElementById("priceStatus");
+  const base = document.getElementById("basePrice");
+  const nogiAdditional = document.getElementById("nogiAdditionalPrice");
+  const dobokAbsolute = document.getElementById("dobokAbsolutePrice");
+  const nogiAbsolute = document.getElementById("nogiAbsolutePrice");
+  const strongest = document.getElementById("strongestPrice");
+  const total = document.getElementById("totalPrice");
+
+  status.textContent = result.earlyBird
+    ? "🟢 얼리버드 적용 · 기본 45,000원 / 노기 추가 20,000원 / 각 추가 참가 20,000원"
+    : "일반 참가비 적용 · 기본 55,000원 / 노기 추가 30,000원 / 각 추가 참가 30,000원";
+
+  base.textContent = result.basePrice.toLocaleString("ko-KR") + "원";
+  nogiAdditional.textContent = "+ " + result.nogiAdditional.toLocaleString("ko-KR") + "원";
+  dobokAbsolute.textContent = "+ " + result.dobokAbsolutePrice.toLocaleString("ko-KR") + "원";
+  nogiAbsolute.textContent = "+ " + result.nogiAbsolutePrice.toLocaleString("ko-KR") + "원";
+  strongest.textContent = "+ " + result.strongestPrice.toLocaleString("ko-KR") + "원";
+  total.textContent = result.total.toLocaleString("ko-KR") + "원";
+}
+
+/* ==================================================
+   도복 앱솔루트
+================================================== */
+
+function selectDobokAbsoluteParticipation(button) {
+  selectParticipation("dobokAbsoluteParticipation", button);
+  selectedDobokAbsoluteParticipation = button.dataset.value;
+  const detail = document.getElementById("dobokAbsoluteDetail");
+  if (selectedDobokAbsoluteParticipation === "참가") {
+    detail.classList.add("show");
+  } else {
+    detail.classList.remove("show");
+    selectedDobokAbsolute = "";
+    document.querySelectorAll("#dobokAbsoluteChoices .choice-button").forEach(function(item) { item.classList.remove("active"); });
+  }
+  updateRegistrationPrice();
+}
+
+function selectDobokAbsolute(button) {
+  document.querySelectorAll("#dobokAbsoluteChoices .choice-button").forEach(function(item) { item.classList.remove("active"); });
+  button.classList.add("active");
+  selectedDobokAbsolute = button.dataset.value;
+}
+
+/* ==================================================
+   노기 앱솔루트
+================================================== */
+
+function selectNogiAbsoluteParticipation(button) {
+  // 노기 참가를 하지 않은 경우에는 노기 앱솔루트를 선택할 수 없습니다.
+  if (selectedNogiParticipation !== "참가") {
+    return;
+  }
+
+  selectParticipation("nogiAbsoluteParticipation", button);
+  selectedNogiAbsoluteParticipation = button.dataset.value;
+  const detail = document.getElementById("nogiAbsoluteDetail");
+  if (selectedNogiAbsoluteParticipation === "참가") {
+    detail.classList.add("show");
+  } else {
+    detail.classList.remove("show");
+    selectedNogiAbsolute = "";
+    document.querySelectorAll("#nogiAbsoluteChoices .choice-button").forEach(function(item) { item.classList.remove("active"); });
+  }
+  updateRegistrationPrice();
+}
+
+function selectNogiAbsolute(button) {
+  document.querySelectorAll("#nogiAbsoluteChoices .choice-button").forEach(function(item) { item.classList.remove("active"); });
+  button.classList.add("active");
+  selectedNogiAbsolute = button.dataset.value;
+}
+
+/* ==================================================
+   최강자전
+================================================== */
+
+function selectStrongestParticipation(button) {
+  selectParticipation("strongestParticipation", button);
+  selectedStrongestParticipation = button.dataset.value;
+  updateRegistrationPrice();
+}
+
+/* ==================================================
+   참가 신청
+================================================== */
+
+async function submitRegistration() {
+
+  /* ==========================================
+     가장 먼저 현재 대회 상태 재확인
+     
+     관리자가 신청서를 작성하는 도중
+     신청을 마감했을 경우까지 차단.
+  ========================================== */
+
+  const latestEvent =
+    getCurrentEvent();
+
+
+  if (!latestEvent) {
+
+    alert(
+      "대회 정보를 찾을 수 없습니다."
+    );
+
+    return;
+
+  }
+
+
+  if (
+    latestEvent.registrationOpen === false
+  ) {
+
+    document.getElementById(
+      "registrationForm"
+    ).style.display =
+      "none";
+
+    document.getElementById(
+      "closedBox"
+    ).style.display =
+      "block";
+
+    document.getElementById(
+      "closedBox"
+    ).querySelector("h2").textContent =
+      "참가 신청 마감";
+
+    document.getElementById(
+      "closedBox"
+    ).querySelector("p").textContent =
+      "현재 이 대회는 참가 신청을 받고 있지 않습니다.";
+
+    alert(
+      "현재 이 대회는 참가 신청이 마감되었습니다."
+    );
+
+    return;
+
+  }
+
+
+  /* ==========================================
+     입력값
+  ========================================== */
+
+  const name =
+    document.getElementById(
+      "playerName"
+    ).value.trim();
+
+  const birth =
+    document.getElementById(
+      "playerBirth"
+    ).value;
+
+  const phone =
+    document.getElementById(
+      "playerPhone"
+    ).value.trim();
+
+  const gym =
+    document.getElementById(
+      "playerGym"
+    ).value.trim();
+
+  const coach =
+    document.getElementById(
+      "playerCoach"
+    ).value.trim();
+
+  const depositorName =
+    document.getElementById(
+      "depositorName"
+    ).value.trim();
+
+
+  /* ==========================================
+     기본 입력 확인
+  ========================================== */
+
+  if (!name) {
+
+    alert(
+      "성함을 입력해주세요."
+    );
+
+    return;
+
+  }
+
+  if (!birth) {
+
+    alert(
+      "생년월일을 입력해주세요."
+    );
+
+    return;
+
+  }
+
+  if (!phone) {
+
+    alert(
+      "연락처를 입력해주세요."
+    );
+
+    return;
+
+  }
+
+  if (!gym) {
+
+    alert(
+      "소속을 입력해주세요."
+    );
+
+    return;
+
+  }
+
+  if (!coach) {
+
+    alert(
+      "지도자 성함을 입력해주세요."
+    );
+
+    return;
+
+  }
+
+  if (!depositorName) {
+
+    alert(
+      "입금자 성함을 입력해주세요."
+    );
+
+    return;
+
+  }
+
+  if (!selectedDobokParticipation && !selectedNogiParticipation) {
+    alert("도복 참가여부 또는 노기 참가여부 중 하나는 꼭 참가를 선택해주세요.");
+    return;
+  }
+
+  if (!selectedGender) {
+    alert("성별을 선택해주세요.");
+    return;
+  }
+
+  if (selectedDobokParticipation === "참가" && !selectedAge) {
+
+    alert(
+      "도복 참가를 선택하셨으므로 나이를 선택해주세요."
+    );
+
+    return;
+
+  }
+
+  if (selectedDobokParticipation === "참가" && !selectedBelt) {
+    alert("도복 참가를 선택하셨으므로 벨트를 선택해주세요.");
+    return;
+  }
+
+  if (selectedNogiParticipation === "참가" && !selectedNogiLevel) {
+    alert("노기 참가를 선택하셨으므로 노기 부문을 선택해주세요.");
+    return;
+  }
+
+  if (selectedDobokParticipation === "참가" && !selectedDobokWeight) {
+    alert("도복 참가를 선택하셨으므로 도복 체급을 선택해주세요.");
+    return;
+  }
+
+  if (selectedNogiParticipation === "참가" && !selectedNogiWeight) {
+    alert("노기 참가를 선택하셨으므로 노기 체급을 선택해주세요.");
+    return;
+  }
+
+  if (selectedDobokAbsoluteParticipation === "참가" && !selectedDobokAbsolute) {
+    alert("도복 앱솔루트 참가를 선택하셨으므로 도복 앱솔루트 부문을 선택해주세요.");
+    return;
+  }
+
+  if (selectedNogiAbsoluteParticipation === "참가" && !selectedNogiAbsolute) {
+    alert("노기 앱솔루트 참가를 선택하셨으므로 노기 앱솔루트 부문을 선택해주세요.");
+    return;
+  }
+
+  if (!selectedStrongestParticipation) {
+    alert("최강자전 참가 여부를 선택해주세요.");
+    return;
+  }
+
+
+  /* ==========================================
+     필수 동의사항 확인
+  ========================================== */
+
+  const consent1 = document.getElementById("consent1").checked;
+  const consent2 = document.getElementById("consent2").checked;
+  const consent3 = document.getElementById("consent3").checked;
+
+  if (!consent1 || !consent2 || !consent3) {
+    alert("필수 동의사항 3가지에 모두 동의해주세요.");
+    document.getElementById("consentSection").scrollIntoView({ behavior: "smooth", block: "center" });
+    return;
+  }
+
+
+  /* ==========================================
+     저장 직전 마지막으로 한 번 더 확인
+  ========================================== */
+
+  const finalEvent =
+    getCurrentEvent();
+
+
+  if (
+    !finalEvent ||
+    finalEvent.registrationOpen === false
+  ) {
+
+    alert(
+      "신청하는 동안 참가 신청이 마감되었습니다."
+    );
+
+    loadEvent();
+
+    return;
+
+  }
+
+
+  /* ==========================================
+     최종 참가비 계산
+     저장되는 가격은 신청 당시의 실제 가격
+  ========================================== */
+
+  const price =
+    getRegistrationPrice(
+      finalEvent
+    );
+
+
+  /* ==========================================
+     기존 신청 데이터
+  ========================================== */
+
+  let registrations = [];
+
+  const saved =
+    localStorage.getItem(
+      "MUT_REGISTRATIONS"
+    );
+
+
+  if (saved) {
+
+    try {
+
+      registrations =
+        JSON.parse(
+          saved
+        );
+
+    } catch (error) {
+
+      registrations =
+        [];
+
+    }
+
+  }
+
+
+  if (
+    !Array.isArray(
+      registrations
+    )
+  ) {
+
+    registrations =
+      [];
+
+  }
+
+
+  /* ==========================================
+     신청 데이터 생성
+  ========================================== */
+
+  const registration = {
+
+    id:
+      Date.now(),
+
+    eventId:
+      finalEvent.id,
+
+    eventName:
+      finalEvent.name ||
+      "MUT CHAMPIONSHIP",
+
+    eventDate:
+      finalEvent.date,
+
+    eventPlace:
+      finalEvent.place,
+
+    name:
+      name,
+
+    birth:
+      birth,
+
+    phone:
+      phone,
+
+    gym:
+      gym,
+
+    coach:
+      coach,
+
+    depositorName:
+      depositorName,
+
+    dobokParticipation:
+      selectedDobokParticipation,
+
+    nogiParticipation:
+      selectedNogiParticipation,
+
+    gender:
+      selectedGender,
+
+    ageDivision:
+      selectedAge,
+
+    belt:
+      selectedDobokParticipation === "참가" ? selectedBelt : "",
+
+    nogiLevel:
+      selectedNogiLevel,
+
+    weight:
+      selectedDobokParticipation === "참가" ? selectedDobokWeight : selectedNogiWeight,
+
+    dobokWeight:
+      selectedDobokWeight,
+
+    nogiWeight:
+      selectedNogiWeight,
+
+    dobokAbsoluteParticipation:
+      selectedDobokAbsoluteParticipation,
+
+    dobokAbsoluteDivision:
+      selectedDobokAbsolute,
+
+    nogiAbsoluteParticipation:
+      selectedNogiAbsoluteParticipation,
+
+    nogiAbsoluteDivision:
+      selectedNogiAbsolute,
+
+    strongestParticipation:
+      selectedStrongestParticipation,
+
+    // 기존 관리자 화면 호환용
+    absoluteParticipation:
+      (selectedDobokAbsoluteParticipation === "참가" || selectedNogiAbsoluteParticipation === "참가") ? "참가" : "미참가",
+
+    absoluteDivision:
+      [selectedDobokAbsolute, selectedNogiAbsolute].filter(Boolean).join(" / "),
+
+    priceType:
+      price.earlyBird
+        ? "얼리버드"
+        : "일반",
+
+    divisionPrice:
+      price.divisionPrice,
+
+    absolutePrice:
+      price.absolutePrice,
+
+    dobokAbsolutePrice:
+      price.dobokAbsolutePrice,
+
+    nogiAbsolutePrice:
+      price.nogiAbsolutePrice,
+
+    strongestPrice:
+      price.strongestPrice,
+
+    nogiAdditional:
+      price.nogiAdditional,
+
+    totalPrice:
+      price.total,
+
+    consent1:
+      consent1,
+
+    consent2:
+      consent2,
+
+    consent3:
+      consent3,
+
+    consentAgreed:
+      true,
+
+    registeredAt:
+      new Date().toISOString()
+
+  };
+
+
+ /* ==========================================
+   서버 DB에 참가 신청 저장
+========================================== */
+
+try {
+
+  const response = await fetch(
+    "/api/participants",
+    {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json"
+      },
+
+      body: JSON.stringify({
+
+        event_id: registration.eventId,
+
+        name: registration.name,
+
+        affiliation: registration.gym,
+
+        birth_date: registration.birth,
+
+        phone: registration.phone,
+
+        depositor_name: registration.depositorName,
+
+        gender: registration.gender,
+
+        belt: registration.belt,
+
+        weight_class: registration.weight,
+
+        coach: registration.coach,
+
+        dobok_participation: registration.dobokParticipation,
+
+        nogi_participation: registration.nogiParticipation,
+
+        age_division: registration.ageDivision,
+
+        nogi_level: registration.nogiLevel,
+
+        dobok_weight: registration.dobokWeight,
+
+        nogi_weight: registration.nogiWeight,
+
+        dobok_absolute_participation: registration.dobokAbsoluteParticipation,
+
+        dobok_absolute_division: registration.dobokAbsoluteDivision,
+
+        nogi_absolute_participation: registration.nogiAbsoluteParticipation,
+
+        nogi_absolute_division: registration.nogiAbsoluteDivision,
+
+        strongest_participation: registration.strongestParticipation,
+
+        consent1: registration.consent1,
+
+        consent2: registration.consent2,
+
+        consent3: registration.consent3
+
+      })
+
+    }
+  );
+
+
+  const result = await response.json();
+
+
+  if (!response.ok) {
+
+    throw new Error(
+      result.error || "참가 신청 저장에 실패했습니다."
+    );
+
+  }
+
+
+  /* 서버에서 발급한 참가자 ID 사용 */
+
+  registration.id =
+    result.participant_id;
+
+  // 서버에서 최종 확정한 참가비를 완료 데이터에도 반영합니다.
+  if (typeof result.total_price === "number") {
+    registration.totalPrice = result.total_price;
+  }
+  if (result.price_type) {
+    registration.priceType = result.price_type;
+  }
+
+  /* 기존 브라우저 저장 기능도 유지 */
+
+  registrations.push(
+    registration
+  );
+
+
+  localStorage.setItem(
+    "MUT_REGISTRATIONS",
+    JSON.stringify(registrations)
+  );
+
+
+} catch (error) {
+
+  console.error(
+    "참가 신청 저장 오류:",
+    error
+  );
+
+  alert(
+    error.message || "서버 저장에 실패했습니다. 다시 시도해 주세요."
+  );
+
+  return;
+
+}
+
+
+  /* ==========================================
+     완료 화면
+  ========================================== */
+
+  document.getElementById(
+    "registrationForm"
+  ).style.display =
+    "none";
+
+  document.getElementById(
+    "closedBox"
+  ).style.display =
+    "none";
+
+  document.getElementById(
+    "completeBox"
+  ).style.display =
+    "block";
+
+  document.getElementById(
+    "completeEventName"
+  ).textContent =
+    finalEvent.name ||
+    "MUT CHAMPIONSHIP";
+
+
+  window.scrollTo({
+
+    top: 0,
+
+    behavior: "smooth"
+
+  });
+
+}
+
+
+/* ==================================================
+   페이지 시작
+================================================== */
+
+loadEvent();
+
+
+
+/* MUT REGISTRATION UI — visual helpers only; core submit/pricing unchanged */
+function renderRegistrationPeriods(currentEvent) {
+  const early = document.getElementById('regEarlyPeriod');
+  const normal = document.getElementById('regNormalPeriod');
+  if (!early || !normal) return;
+  const formatDeadline = value => {
+    const deadline = String(value || '').trim();
+    return deadline ? deadline.replace(/-/g, '.') : '마감일 미설정';
+  };
+  early.textContent = formatDeadline(currentEvent?.earlyBirdEnd);
+  normal.textContent = formatDeadline(currentEvent?.registrationEnd);
+}
+/* 전화번호를 입력하거나 붙여넣으면 하이픈을 자동으로 표시합니다. */
+(function setupPhoneAutoHyphen() {
+  const input = document.getElementById('playerPhone');
+  if (!input) return;
+
+  function formatPhone(value) {
+    const digits = String(value || '').replace(/\D/g, '').slice(0, 11);
+    if (digits.startsWith('02')) {
+      if (digits.length <= 2) return digits;
+      if (digits.length <= 6) return digits.slice(0, 2) + '-' + digits.slice(2);
+      return digits.slice(0, 2) + '-' + digits.slice(2, digits.length > 9 ? 6 : 5) + '-' + digits.slice(digits.length > 9 ? 6 : 5);
+    }
+    if (digits.length <= 3) return digits;
+    if (digits.length <= 7) return digits.slice(0, 3) + '-' + digits.slice(3);
+    return digits.slice(0, 3) + '-' + digits.slice(3, 7) + '-' + digits.slice(7);
+  }
+
+  input.addEventListener('input', () => {
+    input.value = formatPhone(input.value);
+  });
+  input.addEventListener('change', () => {
+    input.value = formatPhone(input.value);
+  });
+  input.addEventListener('blur', () => {
+    input.value = formatPhone(input.value);
+  });
+})();
+
+(function () {
+  const button = document.querySelector('.mut-reg-menu-button');
+  const menu = document.querySelector('#mut-registration-mobile-menu');
+  if (!button || !menu) return;
+  const close = () => { menu.hidden = true;button.setAttribute('aria-expanded','false');button.setAttribute('aria-label','메뉴 열기');};
+  button.addEventListener('click', () => {
+    const opening = menu.hidden;
+    menu.hidden = !opening;
+    button.setAttribute('aria-expanded',String(opening));
+    button.setAttribute('aria-label',opening?'메뉴 닫기':'메뉴 열기');
+  });
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click',close));
+  document.addEventListener('keydown',e => {if(e.key==='Escape')close();});
+  document.addEventListener('click',e => {if(!menu.hidden && !menu.contains(e.target) && !button.contains(e.target))close();});
+})();
+</script>
+</body>
+</html>
