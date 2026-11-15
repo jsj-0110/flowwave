@@ -1,1 +1,4206 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MUT Championship Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Bebas+Neue&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;}
+
+body{
+margin:0;
+background:#080808;
+color:#fff;
+font-family:Arial,"Noto Sans KR",sans-serif;
+}
+
+.admin-wrap{
+max-width:1400px;
+margin:auto;
+padding:50px 30px;
+}
+
+h1{
+letter-spacing:3px;
+margin-bottom:40px;
+}
+
+h2{
+margin-top:0;
+}
+
+.box{
+background:#111;
+border:1px solid #292929;
+padding:25px;
+margin-bottom:30px;
+}
+
+button{
+background:#fff;
+color:#000;
+border:none;
+padding:12px 18px;
+cursor:pointer;
+font-weight:bold;
+}
+
+button:hover{
+background:#ddd;
+}
+
+.hidden{
+display:none !important;
+}
+
+.back{
+margin-bottom:20px;
+}
+
+.admin-menu{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-bottom:30px;
+}
+
+.admin-menu button{
+min-width:150px;
+}
+
+input,
+select,
+textarea{
+width:100%;
+padding:14px;
+background:#080808;
+border:1px solid #333;
+color:#fff;
+font-family:inherit;
+}
+
+textarea{
+min-height:180px;
+resize:vertical;
+line-height:1.8;
+}
+
+.form-buttons{
+display:flex;
+gap:10px;
+grid-column:1/-1;
+}
+
+.form-buttons button{
+flex:1;
+}
+
+.cancel-button{
+background:#333;
+color:#fff;
+}
+
+.cancel-button:hover{
+background:#444;
+}
+
+
+/* ==========================================
+   RANKING
+========================================== */
+
+.ranking-form{
+display:grid;
+grid-template-columns:repeat(6,1fr);
+gap:15px;
+}
+
+.ranking-form .form-buttons{
+grid-column:1/-1;
+}
+
+.score-preview{
+margin-top:20px;
+padding:20px;
+border:1px solid #333;
+background:#080808;
+font-size:18px;
+}
+
+.score-preview strong{
+font-size:28px;
+}
+
+.ranking-info{
+margin-top:15px;
+color:#888;
+font-size:13px;
+line-height:1.7;
+}
+
+.ranking-search{
+display:grid;
+grid-template-columns:2fr 1fr;
+gap:15px;
+margin-bottom:20px;
+}
+
+.ranking-stats{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:15px;
+margin-bottom:20px;
+}
+
+.ranking-stat{
+background:#080808;
+border:1px solid #292929;
+padding:20px;
+}
+
+.ranking-stat small{
+display:block;
+color:#777;
+margin-bottom:8px;
+letter-spacing:1px;
+}
+
+.ranking-stat strong{
+font-size:28px;
+}
+
+.ranking-table-wrap{
+overflow-x:auto;
+}
+
+.ranking-table{
+width:100%;
+border-collapse:collapse;
+min-width:800px;
+}
+
+.ranking-table th{
+background:#171717;
+padding:15px;
+color:#aaa;
+}
+
+.ranking-table td{
+padding:15px;
+border-top:1px solid #222;
+text-align:center;
+}
+
+.rank-number{
+font-weight:bold;
+font-size:18px;
+}
+
+.points{
+font-weight:bold;
+font-size:18px;
+}
+
+.ranking-actions{
+display:flex;
+gap:8px;
+justify-content:center;
+}
+
+.small-button{
+padding:8px 12px;
+font-size:12px;
+}
+
+.edit-button{
+background:#fff;
+color:#000;
+}
+
+.delete-button{
+background:#333;
+color:#fff;
+}
+
+.delete-button:hover{
+background:#555;
+}
+
+.empty-ranking{
+padding:40px;
+text-align:center;
+color:#777;
+}
+
+
+/* ==========================================
+   NOTICE
+========================================== */
+
+.notice-form{
+display:grid;
+grid-template-columns:1fr 220px;
+gap:15px;
+}
+
+.notice-form textarea{
+grid-column:1/-1;
+}
+
+.notice-info{
+margin-top:15px;
+color:#777;
+font-size:13px;
+line-height:1.7;
+}
+
+.notice-table-wrap{
+overflow-x:auto;
+}
+
+.notice-table{
+width:100%;
+border-collapse:collapse;
+min-width:800px;
+}
+
+.notice-table th{
+background:#171717;
+padding:15px;
+color:#aaa;
+}
+
+.notice-table td{
+padding:15px;
+border-top:1px solid #222;
+}
+
+.notice-title-cell{
+text-align:left !important;
+font-weight:bold;
+}
+
+.notice-actions{
+display:flex;
+justify-content:center;
+gap:8px;
+}
+
+.notice-date{
+color:#888;
+white-space:nowrap;
+}
+
+
+/* ==========================================
+   PARTICIPANT
+========================================== */
+
+.event-card{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px;
+border:1px solid #333;
+margin-bottom:15px;
+cursor:pointer;
+}
+
+.event-card:hover{
+border-color:#fff;
+}
+
+.event-card strong{
+font-size:20px;
+}
+
+.event-card span{
+color:#aaa;
+}
+
+.filter-box{
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:15px;
+}
+
+.table-wrap{
+overflow-x:auto;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+min-width:1200px;
+}
+
+th{
+background:#171717;
+padding:15px;
+color:#aaa;
+}
+
+td{
+padding:15px;
+border-top:1px solid #222;
+text-align:center;
+}
+
+.count{
+font-size:30px;
+margin-bottom:20px;
+}
+
+
+/* ==========================================
+   PARTICIPANT STATS
+========================================== */
+
+.participant-stats{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:15px;
+margin-bottom:30px;
+}
+
+.participant-stat{
+background:#080808;
+border:1px solid #292929;
+padding:20px;
+}
+
+.participant-stat small{
+display:block;
+color:#777;
+margin-bottom:8px;
+letter-spacing:1px;
+}
+
+.participant-stat strong{
+font-size:28px;
+}
+
+.participant-stat-detail{
+margin-top:8px;
+color:#aaa;
+font-size:13px;
+line-height:1.7;
+}
+
+.participant-stat-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:15px;
+margin-bottom:30px;
+}
+
+.participant-stat-box{
+background:#111;
+border:1px solid #292929;
+padding:20px;
+}
+
+.participant-stat-box h3{
+margin:0 0 15px;
+font-size:15px;
+color:#aaa;
+}
+
+.participant-stat-list{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px 20px;
+}
+
+.participant-stat-list div{
+display:flex;
+justify-content:space-between;
+border-bottom:1px solid #222;
+padding:7px 0;
+}
+
+.participant-stat-list span{
+color:#777;
+}
+
+.participant-stat-list strong{
+font-size:15px;
+}
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media(max-width:900px){
+
+.participant-stats{
+grid-template-columns:1fr 1fr;
+}
+
+.participant-stat-grid{
+grid-template-columns:1fr;
+}
+
+.admin-wrap{
+padding:30px 15px;
+}
+
+.ranking-form{
+grid-template-columns:1fr;
+}
+
+.ranking-search{
+grid-template-columns:1fr;
+}
+
+.ranking-stats{
+grid-template-columns:1fr 1fr;
+}
+
+.notice-form{
+grid-template-columns:1fr;
+}
+
+.filter-box{
+grid-template-columns:1fr;
+}
+
+.event-form{
+grid-template-columns:1fr;
+}
+
+.event-form .full{
+grid-column:auto;
+}
+
+.event-admin-card{
+flex-direction:column;
+align-items:stretch;
+}
+
+.event-admin-actions{
+width:100%;
+}
+
+.event-admin-actions button{
+flex:1;
+}
+
+}
+
+@media(max-width:500px){
+
+.ranking-stats{
+grid-template-columns:1fr;
+}
+
+.admin-menu{
+display:grid;
+grid-template-columns:1fr;
+}
+
+.admin-menu button{
+width:100%;
+}
+
+}
+
+.player-actions{display:flex;gap:6px;justify-content:center;white-space:nowrap;}
+.player-action-button{padding:7px 10px;font-size:12px;}
+.player-edit-button{background:#fff;color:#000;}
+.player-delete-button{background:#333;color:#fff;}
+.player-delete-button:hover{background:#555;}
+.edit-modal{position:fixed;inset:0;background:rgba(0,0,0,.78);display:flex;align-items:center;justify-content:center;padding:20px;z-index:9999;}
+.edit-modal-box{width:min(900px,100%);max-height:90vh;overflow-y:auto;background:#111;border:1px solid #333;padding:25px;}
+.edit-form{display:grid;grid-template-columns:repeat(2,1fr);gap:15px;}
+.edit-form .full{grid-column:1/-1;}
+.edit-form label{display:block;font-size:12px;color:#aaa;margin-bottom:7px;}
+@media(max-width:700px){.edit-form{grid-template-columns:1fr;}.edit-form .full{grid-column:auto;}}
+
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.table-wrap table{min-width:1900px;}
+.filter-box{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+.participant-stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px;margin-bottom:30px;}
+@media(max-width:800px){.filter-box{grid-template-columns:1fr 1fr;}.participant-stat-grid{grid-template-columns:1fr;}}
+
+
+/* ==========================================
+   EVENT MANAGEMENT - schedule.html 통합
+========================================== */
+.event-manager-form{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.event-manager-form .full{grid-column:1/-1;}
+.event-manager-form label{display:block;color:#aaa;font-size:12px;margin-bottom:8px;letter-spacing:.5px;}
+.event-manager-form input,.event-manager-form textarea{width:100%;}
+.event-manager-form textarea{min-height:130px;}
+.event-manager-poster-preview{display:none;margin-top:12px;}
+.event-manager-poster-preview img{width:220px;max-width:100%;display:block;border:1px solid #333;}
+.event-manager-early{padding:20px;background:#0c0c0c;border:1px solid #292929;}
+.event-manager-early h3{margin:0 0 8px;font-size:17px;}
+.event-manager-early p{margin:0 0 16px;color:#777;font-size:13px;line-height:1.6;}
+.event-manager-early-dates{display:grid;grid-template-columns:1fr 1fr;gap:15px;}
+.event-manager-early-status{margin-top:15px;padding:12px 14px;border:1px solid #333;background:#111;color:#aaa;font-size:13px;}
+.event-manager-early-status.active{color:#fff;border-color:#666;}
+.event-manager-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;}
+.event-manager-actions button{flex:1;min-width:160px;}
+.event-manager-cancel{background:#333;color:#fff;}
+.event-manager-cancel:hover{background:#444;}
+.event-manager-list{display:flex;flex-direction:column;gap:20px;}
+.event-manager-card{display:grid;grid-template-columns:220px 1fr;gap:28px;padding:25px;border:1px solid #292929;background:#0c0c0c;}
+.event-manager-card-poster{width:100%;background:#151515;}
+.event-manager-card-poster img{display:block;width:100%;height:auto;}
+.event-manager-card-info h3{margin:0 0 18px;font-size:23px;}
+.event-manager-card-info p{margin:9px 0;color:#aaa;line-height:1.5;}
+.event-manager-card-info p strong{display:inline-block;width:85px;color:#fff;}
+.event-manager-status{margin-top:18px;padding:12px 14px;border:1px solid #333;background:#111;font-size:13px;}
+.event-manager-status.open{color:#fff;}
+.event-manager-status.closed{color:#888;}
+.event-manager-public{margin-top:10px;padding:12px 14px;border:1px solid #333;background:#111;font-size:13px;}
+.event-manager-card-buttons{display:flex;gap:10px;margin-top:15px;}
+.event-manager-card-buttons button{flex:1;}
+.event-manager-delete{background:#333;color:#fff;}
+.event-manager-delete:hover{background:#555;}
+@media(max-width:900px){
+  .event-manager-form{grid-template-columns:1fr;}
+  .event-manager-form .full{grid-column:auto;}
+  .event-manager-card{grid-template-columns:1fr;gap:22px;}
+  .event-manager-card-poster{max-width:400px;margin:0 auto;}
+  .event-manager-early-dates{grid-template-columns:1fr;}
+  .event-manager-card-buttons{flex-direction:column;}
+}
+
+/* ==========================================
+   MUT ADMIN LOGIN
+========================================== */
+
+.admin-login-page {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  background: #080808;
+  color: #fff;
+  box-sizing: border-box;
+}
+
+.admin-login-box {
+  width: 100%;
+  max-width: 400px;
+  padding: 38px 30px;
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+
+.admin-login-box h1 {
+  margin: 0;
+  color: #fff;
+  font-size: 25px;
+  font-weight: 900;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.admin-login-box > p {
+  margin: 10px 0 30px;
+  color: #999;
+  font-size: 12px;
+  text-align: center;
+  letter-spacing: 4px;
+}
+
+.admin-login-box label {
+  display: block;
+  margin-bottom: 10px;
+  color: #ddd;
+  font-size: 14px;
+}
+
+.admin-login-box input {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  margin-bottom: 16px;
+  padding: 12px;
+  color: #fff;
+  background: #1b1b1b;
+  border: 1px solid #444;
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+.admin-login-box input:focus {
+  outline: none;
+  border-color: #fff;
+}
+
+.admin-login-box button {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px;
+  color: #000;
+  background: #fff;
+  border: 0;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.admin-login-box button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+#adminLoginMessage {
+  min-height: 20px;
+  margin: 14px 0 0;
+  color: #ff6b6b;
+  font-size: 13px;
+  text-align: center;
+  letter-spacing: 0;
+}
+
+/* 로그인 전에는 관리자 화면 숨김 */
+.admin-wrap.auth-locked {
+  display: none !important;
+}
+
+@media (max-width: 480px) {
+  .admin-login-box {
+    padding: 30px 22px;
+  }
+
+  .admin-login-box h1 {
+    font-size: 21px;
+  }
+}
+
+
+/* 대회 이름 미리보기에도 홈페이지와 동일한 Bebas Neue 적용 */
+.event-manager-card-info h3{
+  font-family:"Bebas Neue","Black Han Sans","Noto Sans KR",sans-serif;
+  font-weight:400;
+  letter-spacing:.035em;
+  line-height:1.12;
+  text-transform:uppercase;
+}
+
+
+/* ==================================================
+   MUT CHAMPIONSHIP ADMIN · responsive dashboard shell
+   Presentational overrides, existing functions remain intact.
+================================================== */
+body{background:#060607;background-image:radial-gradient(circle at 65% -10%,rgba(120,120,120,.08),transparent 42%);color:#f7f7f8;}
+.admin-wrap{max-width:none;margin:0;padding:0;min-height:100vh;}
+.mut-admin-topbar{height:78px;display:flex;align-items:center;justify-content:space-between;gap:22px;padding:0 clamp(16px,3vw,48px);background:#09090a;border-bottom:1px solid #353537;position:sticky;top:0;z-index:190;box-shadow:0 8px 24px rgba(0,0,0,.22)}
+.mut-admin-topbrand{display:flex;align-items:center;gap:14px;min-width:0}
+.mut-admin-topbrand img{display:block;object-fit:contain;object-position:left center;width:205px;height:55px;max-width:48vw}
+.mut-admin-topbrand span{font-size:18px;color:#ccc;letter-spacing:2px;font-family:'Bebas Neue',Arial,sans-serif}
+.mut-admin-topactions{display:flex;align-items:center;gap:26px}
+.mut-admin-topactions a,.mut-admin-topactions button{font:600 13px Arial,sans-serif;background:transparent;color:#ddd;text-decoration:none;border:0;padding:10px 0;min-width:0}
+.mut-admin-topactions a:hover,.mut-admin-topactions button:hover{color:#fff;background:transparent}
+.mut-menu-toggle{display:none;background:transparent;color:#fff;border:0;padding:9px 11px;font-size:24px}
+.mut-admin-shell{display:grid;grid-template-columns:220px minmax(0,1fr);min-height:calc(100vh - 78px);max-width:1800px;margin:0 auto;}
+.mut-admin-sidebar{border-right:1px solid #3b3b3d;background:linear-gradient(155deg,#131315,#070708 80%);display:flex;flex-direction:column;min-height:calc(100vh - 78px);position:sticky;top:78px;align-self:start;max-height:calc(100vh - 78px);overflow:auto}
+.mut-sidebar-brand{padding:28px 18px 24px;border-bottom:1px solid #272729;display:flex;align-items:center;flex-direction:column;gap:4px}
+.mut-sidebar-brand img{max-width:165px;width:100%;height:75px;object-fit:contain}
+.mut-sidebar-brand span{color:#aaa;font-size:11px;letter-spacing:2px}
+.admin-menu{display:flex;flex-direction:column;flex-wrap:nowrap;gap:6px;margin:0;padding:22px 10px;}
+.admin-menu button{min-width:0;width:100%;display:flex;align-items:center;text-align:left;gap:12px;font-size:13px;font-weight:800;background:transparent;color:#ddd;border:1px solid transparent;border-radius:7px;padding:14px 12px;white-space:normal}
+.admin-menu button:hover{background:#252527;color:#fff}
+.admin-menu button.active{color:#fff;border-color:#ed1732;background:linear-gradient(125deg,#ae0018,#dc0923);box-shadow:0 0 16px rgba(224,0,33,.12)}
+.mut-nav-icon{display:inline-flex;flex:0 0 22px;align-items:center;justify-content:center;font-size:18px;font-weight:400}
+.mut-sidebar-logout{background:transparent;color:#ddd;border-top:1px solid #333;margin:auto 10px 15px;padding:19px 14px;text-align:left;}
+.mut-sidebar-logout:hover{background:#1e1e20}
+.mut-admin-main{min-width:0;padding:32px clamp(15px,2.2vw,36px) 90px;}
+.mut-admin-page-intro{display:flex;gap:15px;align-items:center;padding:0 0 21px;margin-bottom:24px;border-bottom:1px solid #38383a}
+.mut-title-slash{width:7px;height:37px;transform:skewX(-20deg);background:#e70022;flex:none}
+.mut-admin-page-intro h1{font-size:clamp(23px,2.4vw,33px);letter-spacing:-.03em;margin:0 0 6px;font-weight:900}
+.mut-admin-page-intro p{margin:0;color:#999;font-size:10px;letter-spacing:2px}
+.mut-admin-main .box{background:linear-gradient(145deg,#111113,#080809 80%);border:1px solid #48484b;border-radius:12px;padding:clamp(15px,2vw,25px);margin-bottom:20px;min-width:0}
+.mut-admin-main .box h2{font-size:21px;font-weight:900;letter-spacing:-.04em;border-left:4px solid #eb0d2a;padding-left:12px;margin:0 0 22px}
+.mut-admin-main input,.mut-admin-main textarea,.mut-admin-main select{border:1px solid #545457;border-radius:6px;background:#101012;color:#fafafa;min-height:43px;max-width:100%}
+.mut-admin-main input:focus,.mut-admin-main textarea:focus,.mut-admin-main select:focus{outline:none;border-color:#eb1839;box-shadow:0 0 0 2px rgba(235,24,57,.13)}
+.mut-admin-main button{border-radius:6px;}
+.mut-admin-main .back{background:#28282a;color:#fff;margin-bottom:18px}
+.mut-admin-main .back:hover{background:#333}
+.mut-admin-main .event-card{background:#121214;border-radius:9px;padding:18px;gap:12px}
+.mut-admin-main .event-card:hover{border-color:#d61933}
+.mut-admin-main .event-manager-card{border-radius:10px}
+.mut-admin-main .table-wrap,.mut-admin-main .ranking-table-wrap,.mut-admin-main .notice-table-wrap{border-radius:7px;border:1px solid #333}
+.mut-admin-main .ranking-table th,.mut-admin-main .notice-table th,.mut-admin-main .table-wrap th{background:#1b1b1d}
+.mut-admin-main .ranking-table td,.mut-admin-main .notice-table td,.mut-admin-main .table-wrap td{border-color:#303033}
+.mut-revenue-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;margin:14px 0 10px}
+.mut-revenue-card,.mut-overall-money>div{border:1px solid #424245;border-radius:9px;padding:18px 16px;background:#0c0c0e;min-width:0}
+.mut-revenue-card small,.mut-overall-money small{display:block;color:#a7a7a9;font-size:12px;line-height:1.5;margin-bottom:10px}
+.mut-revenue-card strong,.mut-overall-money strong{font-size:clamp(19px,2vw,28px);letter-spacing:-.03em;word-break:break-word;}
+.mut-revenue-featured{border-color:#a6152c;background:linear-gradient(135deg,#1c0b10,#0c0b0d)}
+.mut-revenue-featured strong{color:#ff3a52}
+.mut-overall-money{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+.mut-muted{color:#acacb2;font-size:13px;line-height:1.85;margin:0 0 18px}
+.mut-money-note{margin-top:0}
+.mut-photo-fields,.mut-sponsor-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.mut-photo-fields label,.mut-sponsor-form label{display:block;color:#eee;font-size:13px;font-weight:700}
+.mut-photo-fields label input,.mut-photo-fields label select,.mut-sponsor-form label input{margin-top:9px}
+.mut-sponsor-form label small{display:block;margin-top:8px;color:#aaa;font-size:12px;line-height:1.6;font-weight:400}
+.mut-full{grid-column:1/-1}
+.mut-form-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.mut-form-actions button{font-size:14px;min-width:145px}
+.mut-form-actions .mut-red-btn{color:#fff;background:linear-gradient(180deg,#ed1831,#b7001b);border:1px solid #e21835}
+.mut-form-actions .mut-red-btn:hover{background:#ee203d}
+.mut-form-actions .mut-red-btn:disabled{opacity:.55}
+.mut-form-actions .mut-quiet-btn{color:#f1f1f1;background:#323236;border:1px solid #4c4c4e}
+.mut-status{font-size:13px;min-height:17px;color:#c5c5cb;margin:14px 0 0}
+.mut-photo-manager-list,.mut-sponsor-list{display:flex;flex-direction:column;gap:10px}
+.mut-photo-item{display:flex;align-items:center;justify-content:space-between;gap:15px;background:#0b0b0e;border:1px solid #343439;border-radius:8px;padding:16px}
+.mut-photo-item strong{display:block;font-size:16px;overflow-wrap:anywhere}
+.mut-photo-item small{color:#999;display:block;margin-top:7px}
+.mut-photo-item .mut-photo-state{padding:10px 15px;border-radius:6px;color:#b0b0b4;background:#29292c;font-size:12px;font-weight:800;white-space:nowrap}
+.mut-photo-item .mut-photo-state.is-ready{background:#bb0922;color:#fff;text-decoration:none}
+.mut-sponsor-preview{display:flex;justify-content:center;align-items:center;min-height:145px;background:#0a0a0c;border:1px dashed #59595d;border-radius:8px;color:#999;font-size:13px;padding:15px}
+.mut-sponsor-preview img{display:block;max-width:160px;max-height:160px;object-fit:contain}
+.mut-sponsor-entry{display:flex;align-items:center;gap:18px;background:#0a0a0c;border:1px solid #38383b;border-radius:9px;padding:15px}
+.mut-sponsor-entry img{width:82px;height:82px;border:1px solid #48484b;border-radius:7px;object-fit:contain;background:#141417;padding:7px;flex:none}
+.mut-sponsor-entry .mut-sponsor-details{flex:1;min-width:0}
+.mut-sponsor-entry strong{display:block;font-size:16px;overflow-wrap:anywhere}
+.mut-sponsor-entry small{display:block;margin-top:6px;color:#999}
+.mut-sponsor-entry .mut-sponsor-buttons{display:flex;gap:7px;flex-wrap:wrap}
+.mut-sponsor-entry button{padding:9px 13px;background:#333;color:#fff;font-size:12px}
+.mut-sponsor-entry .mut-remove{background:#950923}
+.mut-admin-overlay{display:none}
+@media(max-width:1050px){.mut-admin-shell{grid-template-columns:190px minmax(0,1fr)}.mut-admin-sidebar .admin-menu button{font-size:12px;padding:12px 8px}.mut-revenue-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:820px){
+ .mut-admin-topbar{height:64px;gap:9px;padding:0 12px}
+ .mut-menu-toggle{display:block;flex:none}
+ .mut-admin-topbrand{flex:1;justify-content:center;gap:5px}
+ .mut-admin-topbrand img{width:115px;height:42px;max-width:38vw}
+ .mut-admin-topbrand span{font-size:13px}
+ .mut-admin-topactions{gap:5px}
+ .mut-admin-topactions a,.mut-admin-topactions button{padding:8px;font-size:16px}
+ .mut-admin-topactions span{display:none}
+ .mut-admin-shell{display:block;min-height:calc(100vh - 64px)}
+ .mut-admin-sidebar{position:fixed;top:64px;left:0;bottom:0;width:min(280px,85vw);max-height:none;min-height:0;z-index:250;transform:translateX(-105%);transition:transform .2s ease;box-shadow:18px 0 45px rgba(0,0,0,.55)}
+ .mut-admin-sidebar.is-open{transform:translateX(0)}
+ .mut-admin-overlay.is-open{display:block;position:fixed;inset:64px 0 0;z-index:249;background:rgba(0,0,0,.66)}
+ .mut-admin-main{padding:22px 13px 70px}
+ .mut-admin-page-intro{margin-bottom:20px}
+ .mut-admin-main .box{border-radius:9px}
+ .mut-admin-main .event-manager-form{grid-template-columns:1fr}
+ .mut-admin-main .ranking-form{grid-template-columns:1fr 1fr}
+ .mut-photo-fields,.mut-sponsor-form{grid-template-columns:1fr}
+ .mut-full{grid-column:auto}
+}
+@media(max-width:510px){
+ .mut-admin-main .ranking-form{grid-template-columns:1fr}
+ .mut-admin-main .ranking-search{grid-template-columns:1fr}
+ .mut-admin-main .participant-stats{grid-template-columns:1fr 1fr}
+ .mut-admin-main .filter-box{grid-template-columns:1fr 1fr}
+ .mut-revenue-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .mut-revenue-card{padding:13px 10px}
+ .mut-revenue-card small{font-size:10px}
+ .mut-revenue-card strong{font-size:18px}
+ .mut-overall-money{grid-template-columns:1fr}
+ .mut-sponsor-entry{flex-wrap:wrap}
+ .mut-sponsor-entry .mut-sponsor-buttons{width:100%}
+ .mut-photo-item strong{font-size:13px}
+ .mut-photo-item{padding:12px;gap:10px}
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- 관리자 로그인 화면 -->
+<div id="adminLoginPage" class="admin-login-page">
+  <div class="admin-login-box">
+    <h1>MUT CHAMPIONSHIP</h1>
+    <p>ADMIN LOGIN</p>
+
+<form id="adminLoginForm">
+  <label for="adminPassword">관리자 비밀번호</label>
+
+  <input
+    type="password"
+    id="adminPassword"
+    placeholder="관리자 비밀번호 입력"
+    autocomplete="current-password"
+    required
+  >
+
+  <button type="submit" id="adminLoginButton">
+    로그인
+  </button>
+
+  <p id="adminLoginMessage" role="alert"></p>
+</form>
+  </div>
+</div>
+
+<div class="admin-wrap auth-locked" style="display:none;">
+
+<header class="mut-admin-topbar">
+  <button type="button" class="mut-menu-toggle" aria-label="관리자 메뉴 열기" aria-expanded="false" onclick="mutToggleSidebar()">☰</button>
+  <div class="mut-admin-topbrand"><img src="../images/MUT_metallic_logo.png" alt="MUT CHAMPIONSHIP"><span>ADMIN</span></div>
+  <div class="mut-admin-topactions">
+    <a href="../index.html" target="_blank" rel="noopener noreferrer">⌂ <span>홈페이지 보기</span></a>
+    <button type="button" onclick="mutAdminLogout()">⇥ <span>로그아웃</span></button>
+  </div>
+</header>
+<div class="mut-admin-overlay" onclick="mutCloseSidebar()"></div>
+<div class="mut-admin-shell">
+<aside class="mut-admin-sidebar" id="mutAdminSidebar">
+  <div class="mut-sidebar-brand"><img src="../images/MUT_metallic_logo.png" alt="MUT CHAMPIONSHIP"><span>ADMIN CONSOLE</span></div>
+  <nav class="admin-menu" aria-label="관리 메뉴">
+    <button type="button" data-mut-page="events" onclick="openEventManager()"><span class="mut-nav-icon">▣</span> 대회 관리</button>
+    <button type="button" data-mut-page="participants" class="active" onclick="mutOpenParticipants()"><span class="mut-nav-icon">♙</span> 참가자 관리</button>
+    <button type="button" data-mut-page="ranking" onclick="openRanking()"><span class="mut-nav-icon">♜</span> 랭킹 관리</button>
+    <button type="button" data-mut-page="notices" onclick="openNotice()"><span class="mut-nav-icon">⚑</span> 공지사항 관리</button>
+    <button type="button" data-mut-page="files" onclick="openEventFiles()"><span class="mut-nav-icon">⇄</span> 대진표·타임테이블</button>
+    <button type="button" data-mut-page="photo" onclick="mutOpenPhotoManager()"><span class="mut-nav-icon">▧</span> PHOTO 관리 (링크)</button>
+    <button type="button" data-mut-page="sponsor" onclick="mutOpenSponsorManager()"><span class="mut-nav-icon">◇</span> 스폰서 관리</button>
+  </nav>
+  <button type="button" class="mut-sidebar-logout" onclick="mutAdminLogout()">⇥ 로그아웃</button>
+</aside>
+<div class="mut-admin-main">
+<div class="mut-admin-page-intro"><div class="mut-title-slash"></div><div><h1 id="mutAdminPageTitle">참가자 관리</h1><p id="mutAdminPageSubtitle">MUT CHAMPIONSHIP · MANAGEMENT</p></div></div>
+
+
+
+
+<!-- ==========================================
+     EVENT MANAGEMENT PAGE
+     기존 schedule.html 기능 통합
+========================================== -->
+
+<div id="eventManagerPage" class="hidden">
+
+<button onclick="closeEventManager()" class="back">
+← 관리자 메인
+</button>
+
+<div class="box">
+
+<h2 id="eventManagerFormTitle">대회 일정 등록</h2>
+
+<div class="event-manager-form">
+
+<div class="full">
+<label>대회 포스터</label>
+<input type="file" id="eventManagerPosterInput" accept="image/*">
+<div class="event-manager-poster-preview" id="eventManagerPosterPreview">
+<img id="eventManagerPreviewImage" src="" alt="포스터 미리보기">
+</div>
+</div>
+
+<div>
+<label>대회명</label>
+<input type="text" id="eventManagerName" placeholder="예: MUT CHAMPIONSHIP 2027">
+</div>
+
+<div>
+<label>대회 날짜</label>
+<input type="date" id="eventManagerDate">
+</div>
+
+<div>
+<label>개최 장소</label>
+<input type="text" id="eventManagerPlace" placeholder="예: 창원 ○○체육관">
+</div>
+
+<div>
+<label>대회 시작 시간</label>
+<input type="time" id="eventManagerTime">
+</div>
+
+<div class="full">
+<label for="eventManagerPhotoUrl">PHOTO · 구글 드라이브 공유 링크 (선택)</label>
+<input type="url" id="eventManagerPhotoUrl" placeholder="https://drive.google.com/drive/folders/..." autocomplete="off">
+<p style="color:#999;font-size:12px;line-height:1.7">링크를 등록하면 홈페이지 PHOTO 버튼이 활성화됩니다. 비워두면 준비중으로 표시됩니다. 드라이브 폴더 공유 권한을 '링크가 있는 모든 사용자'로 설정하세요.</p>
+</div>
+<div class="full">
+<label>대회 설명</label>
+<textarea id="eventManagerDescription" placeholder="예: MUT Championship 1회 대회&#10;주짓수 아마추어 대회"></textarea>
+</div>
+
+<div class="full event-manager-early">
+<h3>얼리버드 참가비 기간</h3>
+<p>설정한 기간 동안에는 얼리버드 가격이 자동으로 적용됩니다.<br>종료일 당일은 얼리버드 가격이며, 다음 날부터 일반 가격으로 자동 전환됩니다.</p>
+<div class="event-manager-early-dates">
+<div><label>얼리버드 시작일</label><input type="date" id="eventManagerEarlyBirdStart"></div>
+<div><label>얼리버드 종료일</label><input type="date" id="eventManagerEarlyBirdEnd"></div>
+</div>
+<div class="event-manager-early-status" id="eventManagerEarlyBirdStatus">얼리버드 기간을 설정해주세요.</div>
+</div>
+
+</div>
+
+<div class="event-manager-actions">
+<button onclick="saveEventFromAdmin()" id="eventManagerSaveButton">대회 저장</button>
+<button onclick="cancelEventManagerEdit()" id="eventManagerCancelButton" class="event-manager-cancel hidden">수정 취소</button>
+</div>
+
+</div>
+
+<div class="box">
+<h2>등록된 대회</h2>
+<div id="eventManagerList" class="event-manager-list"></div>
+</div>
+
+</div>
+
+<!-- ==========================================
+     RANKING PAGE
+========================================== -->
+
+<div id="rankingPage" class="hidden">
+
+<button onclick="closeRanking()" class="back">
+← 관리자 메인
+</button>
+
+<div class="box">
+
+<h2>MUT RANKING 관리</h2>
+<p style="color:#aaa;line-height:1.7">랭킹은 서버 DB에 저장되어 PC·모바일에 함께 표시됩니다. 이전 PC 기록이 서버에 아직 없다면, <b>기존 기록을 등록했던 같은 PC 브라우저</b>에서 아래 버튼을 한 번 사용하세요.</p>
+<button type="button" onclick="migrateLocalRankings()" style="margin-bottom:18px;background:#333;color:#fff">기존 PC 랭킹 기록 서버로 이전</button>
+
+<div class="ranking-form">
+
+<select id="rankBelt">
+
+<option value="STUDENT">중·고등부</option>
+<option value="WHITE">WHITE</option>
+<option value="BLUE">BLUE</option>
+<option value="PURPLE">PURPLE</option>
+<option value="BROWN">BROWN</option>
+<option value="BLACK">BLACK</option>
+
+</select>
+
+<input
+id="rankName"
+placeholder="선수 이름">
+
+<input
+id="rankGym"
+placeholder="소속">
+
+<input
+id="rankGold"
+type="number"
+min="0"
+value="0"
+placeholder="금">
+
+<input
+id="rankSilver"
+type="number"
+min="0"
+value="0"
+placeholder="은">
+
+<input
+id="rankBronze"
+type="number"
+min="0"
+value="0"
+placeholder="동">
+
+<div class="form-buttons">
+
+<button
+id="rankingSaveButton"
+onclick="addRankingPlayer()">
+랭킹 선수 저장
+</button>
+
+<button
+id="rankingCancelButton"
+onclick="cancelRankingEdit()"
+class="cancel-button hidden">
+수정 취소
+</button>
+
+</div>
+
+</div>
+
+<div class="score-preview">
+현재 점수 :
+<strong id="rankingScorePreview">0</strong>
+점
+</div>
+
+<div class="ranking-info">
+금메달 = 5점 / 은메달 = 3점 / 동메달 = 1점<br>
+같은 이름 + 같은 소속 + 같은 벨트의 선수가 다시 등록되면 기존 메달에 자동으로 합산됩니다.
+</div>
+
+</div>
+
+
+<div class="ranking-stats">
+
+<div class="ranking-stat">
+<small>전체 선수</small>
+<strong id="rankingPlayerCount">0</strong>
+</div>
+
+<div class="ranking-stat">
+<small>GOLD MEDALS</small>
+<strong id="rankingGoldCount">0</strong>
+</div>
+
+<div class="ranking-stat">
+<small>SILVER MEDALS</small>
+<strong id="rankingSilverCount">0</strong>
+</div>
+
+<div class="ranking-stat">
+<small>TOTAL POINTS</small>
+<strong id="rankingTotalPoints">0</strong>
+</div>
+
+</div>
+
+
+<div class="box">
+
+<h2>선수 관리</h2>
+
+<div class="ranking-search">
+
+<input
+id="rankingSearchInput"
+placeholder="선수 이름 또는 소속 검색"
+oninput="renderRankingPlayers()">
+
+<select
+id="rankingBeltFilter"
+onchange="renderRankingPlayers()">
+
+<option value="">벨트 전체</option>
+<option value="STUDENT">중·고등부</option>
+<option value="WHITE">WHITE</option>
+<option value="BLUE">BLUE</option>
+<option value="PURPLE">PURPLE</option>
+<option value="BROWN">BROWN</option>
+<option value="BLACK">BLACK</option>
+
+</select>
+
+</div>
+
+<div class="ranking-table-wrap">
+
+<table class="ranking-table">
+
+<thead>
+
+<tr>
+<th>순위</th>
+<th>벨트</th>
+<th>이름</th>
+<th>소속</th>
+<th>금</th>
+<th>은</th>
+<th>동</th>
+<th>점수</th>
+<th>관리</th>
+</tr>
+
+</thead>
+
+<tbody id="rankTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ==========================================
+     NOTICE PAGE
+========================================== -->
+
+<div id="noticePage" class="hidden">
+
+<button onclick="closeNotice()" class="back">
+← 관리자 메인
+</button>
+
+<div class="box">
+
+<h2>MUT 공지사항 관리</h2>
+
+<div class="notice-form">
+
+<input
+id="noticeTitle"
+placeholder="공지사항 제목">
+
+<input
+id="noticeDate"
+type="date">
+
+<textarea
+id="noticeContent"
+placeholder="공지사항 내용을 입력해주세요."></textarea>
+
+<div class="form-buttons">
+
+<button
+id="noticeSaveButton"
+onclick="saveNotice()">
+공지사항 등록
+</button>
+
+<button
+id="noticeCancelButton"
+onclick="cancelNoticeEdit()"
+class="cancel-button hidden">
+수정 취소
+</button>
+
+</div>
+
+</div>
+
+<div class="notice-info">
+공지사항은 서버에 저장되며, 등록일은 자동으로 기록되고 최신순으로 홈페이지에 표시됩니다.
+</div>
+
+</div>
+
+
+<div class="box">
+
+<h2>공지사항 목록</h2>
+
+<div class="notice-table-wrap">
+
+<table class="notice-table">
+
+<thead>
+
+<tr>
+<th>날짜</th>
+<th>제목</th>
+<th>관리</th>
+</tr>
+
+</thead>
+
+<tbody id="noticeTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ==========================================
+     EVENT FILE PAGE
+========================================== -->
+
+<div id="eventFilePage" class="hidden">
+
+<button onclick="closeEventFiles()" class="back">
+← 관리자 메인
+</button>
+
+<div class="box">
+
+<h2>대진표 · 타임테이블 관리</h2>
+
+<div style="color:#888;font-size:13px;line-height:1.8;margin-bottom:20px;">
+대회를 선택한 뒤 대진표와 타임테이블 파일을 올려주세요.<br>
+PDF, JPG, PNG 등의 파일을 올릴 수 있으며 저장 후 홈페이지의 대회일정에서 바로 확인할 수 있습니다.
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:15px;">
+
+<div>
+<label style="display:block;color:#aaa;font-size:12px;margin-bottom:7px;">대회 선택</label>
+<select id="eventFileSelect" onchange="loadEventFileInfo()"></select>
+</div>
+
+<div></div>
+
+<div>
+<label style="display:block;color:#aaa;font-size:12px;margin-bottom:7px;">대진표 파일</label>
+<input type="file" id="bracketFileInput" accept=".pdf,image/*">
+<div id="bracketFileStatus" style="margin-top:8px;color:#777;font-size:12px;">현재 파일 없음</div>
+</div>
+
+<div>
+<label style="display:block;color:#aaa;font-size:12px;margin-bottom:7px;">타임테이블 파일</label>
+<input type="file" id="timetableFileInput" accept=".pdf,image/*">
+<div id="timetableFileStatus" style="margin-top:8px;color:#777;font-size:12px;">현재 파일 없음</div>
+</div>
+
+</div>
+
+<div style="display:flex;gap:10px;margin-top:20px;">
+<button onclick="saveEventFiles()">파일 저장</button>
+<button onclick="removeEventFiles()" class="cancel-button" style="display:block;margin:0;">파일 연결 해제</button>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ==========================================
+     EVENT / PARTICIPANT PAGE
+========================================== -->
+
+<div id="eventPage">
+
+<div class="box">
+
+<h2>참가자 관리 · 대회 선택</h2>
+<div class="mut-overall-money"><div><small>전체 대회 입금 확인 인원</small><strong id="mutAllPaidCount">0명</strong></div><div><small>전체 대회 입금 확인 참가비 합계</small><strong id="mutAllPaidAmount">₩ 0</strong></div></div>
+<p class="mut-muted">대회를 선택하면 참가자 상세 목록과 대회별 입금·매출 통계를 확인할 수 있어.</p>
+<div id="eventList"></div>
+
+</div>
+
+</div>
+
+
+<div id="playerPage" class="hidden">
+
+<button class="back" onclick="backEvents()">
+← 대회 목록
+</button>
+
+<div class="box">
+
+<h2 id="selectedEventTitle"></h2>
+
+<div class="count">
+참가자 :
+<span id="eventCount">0</span>
+명
+</div>
+<div class="mut-revenue-grid" aria-label="선택 대회 참가 및 입금 통계">
+  <div class="mut-revenue-card"><small>전체 신청자</small><strong id="mutRevenueApplicants">0명</strong></div>
+  <div class="mut-revenue-card"><small>입금 확인</small><strong id="mutRevenuePaidCount">0명</strong></div>
+  <div class="mut-revenue-card mut-revenue-featured"><small>입금 확인 금액</small><strong id="mutRevenuePaidAmount">₩ 0</strong></div>
+  <div class="mut-revenue-card"><small>총 신청 참가비</small><strong id="mutRevenueExpected">₩ 0</strong></div>
+</div>
+<p class="mut-muted mut-money-note">입금 확인 금액은 <b>관리자가 입금 완료로 체크한 참가자</b>의 참가비만 합산합니다. 미입금은 포함하지 않습니다.</p>
+
+<div style="margin-bottom:20px;display:flex;justify-content:flex-end;">
+<button onclick="downloadParticipantsExcel()">
+엑셀 다운로드
+</button>
+</div>
+
+<div class="filter-box">
+
+<input id="searchInput" placeholder="이름 / 소속 / 지도자 / 입금자 검색" onkeyup="filterPlayers()">
+
+<select id="genderFilter" onchange="filterPlayers()">
+<option value="">성별 전체</option>
+<option value="남성부">남성부</option>
+<option value="여성부">여성부</option>
+</select>
+
+<select id="ageFilter" onchange="filterPlayers()">
+<option value="">연령 전체</option>
+<option value="초등부 1·2학년">초등부 1·2학년</option>
+<option value="초등부 3·4학년">초등부 3·4학년</option>
+<option value="초등부 5·6학년">초등부 5·6학년</option>
+<option value="중등부">중등부</option>
+<option value="고등부">고등부</option>
+<option value="어덜트">어덜트</option>
+<option value="마스터1">마스터1</option>
+<option value="마스터2">마스터2</option>
+<option value="미선택">미선택</option>
+</select>
+
+<select id="dobokFilter" onchange="filterPlayers()">
+<option value="">도복 전체</option><option value="참가">도복 참가</option><option value="미참가">도복 미참가</option>
+</select>
+
+<select id="nogiFilter" onchange="filterPlayers()">
+<option value="">노기 전체</option><option value="참가">노기 참가</option><option value="미참가">노기 미참가</option>
+</select>
+
+<select id="beltFilter" onchange="filterPlayers()">
+<option value="">벨트 전체</option><option value="WHITE">WHITE</option><option value="BLUE">BLUE</option><option value="PURPLE">PURPLE</option><option value="BROWN">BROWN</option><option value="BLACK">BLACK</option>
+</select>
+
+<select id="strongestFilter" onchange="filterPlayers()">
+<option value="">최강자전 전체</option><option value="참가">최강자전 참가</option><option value="미참가">최강자전 미참가</option>
+</select>
+
+<select id="paymentFilter" onchange="filterPlayers()">
+<option value="">입금 전체</option><option value="완료">입금 완료</option><option value="미완료">미입금</option>
+</select>
+
+</div>
+</div>
+
+<div class="participant-stats">
+
+<div class="participant-stat">
+<small>전체 신청자</small>
+<strong id="participantTotal">0명</strong>
+</div>
+
+<div class="participant-stat">
+<small>성별</small>
+<strong id="participantGenderSummary">0 / 0</strong>
+<div class="participant-stat-detail" id="participantGenderDetail">남성 0명 · 여성 0명</div>
+</div>
+
+<div class="participant-stat">
+<small>입금</small>
+<strong id="participantPaymentSummary">0 / 0</strong>
+<div class="participant-stat-detail" id="participantPaymentDetail">완료 0명 · 미입금 0명</div>
+</div>
+
+<div class="participant-stat">
+<small>앱솔루트</small>
+<strong id="participantAbsoluteSummary">0 / 0</strong>
+<div class="participant-stat-detail" id="participantAbsoluteDetail">신청 0명 · 미신청 0명</div>
+</div>
+
+</div>
+
+<div class="participant-stat-grid">
+<div class="participant-stat-box"><h3>참가 방식</h3><div class="participant-stat-list" id="participantFormatStats"></div></div>
+<div class="participant-stat-box"><h3>연령별</h3><div class="participant-stat-list" id="participantAgeStats"></div></div>
+<div class="participant-stat-box"><h3>벨트별</h3><div class="participant-stat-list" id="participantBeltStats"></div></div>
+<div class="participant-stat-box"><h3>노기 부문별</h3><div class="participant-stat-list" id="participantNogiLevelStats"></div></div>
+<div class="participant-stat-box"><h3>앱솔루트 부문별</h3><div class="participant-stat-list" id="participantAbsoluteDivisionStats"></div></div>
+
+</div>
+
+<div class="table-wrap">
+<table>
+<thead><tr>
+<th>번호</th><th>이름</th><th>성별</th><th>도복</th><th>노기</th><th>연령</th><th>도복 벨트</th><th>노기 부문</th><th>도복 체급</th><th>노기 체급</th><th>소속</th><th>지도자</th><th>입금자</th><th>연락처</th><th>도복 앱솔</th><th>도복 앱솔부문</th><th>노기 앱솔</th><th>노기 앱솔부문</th><th>최강자전</th><th>입금확인</th><th>관리</th>
+</tr></thead>
+<tbody id="playerTable"></tbody>
+</table>
+
+</div>
+
+</div>
+<div id="participantEditModal" class="edit-modal hidden">
+<div class="edit-modal-box">
+<h2>참가자 정보 수정</h2>
+<div class="edit-form">
+<div><label>이름</label><input id="editName"></div><div><label>생년월일</label><input id="editBirth"></div>
+<div><label>연락처</label><input id="editPhone"></div><div><label>소속</label><input id="editGym"></div>
+<div><label>지도자</label><input id="editCoach"></div><div><label>입금자명</label><input id="editDepositorName"></div>
+<div><label>성별</label><select id="editGender"><option value="남성부">남성부</option><option value="여성부">여성부</option></select></div>
+<div><label>도복 참가여부</label><select id="editDobokParticipation"><option value="참가">참가</option><option value="미참가">미참가</option></select></div>
+<div><label>노기 참가여부</label><select id="editNogiParticipation"><option value="참가">참가</option><option value="미참가">미참가</option></select></div>
+<div><label>연령</label><select id="editAgeDivision"><option value="">미선택</option><option value="초등부 1·2학년">초등부 1·2학년</option><option value="초등부 3·4학년">초등부 3·4학년</option><option value="초등부 5·6학년">초등부 5·6학년</option><option value="중등부">중등부</option><option value="고등부">고등부</option><option value="어덜트">어덜트</option><option value="마스터1">마스터1</option><option value="마스터2">마스터2</option></select></div>
+<div><label>도복 벨트</label><select id="editBelt"><option value="">미선택</option><option value="WHITE">WHITE</option><option value="BLUE">BLUE</option><option value="PURPLE">PURPLE</option><option value="BROWN">BROWN</option><option value="BLACK">BLACK</option><option value="화이트/그레이">화이트/그레이</option><option value="옐로우/오렌지/그린">옐로우/오렌지/그린</option><option value="화이트 비기너">화이트 비기너</option></select></div>
+<div><label>노기 부문</label><select id="editNogiLevel"><option value="">미선택</option><option value="학생부(중등부,고등부)">학생부(중등부,고등부)</option><option value="초급">초급</option><option value="중급">중급</option><option value="고급">고급</option></select></div>
+<div><label>도복 체급</label><input id="editDobokWeight"></div><div><label>노기 체급</label><input id="editNogiWeight"></div>
+<div><label>도복 앱솔루트</label><select id="editDobokAbsoluteParticipation"><option value="참가">참가</option><option value="미참가">미참가</option></select></div>
+<div><label>도복 앱솔루트 부문</label><select id="editDobokAbsoluteDivision"><option value="">미선택</option><option value="화이트벨트">화이트벨트</option><option value="블루벨트">블루벨트</option><option value="퍼플벨트">퍼플벨트</option><option value="브라운벨트">브라운벨트</option><option value="블랙벨트">블랙벨트</option></select></div>
+<div><label>노기 앱솔루트</label><select id="editNogiAbsoluteParticipation"><option value="참가">참가</option><option value="미참가">미참가</option></select></div>
+<div><label>노기 앱솔루트 부문</label><select id="editNogiAbsoluteDivision"><option value="">미선택</option><option value="초급">초급</option><option value="중급">중급</option><option value="고급">고급</option></select></div>
+<div><label>최강자전</label><select id="editStrongestParticipation"><option value="참가">참가</option><option value="미참가">미참가</option></select></div>
+<div><label>입금 상태</label><select id="editPayment"><option value="완료">완료</option><option value="미완료">미완료</option></select></div>
+<div class="full"><label>참가비</label><input id="editTotalPrice" type="number" min="0"></div>
+<div class="form-buttons"><button onclick="saveParticipantEdit()">수정 저장</button><button class="cancel-button" onclick="closeParticipantEdit()">취소</button></div>
+</div></div>
+</div>
+
+<!-- PHOTO: manage Google Drive link on the existing event record -->
+<section id="mutPhotoManagerPage" class="hidden" aria-label="PHOTO 관리">
+  <div class="box mut-manager-card">
+    <h2>PHOTO · 대회별 사진 링크 관리</h2>
+    <p class="mut-muted">대회를 등록하면 자동으로 PHOTO 목록에 나타납니다. 사진 폴더 주소만 저장하면 홈페이지와 PHOTO 전체보기 버튼이 활성화됩니다.</p>
+    <div class="mut-photo-fields">
+      <label>대회 선택<select id="mutPhotoEventSelect" onchange="mutPhotoSelectChange()"></select></label>
+      <label>구글 드라이브 사진 폴더 링크<input id="mutPhotoEditUrl" type="url" placeholder="https://drive.google.com/drive/folders/..." autocomplete="off"></label>
+    </div>
+    <p class="mut-muted">사진이 없으면 링크 칸을 비우고 저장해. 공개 링크는 구글 드라이브에서 ‘링크가 있는 모든 사용자’로 설정해야 방문자가 볼 수 있어.</p>
+    <div class="mut-form-actions"><button type="button" class="mut-red-btn" id="mutPhotoSaveBtn" onclick="mutSavePhotoLink()">PHOTO 링크 저장</button><button type="button" class="mut-quiet-btn" onclick="mutPhotoClearLink()">링크 비우기</button></div>
+    <p class="mut-status" id="mutPhotoStatus"></p>
+  </div>
+  <div class="box mut-manager-card"><h2>대회별 PHOTO 상태</h2><div id="mutPhotoManagerList" class="mut-photo-manager-list"></div></div>
+</section>
+
+<!-- SPONSOR: upload compact image into protected DB storage -->
+<section id="mutSponsorManagerPage" class="hidden" aria-label="스폰서 관리">
+  <div class="box mut-manager-card">
+    <h2 id="mutSponsorFormTitle">공식 스폰서 추가</h2>
+    <p class="mut-muted">PC에서는 3개, 모바일에서는 2개씩 정사각형으로 표시돼. 마지막 줄의 로고도 자동으로 가운데 정렬돼.</p>
+    <div class="mut-sponsor-form">
+      <label>스폰서 이름<input id="mutSponsorName" maxlength="120" placeholder="스폰서 이름 (관리용)"></label>
+      <label>정렬 순서<input id="mutSponsorOrder" type="number" min="0" max="100000" value="0"></label>
+      <label class="mut-full">로고 이미지 업로드<input id="mutSponsorFile" type="file" accept="image/png,image/jpeg,image/webp" onchange="mutPreviewSponsorFile()"><small>JPG·PNG·WebP. 업로드 시 화면 표시용 크기로 자동 최적화해 저장해.</small></label>
+      <label class="mut-full">또는 로고 이미지 HTTPS 주소<input id="mutSponsorUrl" type="url" placeholder="https://.../logo.png" autocomplete="off"><small>이미지 파일을 올렸다면 주소 입력은 필요하지 않아.</small></label>
+      <div class="mut-full mut-sponsor-preview" id="mutSponsorPreview">이미지 미리보기</div>
+    </div>
+    <div class="mut-form-actions"><button type="button" class="mut-red-btn" id="mutSponsorSaveBtn" onclick="mutSaveSponsor()">스폰서 저장</button><button type="button" class="mut-quiet-btn" onclick="mutResetSponsorForm()">취소 / 초기화</button></div>
+    <p class="mut-status" id="mutSponsorStatus"></p>
+  </div>
+  <div class="box mut-manager-card"><h2>등록된 스폰서</h2><div id="mutSponsorList" class="mut-sponsor-list"></div></div>
+</section>
+</div><!-- /.mut-admin-main -->
+</div><!-- /.mut-admin-shell -->
+<script>
+
+/* ==================================================
+   전역 변수
+================================================== */
+
+let registrations=[];
+let selectedEvent=null;
+
+let editingRankingId=null;
+let editingNoticeId=null;
+let editingEventId=null;
+
+
+/* ==================================================
+   공통
+================================================== */
+
+function escapeHTML(value){
+
+if(value===undefined || value===null){
+return "";
+}
+
+return String(value)
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+function escapeJS(value){
+
+return String(value || "")
+.replace(/\\/g,"\\\\")
+.replace(/'/g,"\\'")
+.replace(/"/g,'\\"');
+
+}
+
+
+/* ==================================================
+   앱솔루트 참가 여부 통합 처리
+
+   registration.html의 기존 데이터는 "참가"로 저장되고,
+   일부 데이터/관리 화면은 "신청"을 사용합니다.
+   두 값을 모두 "신청"으로 통일해서 화면/필터에서 처리합니다.
+================================================== */
+
+function getAbsoluteParticipation(player){
+
+const value=
+player.absoluteParticipation ||
+player.absolute ||
+"미신청";
+
+return (
+value==="참가" ||
+value==="신청"
+)
+? "신청"
+: "미신청";
+
+}
+
+
+/* ==================================================
+   참가자 연령 / 벨트 통합 처리
+
+   현재 registration.html은 ageDivision / belt를 사용하고,
+   이전 데이터에는 age / ageGroup / beltColor 등의 이름이
+   사용됐을 수 있으므로 모든 형식을 관리자에서 표시합니다.
+================================================== */
+
+function getParticipantAge(player){
+ const value=player.ageDivision ?? player.age ?? player.ageGroup ?? player.ageCategory ?? player.ageClass ?? player.divisionAge ?? "";
+ const age=String(value).trim();
+ if(!age)return "미선택";
+ const aliases={"초등부(1,2학년)":"초등부 1·2학년","초등부(3,4학년)":"초등부 3·4학년","초등부(5,6학년)":"초등부 5·6학년"};
+ return aliases[age]||age;
+}
+function getDobokParticipation(player){return player.dobokParticipation || (player.dobokWeight || player.belt ? "참가":"미참가");}
+function getNogiParticipation(player){return player.nogiParticipation || (player.nogiWeight || player.nogiLevel ? "참가":"미참가");}
+function getStrongestParticipation(player){const v=player.strongestParticipation||player.strongest||"미참가";return v==="참가"||v==="신청"?"참가":"미참가";}
+function getDobokAbsoluteParticipation(player){const v=player.dobokAbsoluteParticipation;if(v)return v==="참가"||v==="신청"?"참가":"미참가";return getAbsoluteParticipation(player)==="신청"?"참가":"미참가";}
+function getNogiAbsoluteParticipation(player){const v=player.nogiAbsoluteParticipation||"미참가";return v==="참가"||v==="신청"?"참가":"미참가";}
+function getParticipantBeltValue(player){return player.belt ?? player.beltColor ?? player.beltDivision ?? player.beltGrade ?? player.rank ?? "";}
+function getBeltStatisticsGroup(player){const b=String(getParticipantBeltValue(player)).trim().toLowerCase();if(!b)return "기타";if(b.includes("white")||b.includes("화이트")||b.includes("yellow")||b.includes("옐로우"))return "WHITE";if(b.includes("blue")||b.includes("블루"))return "BLUE";if(b.includes("purple")||b.includes("퍼플"))return "PURPLE";if(b.includes("brown")||b.includes("브라운"))return "BROWN";if(b.includes("black")||b.includes("블랙"))return "BLACK";return "기타";}
+function getParticipantBelt(player){const b=String(getParticipantBeltValue(player)).trim();if(!b)return "미선택";const n=b.toLowerCase();if(n.includes("white")||n.includes("화이트"))return "WHITE";if(n.includes("blue")||n.includes("블루"))return "BLUE";if(n.includes("purple")||n.includes("퍼플"))return "PURPLE";if(n.includes("brown")||n.includes("브라운"))return "BROWN";if(n.includes("black")||n.includes("블랙"))return "BLACK";return b;}
+
+/* ==================================================
+   화면 전환
+================================================== */
+
+function hideAllPages(){
+
+const pages=[
+"rankingPage",
+"noticePage",
+"eventPage",
+"playerPage",
+"eventFilePage",
+"eventManagerPage",
+"mutPhotoManagerPage",
+"mutSponsorManagerPage"
+];
+
+pages.forEach(function(id){
+
+const page=document.getElementById(id);
+
+if(page){
+page.classList.add("hidden");
+}
+
+});
+
+}
+
+
+/* ==================================================
+   MUT EVENTS 읽기
+   일정 관리는 schedule.html에서 담당합니다.
+================================================== */
+
+/* ==================================================
+   관리자 대회 목록 불러오기
+================================================== */
+
+function loadMUTEventsAdmin(){
+
+  const saved = localStorage.getItem("MUT_EVENTS");
+
+  if(!saved){
+    return [];
+  }
+
+  try{
+
+    const events = JSON.parse(saved);
+
+    return Array.isArray(events) ? events : [];
+
+  }catch(error){
+
+    console.error(error);
+    return [];
+
+  }
+
+}
+
+
+/* ==================================================
+   서버 DB 참가자 목록 불러오기
+================================================== */
+
+async function loadRegistrations(){
+
+  const token = sessionStorage.getItem("MUT_ADMIN_TOKEN");
+
+  if(!token){
+    registrations = [];
+    return;
+  }
+
+  const events = loadMUTEventsAdmin();
+
+  if(!events.length){
+    registrations = [];
+    return;
+  }
+
+  try{
+
+    const results = await Promise.all(
+
+      events.map(async function(event){
+
+        const eventId = event.id || event.eventId || event.eventID;
+
+        if(!eventId) return [];
+
+        const response = await fetch(
+          "/api/admin/participants?event_id=" + encodeURIComponent(eventId),
+          {
+            method: "GET",
+            headers: {
+              "Authorization": "Bearer " + token
+            }
+          }
+        );
+
+        if(!response.ok){
+          throw new Error("참가자 조회 실패: " + response.status);
+        }
+
+        const result = await response.json();
+
+        if(!result.ok || !Array.isArray(result.participants)){
+          return [];
+        }
+
+        return result.participants.map(function(p){
+
+          return {
+            ...p,
+
+            id: p.id,
+            eventId: p.event_id,
+
+            name: p.name || "",
+            gym: p.affiliation || "",
+            birth: p.birth_date || "",
+            phone: p.phone || "",
+            coach: p.coach || "",
+
+            depositorName: p.depositor_name || "",
+            gender: p.gender || "",
+
+            belt: p.belt || "",
+            weight: p.weight_class || "",
+
+            dobokParticipation: p.dobok_participation || "",
+            nogiParticipation: p.nogi_participation || "",
+
+            ageDivision: p.age_division || p.age || "",
+            nogiLevel: p.nogi_level || "",
+
+            dobokWeight: p.dobok_weight || "",
+            nogiWeight: p.nogi_weight || "",
+
+            dobokAbsoluteParticipation: p.dobok_absolute_participation || "",
+            dobokAbsoluteDivision: p.dobok_absolute_division || "",
+
+            nogiAbsoluteParticipation: p.nogi_absolute_participation || "",
+            nogiAbsoluteDivision: p.nogi_absolute_division || "",
+
+            strongestParticipation: p.strongest_participation || "",
+
+            totalPrice: Number(p.total_price || 0),
+
+            payment: p.payment_status === "confirmed"
+              ? "완료"
+              : "미완료"
+
+          };
+
+        });
+
+      })
+
+    );
+
+    registrations = results.flat();
+    mutUpdateRevenuePanels();
+
+    console.log("DB 참가자 불러오기 완료:", registrations.length);
+
+  }catch(error){
+
+    console.error("참가자 DB 조회 오류:", error);
+
+    alert("참가자 목록을 서버에서 불러오지 못했습니다. 로그인 상태와 서버 연결을 확인해주세요.");
+
+  }
+
+}
+/* ==================================================
+   대회별 홈페이지 참가자 현황 공개 설정
+================================================== */
+
+function getParticipantVisibilityMap(){
+  const saved=localStorage.getItem("MUT_PARTICIPANTS_VISIBLE_BY_EVENT");
+  if(saved){
+    try{
+      const parsed=JSON.parse(saved);
+      if(parsed && typeof parsed === "object"){
+        return parsed;
+      }
+    }catch(error){}
+  }
+
+  const map={};
+  const legacy=localStorage.getItem("MUT_PARTICIPANTS_VISIBLE")==="true";
+  const events=loadMUTEventsAdmin();
+
+  if(legacy){
+    events.forEach(function(event,index){
+      const id=String(event.id || event.eventId || event.eventID || "event-"+(index+1));
+      map[id]=true;
+    });
+    localStorage.setItem("MUT_PARTICIPANTS_VISIBLE_BY_EVENT",JSON.stringify(map));
+  }
+
+  return map;
+}
+
+function isParticipantEventPublic(eventId){
+  const map=getParticipantVisibilityMap();
+  return map[String(eventId)] === true;
+}
+
+async function updateParticipantEventVisibility(eventId){
+  try {
+    const next = await toggleParticipantVisibilityOnServer(eventId);
+    loadEvents();
+    renderEventManagerList();
+    alert(next
+      ? "서버 DB에 참가자 현황 공개 설정을 저장했습니다."
+      : "서버 DB에서 참가자 현황을 비공개로 전환했습니다.");
+  } catch (error) {
+    console.error("참가자 공개 설정 저장 오류:", error);
+    alert(error.message || "참가자 공개 설정을 저장하지 못했습니다.");
+  }
+}
+
+// 관리자 브라우저의 localStorage가 아닌 Cloudflare DB에 공개 설정을 저장합니다.
+async function toggleParticipantVisibilityOnServer(localEventId){
+  const token = sessionStorage.getItem("MUT_ADMIN_TOKEN");
+  if(!token) throw new Error("관리자 로그인이 만료되었습니다. 다시 로그인해 주세요.");
+
+  const localEvents = loadMUTEventsAdmin();
+  const localEvent = localEvents.find(item =>
+    String(item.id || item.eventId || item.eventID) === String(localEventId)
+  );
+
+  const listResponse = await fetch("/api/admin/events", {
+    method: "GET",
+    cache: "no-store",
+    headers: {
+      "Accept": "application/json",
+      "Authorization": "Bearer " + token
+    }
+  });
+  if(!listResponse.ok) throw new Error("서버 대회 목록을 불러오지 못했습니다. (" + listResponse.status + ")");
+
+  const listResult = await listResponse.json();
+  const dbEvents = Array.isArray(listResult.events) ? listResult.events : [];
+  let dbEvent = dbEvents.find(item => String(item.id) === String(localEventId));
+
+  // 예전 브라우저 저장 대회 ID가 서버 ID와 다르면 대회명·날짜·장소로 확인합니다.
+  if(!dbEvent && localEvent){
+    dbEvent = dbEvents.find(item =>
+      String(item.name || "").trim() === String(localEvent.name || "").trim() &&
+      String(item.event_date || "") === String(localEvent.date || "") &&
+      String(item.venue || "").trim() === String(localEvent.place || "").trim()
+    );
+  }
+
+  if(!dbEvent) {
+    throw new Error("이 대회는 서버 DB에 등록되어 있지 않습니다. 서버에 등록된 대회에서만 참가자 현황을 공개할 수 있습니다.");
+  }
+
+  const next = !(Number(dbEvent.participants_public) === 1 || dbEvent.participants_public === true);
+  const payload = {
+    name: dbEvent.name || "MUT CHAMPIONSHIP",
+    event_date: dbEvent.event_date || "",
+    venue: dbEvent.venue || "",
+    event_time: dbEvent.event_time || "",
+    description: dbEvent.description || "",
+    registration_open: dbEvent.registration_open === true || Number(dbEvent.registration_open) === 1,
+    participants_public: next,
+    early_bird_start: dbEvent.early_bird_start || "",
+    early_bird_end: dbEvent.early_bird_end || "",
+    registration_start: dbEvent.registration_start || "",
+    registration_end: dbEvent.registration_end || "",
+    poster_url: dbEvent.poster_url || ""
+  };
+
+  const updateResponse = await fetch("/api/admin/events/" + encodeURIComponent(dbEvent.id), {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "Authorization": "Bearer " + token
+    },
+    body: JSON.stringify(payload)
+  });
+
+  const updateResult = await updateResponse.json();
+  if(!updateResponse.ok || !updateResult.ok){
+    throw new Error(updateResult.error || "서버 DB 공개 설정 저장에 실패했습니다.");
+  }
+
+  const map = getParticipantVisibilityMap();
+  map[String(dbEvent.id)] = next;
+  map[String(localEventId)] = next;
+  localStorage.setItem("MUT_PARTICIPANTS_VISIBLE_BY_EVENT", JSON.stringify(map));
+
+  // 현재 탭의 일정 정보도 서버 응답 기준으로 다시 불러오도록 표시값을 갱신합니다.
+  const updatedEvents = localEvents.map(item => {
+    if(String(item.id || item.eventId || item.eventID) === String(localEventId) ||
+       String(item.id || item.eventId || item.eventID) === String(dbEvent.id)){
+      return { ...item, id: dbEvent.id, participants_public: next ? 1 : 0 };
+    }
+    return item;
+  });
+  if(updatedEvents.length) saveMUTEventsFromAdmin(updatedEvents);
+
+  return next;
+}
+
+function loadEvents(){
+
+const eventBox=document.getElementById("eventList");
+
+if(!eventBox){
+return;
+}
+
+eventBox.innerHTML="";
+
+const events=loadMUTEventsAdmin();
+
+if(events.length===0){
+
+eventBox.innerHTML=`
+<p style="color:#777">
+등록된 대회일정이 없습니다.<br>
+schedule.html에서 대회일정을 먼저 등록해주세요.
+</p>
+`;
+return;
+}
+
+// 날짜순으로 표시
+events.sort(function(a,b){
+return String(a.date || "").localeCompare(String(b.date || ""));
+});
+
+const registrationCounts={};
+
+registrations.forEach(function(player){
+
+const id=String(player.eventId || "");
+
+if(!id){
+return;
+}
+
+registrationCounts[id]=(registrationCounts[id] || 0)+1;
+
+});
+
+events.forEach(function(event){
+
+const eventId=event.id;
+const count=registrationCounts[String(eventId)] || 0;
+
+const div=document.createElement("div");
+div.className="event-card";
+
+const status=event.registrationOpen===false
+? "접수 CLOSED"
+: "접수 OPEN";
+
+const eventIdForVisibility=String(event.id || event.eventId || event.eventID || "event-" + (events.indexOf(event)+1));
+const publicNow=isParticipantEventPublic(eventIdForVisibility);
+
+div.innerHTML=`
+<strong>${escapeHTML(event.name || "MUT CHAMPIONSHIP")}</strong>
+<span>${escapeHTML(event.date || "")} · 참가자 ${count}명 · ${status}</span>
+<button type="button" class="event-visibility-button" style="margin-top:12px;width:100%;background:${publicNow ? '#fff' : '#333'};color:${publicNow ? '#000' : '#fff'};">${publicNow ? '참가자 현황 비공개' : '참가자 현황 공개'}</button>
+`;
+
+const visibilityButton=div.querySelector('.event-visibility-button');
+if(visibilityButton){
+  visibilityButton.addEventListener('click',function(e){
+    e.stopPropagation();
+    updateParticipantEventVisibility(eventIdForVisibility);
+  });
+}
+
+div.onclick=function(){
+openEvent(eventId,event.name || "MUT CHAMPIONSHIP");
+};
+
+eventBox.appendChild(div);
+
+});
+
+}
+
+
+/* ==================================================
+   참가자 대회 열기
+================================================== */
+
+function openEvent(id,name){
+
+selectedEvent=id;
+
+hideAllPages();
+
+document
+.getElementById("playerPage")
+.classList.remove("hidden");
+
+
+document
+.getElementById("selectedEventTitle")
+.textContent=name;
+
+
+resetFilter();
+
+filterPlayers();
+
+}
+
+
+/* ==================================================
+   대회 목록으로
+================================================== */
+
+function backEvents(){
+
+hideAllPages();
+
+document
+.getElementById("eventPage")
+.classList.remove("hidden");
+
+loadEvents();
+
+}
+
+
+/* ==================================================
+   참가자 필터 초기화
+================================================== */
+
+function resetFilter(){
+
+document.getElementById("searchInput").value="";
+document.getElementById("genderFilter").value="";
+document.getElementById("ageFilter").value="";
+document.getElementById("beltFilter").value="";
+document.getElementById("paymentFilter").value="";
+
+
+}
+
+
+/* ==================================================
+   참가자 엑셀 다운로드
+   현재 선택된 대회의 현재 필터 결과를 엑셀 파일로 저장합니다.
+================================================== */
+
+function downloadParticipantsExcel(){
+ if(!selectedEvent){alert("대회를 먼저 선택해주세요.");return;}
+ const search=(document.getElementById("searchInput")?.value||"").trim().toLowerCase(),gender=document.getElementById("genderFilter")?.value||"",age=document.getElementById("ageFilter")?.value||"",dobok=document.getElementById("dobokFilter")?.value||"",nogi=document.getElementById("nogiFilter")?.value||"",belt=document.getElementById("beltFilter")?.value||"",strongest=document.getElementById("strongestFilter")?.value||"",payment=document.getElementById("paymentFilter")?.value||"";
+ let players=registrations.filter(p=>String(p.eventId)===String(selectedEvent)).filter(p=>{const text=((p.name||"")+(p.gym||"")+(p.coach||"")+(p.depositorName||p.depositor||"")).toLowerCase();if(search&&!text.includes(search))return false;if(gender&&p.gender!==gender)return false;if(age&&getParticipantAge(p)!==age)return false;if(dobok&&getDobokParticipation(p)!==dobok)return false;if(nogi&&getNogiParticipation(p)!==nogi)return false;if(belt&&getParticipantBelt(p)!==belt)return false;if(strongest&&getStrongestParticipation(p)!==strongest)return false;if(payment&&(p.payment||"미완료")!==payment)return false;return true;});
+ const eventName=document.getElementById("selectedEventTitle")?.textContent||"MUT CHAMPIONSHIP";let html=`<html><head><meta charset="UTF-8"><style>table{border-collapse:collapse}th,td{border:1px solid #000;padding:7px;text-align:center}th{background:#ddd}</style></head><body><h2>${escapeHTML(eventName)}</h2><p>총 참가자 : ${players.length}명</p><table><tr><th>번호</th><th>이름</th><th>성별</th><th>도복</th><th>노기</th><th>연령</th><th>도복벨트</th><th>노기부문</th><th>도복체급</th><th>노기체급</th><th>소속</th><th>지도자</th><th>입금자</th><th>연락처</th><th>도복앱솔</th><th>도복앱솔부문</th><th>노기앱솔</th><th>노기앱솔부문</th><th>최강자전</th><th>입금확인</th><th>참가비</th></tr>`;
+ players.forEach((p,i)=>{const dw=p.dobokWeight||(getDobokParticipation(p)==="참가"?p.weight||"-":"-");html+=`<tr><td>${i+1}</td><td>${escapeHTML(p.name||"-")}</td><td>${escapeHTML(p.gender||"-")}</td><td>${getDobokParticipation(p)}</td><td>${getNogiParticipation(p)}</td><td>${escapeHTML(getParticipantAge(p))}</td><td>${escapeHTML(getParticipantBelt(p))}</td><td>${escapeHTML(p.nogiLevel||"-")}</td><td>${escapeHTML(dw)}</td><td>${escapeHTML(p.nogiWeight||"-")}</td><td>${escapeHTML(p.gym||"-")}</td><td>${escapeHTML(p.coach||"-")}</td><td>${escapeHTML(p.depositorName||p.depositor||"-")}</td><td>${escapeHTML(p.phone||"-")}</td><td>${getDobokAbsoluteParticipation(p)}</td><td>${escapeHTML(p.dobokAbsoluteDivision||"-")}</td><td>${getNogiAbsoluteParticipation(p)}</td><td>${escapeHTML(p.nogiAbsoluteDivision||"-")}</td><td>${getStrongestParticipation(p)}</td><td>${escapeHTML(p.payment||"미완료")}</td><td>${Number(p.totalPrice||0).toLocaleString()}원</td></tr>`;});
+ html+=`</table></body></html>`;const blob=new Blob(["\ufeff",html],{type:"application/vnd.ms-excel;charset=utf-8"}),url=URL.createObjectURL(blob),link=document.createElement("a"),safeName=eventName.replace(/[\\/:*?"<>|]/g,"_").trim()||"MUT_참가자명단";link.href=url;link.download=safeName+"_참가자명단.xls";link.click();URL.revokeObjectURL(url);
+}
+function updateParticipantStats(){
+ const ps=registrations.filter(p=>String(p.eventId)===String(selectedEvent)),total=ps.length,male=ps.filter(p=>p.gender==="남성부").length,female=ps.filter(p=>p.gender==="여성부").length,paid=ps.filter(p=>(p.payment||"미완료")==="완료").length,unpaid=total-paid,abs=ps.filter(p=>getDobokAbsoluteParticipation(p)==="참가"||getNogiAbsoluteParticipation(p)==="참가").length;
+ const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v};set("participantTotal",total+"명");set("participantGenderSummary",male+" / "+female);set("participantGenderDetail","남성 "+male+"명 · 여성 "+female+"명");set("participantPaymentSummary",paid+" / "+unpaid);set("participantPaymentDetail","완료 "+paid+"명 · 미입금 "+unpaid+"명");set("participantAbsoluteSummary",abs+" / "+(total-abs));set("participantAbsoluteDetail","신청 "+abs+"명 · 미신청 "+(total-abs)+"명");
+ const fc={"도복 참가":0,"노기 참가":0,"도복+노기 참가":0};ps.forEach(p=>{const d=getDobokParticipation(p)==="참가",n=getNogiParticipation(p)==="참가";if(d&&n)fc["도복+노기 참가"]++;else if(d)fc["도복 참가"]++;else if(n)fc["노기 참가"]++;});const f=document.getElementById("participantFormatStats");if(f)f.innerHTML=Object.entries(fc).map(([k,v])=>`<div><span>${k}</span><strong>${v}명</strong></div>`).join("");
+ const ages=["초등부 1·2학년","초등부 3·4학년","초등부 5·6학년","중등부","고등부","어덜트","마스터1","마스터2"],ac={};ages.forEach(a=>ac[a]=0);ac["미선택"]=0;ps.forEach(p=>{const a=getParticipantAge(p);ac[a]=(ac[a]||0)+1;});const ae=document.getElementById("participantAgeStats");if(ae){let h=ages.map(a=>`<div><span>${a}</span><strong>${ac[a]}명</strong></div>`).join("");if(ac["미선택"])h+=`<div><span>미선택 (노기 단독)</span><strong>${ac["미선택"]}명</strong></div>`;ae.innerHTML=h;}
+ const belts=["WHITE","BLUE","PURPLE","BROWN","BLACK"],bc={};belts.forEach(b=>bc[b]=0);ps.forEach(p=>{const b=getBeltStatisticsGroup(p);bc[b]=(bc[b]||0)+1;});const be=document.getElementById("participantBeltStats");if(be){let h=belts.map(b=>`<div><span>${b}</span><strong>${bc[b]}명</strong></div>`).join("");if(bc["기타"])h+=`<div><span>기타/미선택</span><strong>${bc["기타"]}명</strong></div>`;be.innerHTML=h;}
+ const nc={};ps.forEach(p=>{if(getNogiParticipation(p)!=="참가")return;const v=p.nogiLevel||"미선택";nc[v]=(nc[v]||0)+1;});const ne=document.getElementById("participantNogiLevelStats");if(ne){const keys=["학생부(중등부,고등부)","초급","중급","고급","미선택"].filter(k=>nc[k]);ne.innerHTML=keys.length?keys.map(k=>`<div><span>${k}</span><strong>${nc[k]}명</strong></div>`).join(""):"<div><span>신청자 없음</span><strong>0명</strong></div>";}
+ const dc={};ps.forEach(p=>{if(getDobokAbsoluteParticipation(p)==="참가"){const d=p.dobokAbsoluteDivision||"미지정";dc["도복 · "+d]=(dc["도복 · "+d]||0)+1;}if(getNogiAbsoluteParticipation(p)==="참가"){const d=p.nogiAbsoluteDivision||"미지정";dc["노기 · "+d]=(dc["노기 · "+d]||0)+1;}});const de=document.getElementById("participantAbsoluteDivisionStats");if(de){const keys=Object.keys(dc);de.innerHTML=keys.length?keys.map(k=>`<div><span>${escapeHTML(k)}</span><strong>${dc[k]}명</strong></div>`).join(""):"<div><span>신청자 없음</span><strong>0명</strong></div>";}
+}
+
+/* ==================================================
+   참가자 필터
+================================================== */
+
+function filterPlayers(){
+ const table=document.getElementById("playerTable");if(!table)return;updateParticipantStats();mutUpdateRevenuePanels();table.innerHTML="";
+ const search=(document.getElementById("searchInput")?.value||"").trim().toLowerCase(),gender=document.getElementById("genderFilter")?.value||"",age=document.getElementById("ageFilter")?.value||"",dobok=document.getElementById("dobokFilter")?.value||"",nogi=document.getElementById("nogiFilter")?.value||"",belt=document.getElementById("beltFilter")?.value||"",strongest=document.getElementById("strongestFilter")?.value||"",payment=document.getElementById("paymentFilter")?.value||"";
+ let players=registrations.filter(p=>String(p.eventId)===String(selectedEvent)).filter(p=>{const text=((p.name||"")+(p.gym||"")+(p.coach||"")+(p.depositorName||p.depositor||"")).toLowerCase();if(search&&!text.includes(search))return false;if(gender&&p.gender!==gender)return false;if(age&&getParticipantAge(p)!==age)return false;if(dobok&&getDobokParticipation(p)!==dobok)return false;if(nogi&&getNogiParticipation(p)!==nogi)return false;if(belt&&getParticipantBelt(p)!==belt)return false;if(strongest&&getStrongestParticipation(p)!==strongest)return false;if(payment&&(p.payment||"미완료")!==payment)return false;return true;});
+ const ce=document.getElementById("eventCount");if(ce)ce.textContent=players.length;
+ players.forEach((p,i)=>{const tr=document.createElement("tr"),dw=p.dobokWeight||(getDobokParticipation(p)==="참가"?p.weight||"-":"-"),da=getDobokAbsoluteParticipation(p),na=getNogiAbsoluteParticipation(p);tr.innerHTML=`<td>${i+1}</td><td>${escapeHTML(p.name||"-")}</td><td>${escapeHTML(p.gender||"-")}</td><td>${getDobokParticipation(p)}</td><td>${getNogiParticipation(p)}</td><td>${escapeHTML(getParticipantAge(p))}</td><td>${escapeHTML(getParticipantBelt(p))}</td><td>${escapeHTML(p.nogiLevel||"-")}</td><td>${escapeHTML(dw)}</td><td>${escapeHTML(p.nogiWeight||"-")}</td><td>${escapeHTML(p.gym||"-")}</td><td>${escapeHTML(p.coach||"-")}</td><td>${escapeHTML(p.depositorName||p.depositor||"-")}</td><td>${escapeHTML(p.phone||"-")}</td><td>${da}</td><td>${escapeHTML(p.dobokAbsoluteDivision||"-")}</td><td>${na}</td><td>${escapeHTML(p.nogiAbsoluteDivision||"-")}</td><td>${getStrongestParticipation(p)}</td><td><input type="checkbox" ${p.payment==="완료"?"checked":""} onclick="togglePayment('${escapeJS(p.id)}')"></td><td><div class="player-actions"><button class="player-action-button player-edit-button" onclick="editParticipant('${escapeJS(p.id)}')">수정</button><button class="player-action-button player-delete-button" onclick="deleteParticipant('${escapeJS(p.id)}')">삭제</button></div></td>`;table.appendChild(tr);});
+}
+
+/* ==================================================
+   입금 확인
+================================================== */
+
+/* ==================================================
+   입금 확인 - 서버 DB 저장
+================================================== */
+
+async function togglePayment(id){
+
+  const token = sessionStorage.getItem("MUT_ADMIN_TOKEN");
+
+  if(!token){
+    alert("관리자 로그인이 필요합니다.");
+    return;
+  }
+
+  const player = registrations.find(function(p){
+    return String(p.id) === String(id);
+  });
+
+  if(!player) return;
+
+  const nextPayment =
+    player.payment === "완료"
+      ? "pending"
+      : "confirmed";
+
+  try{
+
+    const response = await fetch(
+      "/api/admin/participants/" + encodeURIComponent(id),
+      {
+        method:"PUT",
+        headers:{
+          "Content-Type":"application/json",
+          "Authorization":"Bearer " + token
+        },
+        body:JSON.stringify({
+          name:player.name || "",
+          affiliation:player.gym || "",
+          birth_date:player.birth || "",
+          gender:player.gender || "",
+          belt:player.belt || "",
+          weight_class:player.weight || "",
+          coach:player.coach || "",
+          phone:player.phone || "",
+          depositor_name:player.depositorName || "",
+          dobok_participation:player.dobokParticipation || "",
+          nogi_participation:player.nogiParticipation || "",
+          age_division:player.ageDivision || "",
+          nogi_level:player.nogiLevel || "",
+          dobok_weight:player.dobokWeight || "",
+          nogi_weight:player.nogiWeight || "",
+          dobok_absolute_participation:player.dobokAbsoluteParticipation || "",
+          dobok_absolute_division:player.dobokAbsoluteDivision || "",
+          nogi_absolute_participation:player.nogiAbsoluteParticipation || "",
+          nogi_absolute_division:player.nogiAbsoluteDivision || "",
+          strongest_participation:player.strongestParticipation || "",
+          total_price:Number(player.totalPrice || 0),
+          payment_status:nextPayment
+        })
+      }
+    );
+
+    const result = await response.json();
+
+    if(!response.ok || !result.ok){
+      throw new Error(result.error || "입금 상태 변경 실패");
+    }
+
+    await loadRegistrations();
+    filterPlayers();
+
+    loadEvents();
+
+  }catch(error){
+
+    console.error(error);
+    alert("입금 상태를 저장하지 못했습니다.");
+
+    await loadRegistrations();
+    filterPlayers();
+
+  }
+
+}
+
+
+/* ==================================================
+   참가자 수정 / 삭제
+================================================== */
+
+let editingParticipantId=null;
+
+function editParticipant(id){
+ const p=registrations.find(x=>String(x.id)===String(id));if(!p){alert("참가자 정보를 찾을 수 없습니다.");return;}editingParticipantId=id;const set=(id,v)=>{const e=document.getElementById(id);if(e)e.value=v??""};
+ set("editName",p.name);set("editBirth",p.birth);set("editPhone",p.phone);set("editGym",p.gym);set("editCoach",p.coach);set("editDepositorName",p.depositorName||p.depositor);set("editGender",p.gender||"남성부");set("editDobokParticipation",getDobokParticipation(p));set("editNogiParticipation",getNogiParticipation(p));set("editAgeDivision",getParticipantAge(p)==="미선택"?"":getParticipantAge(p));set("editBelt",getParticipantBeltValue(p));set("editNogiLevel",p.nogiLevel||"");set("editDobokWeight",p.dobokWeight||(getDobokParticipation(p)==="참가"?p.weight||"":""));set("editNogiWeight",p.nogiWeight||"");set("editDobokAbsoluteParticipation",getDobokAbsoluteParticipation(p));set("editDobokAbsoluteDivision",p.dobokAbsoluteDivision||"");set("editNogiAbsoluteParticipation",getNogiAbsoluteParticipation(p));set("editNogiAbsoluteDivision",p.nogiAbsoluteDivision||"");set("editStrongestParticipation",getStrongestParticipation(p));set("editPayment",p.payment||"미완료");set("editTotalPrice",p.totalPrice||0);document.getElementById("participantEditModal").classList.remove("hidden");
+}
+function closeParticipantEdit(){editingParticipantId=null;document.getElementById("participantEditModal").classList.add("hidden");}
+
+/* ==================================================
+   참가자 수정 - 서버 DB 저장
+================================================== */
+
+async function saveParticipantEdit(){
+
+  if(editingParticipantId === null) return;
+
+  const token = sessionStorage.getItem("MUT_ADMIN_TOKEN");
+
+  if(!token){
+    alert("관리자 로그인이 필요합니다.");
+    return;
+  }
+
+  const v = id =>
+    document.getElementById(id)?.value?.trim() || "";
+
+  const player = registrations.find(function(p){
+    return String(p.id) === String(editingParticipantId);
+  });
+
+  if(!player){
+    alert("참가자 정보를 찾을 수 없습니다.");
+    return;
+  }
+
+  if(!v("editName") || !v("editGym")){
+    alert("이름과 소속을 입력해주세요.");
+    return;
+  }
+
+  const dobokParticipation = v("editDobokParticipation");
+  const nogiParticipation = v("editNogiParticipation");
+
+  const dobokAbsoluteParticipation = v("editDobokAbsoluteParticipation");
+  const nogiAbsoluteParticipation = v("editNogiAbsoluteParticipation");
+
+  const totalPrice = Number(v("editTotalPrice"));
+
+  if(!Number.isSafeInteger(totalPrice) || totalPrice < 0){
+    alert("참가비는 0 이상의 숫자로 입력해주세요.");
+    return;
+  }
+
+  const data = {
+    name: v("editName"),
+    birth_date: v("editBirth"),
+    phone: v("editPhone"),
+    affiliation: v("editGym"),
+    coach: v("editCoach"),
+    depositor_name: v("editDepositorName"),
+    gender: v("editGender"),
+    dobok_participation: dobokParticipation,
+    nogi_participation: nogiParticipation,
+    age_division: v("editAgeDivision"),
+    belt: v("editBelt"),
+    nogi_level: v("editNogiLevel"),
+    dobok_weight: v("editDobokWeight"),
+    nogi_weight: v("editNogiWeight"),
+    dobok_absolute_participation: dobokAbsoluteParticipation,
+    dobok_absolute_division: v("editDobokAbsoluteDivision"),
+    nogi_absolute_participation: nogiAbsoluteParticipation,
+    nogi_absolute_division: v("editNogiAbsoluteDivision"),
+    strongest_participation: v("editStrongestParticipation"),
+    total_price: totalPrice,
+    payment_status: v("editPayment") === "완료"
+      ? "confirmed"
+      : "pending"
+  };
+
+  try{
+
+    const response = await fetch(
+      "/api/admin/participants/" +
+      encodeURIComponent(editingParticipantId),
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + token
+        },
+        body: JSON.stringify(data)
+      }
+    );
+
+    const result = await response.json();
+
+    if(!response.ok || !result.ok){
+      throw new Error(result.error || "참가자 수정 실패");
+    }
+
+    await loadRegistrations();
+
+    closeParticipantEdit();
+
+    filterPlayers();
+
+    loadEvents();
+
+    alert("참가자 정보가 서버 DB에 수정되었습니다.");
+
+  }catch(error){
+
+    console.error("참가자 수정 오류:", error);
+
+    alert("참가자 정보를 저장하지 못했습니다. 다시 시도해주세요.");
+
+  }
+
+}
+
+
+/* ==================================================
+   참가자 삭제 - 서버 DB 삭제
+================================================== */
+
+async function deleteParticipant(id){
+
+  const player = registrations.find(function(item){
+    return String(item.id) === String(id);
+  });
+
+  if(!player){
+    alert("참가자 정보를 찾을 수 없습니다.");
+    return;
+  }
+
+  if(!confirm(
+    (player.name || "해당 참가자") +
+    "님의 참가 신청을 삭제하시겠습니까?"
+  )){
+    return;
+  }
+
+  const token = sessionStorage.getItem("MUT_ADMIN_TOKEN");
+
+  if(!token){
+    alert("관리자 로그인이 필요합니다.");
+    return;
+  }
+
+  try{
+
+    const response = await fetch(
+      "/api/admin/participants/" + encodeURIComponent(id),
+      {
+        method: "DELETE",
+        headers: {
+          "Authorization": "Bearer " + token
+        }
+      }
+    );
+
+    const result = await response.json();
+
+    if(!response.ok || !result.ok){
+      throw new Error(
+        result.error || "참가자 삭제 실패"
+      );
+    }
+
+    await loadRegistrations();
+
+    filterPlayers();
+
+    loadEvents();
+
+    alert("참가 신청이 서버 DB에서 삭제되었습니다.");
+
+  }catch(error){
+
+    console.error("참가자 삭제 오류:", error);
+
+    alert("참가자를 삭제하지 못했습니다. 다시 시도해주세요.");
+
+  }
+
+}
+
+/* ==================================================
+   RANKING
+================================================== */
+
+let mutDBRankings = [];
+let mutDBRankingsLoaded = false;
+function loadRankingPlayers(){ return mutDBRankings.slice(); }
+function saveRankingPlayers(players){ mutDBRankings = players.slice(); }
+function mutRankPayload(player){
+  return {player_name:String(player.name||"").trim(), affiliation:String(player.gym||"").trim(),
+    belt:String(player.belt||"WHITE").toUpperCase(), gold:Number(player.gold||0),
+    silver:Number(player.silver||0), bronze:Number(player.bronze||0)};
+}
+function mutAdminToken(){return sessionStorage.getItem("MUT_ADMIN_TOKEN") || localStorage.getItem("MUT_ADMIN_TOKEN") || "";}
+async function mutRankingRequest(path, method="GET", body){
+  const token = mutAdminToken();
+  const response = await fetch(path,{method,cache:"no-store",headers:{"Authorization":"Bearer "+token,...(body?{"Content-Type":"application/json"}:{})},...(body?{body:JSON.stringify(body)}:{})});
+  const result = await response.json();
+  if(!response.ok || !result.ok) throw new Error(result.error || "랭킹 서버 요청 실패");
+  return result;
+}
+async function refreshAdminRankings(){
+  try{
+    const result=await mutRankingRequest("/api/admin/rankings");
+    mutDBRankings=result.rankings.map(p=>({id:p.id,name:p.player_name,gym:p.affiliation,belt:p.belt,gold:p.gold,silver:p.silver,bronze:p.bronze,points:p.points}));
+    mutDBRankingsLoaded=true;
+    renderRankingPlayers(); updateRankingStats();
+  }catch(error){console.error(error);alert("서버 랭킹을 불러오지 못했습니다: "+error.message);}
+}
+async function migrateLocalRankings(){
+  let local=[];
+  try{local=JSON.parse(localStorage.getItem("MUT_PLAYERS")||"[]");}catch{}
+  if(!Array.isArray(local)||!local.length){alert("이 브라우저에 이전 랭킹 기록이 없습니다.");return;}
+  if(!mutDBRankingsLoaded){alert("서버 랭킹을 먼저 불러와 주세요.");return;}
+  if(mutDBRankings.length){alert("서버에 이미 랭킹이 있습니다. 기존 서버 기록을 보호하기 위해 자동 이전을 중단했습니다. 중복 여부를 확인한 뒤 진행해야 합니다.");return;}
+  if(!confirm("이 브라우저의 기존 선수 "+local.length+"명 기록을 서버로 이전할까요? 기존 로컬 기록은 삭제되지 않습니다."))return;
+  let count=0;
+  try{
+    for(const player of local){await mutRankingRequest("/api/admin/rankings","POST",mutRankPayload(player));count++;}
+    await refreshAdminRankings();
+    alert(count+"건 서버 이전 완료. PC와 모바일에서 동일하게 보입니다.");
+  }catch(error){await refreshAdminRankings();alert(count+"건 이전 후 중단되었습니다: "+error.message+". 재시도 전에 서버 목록을 확인해 주세요.");}
+}
+
+/* 랭킹 점수 계산 및 미리보기 — 기존 관리자 기능 유지 */
+function calculateRankingPoints(gold, silver, bronze) {
+  return Number(gold || 0) * 5 + Number(silver || 0) * 3 + Number(bronze || 0);
+}
+
+function updateRankingScorePreview() {
+  const preview = document.getElementById("rankingScorePreview");
+  if (!preview) return;
+  const value = (id) => Number(document.getElementById(id)?.value || 0);
+  preview.textContent = calculateRankingPoints(value("rankGold"), value("rankSilver"), value("rankBronze"));
+}
+
+/* ==================================================
+   랭킹 페이지
+================================================== */
+
+function openRanking(){
+
+hideAllPages();
+
+document
+.getElementById("rankingPage")
+.classList.remove("hidden");
+
+
+renderRankingPlayers();
+updateRankingStats();
+updateRankingScorePreview();
+refreshAdminRankings();
+
+}
+
+
+function closeRanking(){
+
+hideAllPages();
+
+document
+.getElementById("eventPage")
+.classList.remove("hidden");
+
+loadEvents();
+
+}
+
+
+/* ==================================================
+   랭킹 선수 저장
+================================================== */
+
+async function addRankingPlayer(){
+  const player={belt:document.getElementById("rankBelt").value,
+    name:document.getElementById("rankName").value.trim(),gym:document.getElementById("rankGym").value.trim(),
+    gold:Number(document.getElementById("rankGold").value||0),silver:Number(document.getElementById("rankSilver").value||0),
+    bronze:Number(document.getElementById("rankBronze").value||0)};
+  if(!player.name||!player.gym){alert("선수 이름과 소속을 입력해주세요.");return;}
+  if([player.gold,player.silver,player.bronze].some(n=>!Number.isSafeInteger(n)||n<0)){alert("메달 수를 확인해주세요.");return;}
+  if(!mutDBRankingsLoaded){alert("서버 랭킹을 불러오는 중입니다. 잠시 후 다시 시도해주세요.");return;}
+  try{
+    if(editingRankingId!==null){
+      await mutRankingRequest("/api/admin/rankings/"+encodeURIComponent(editingRankingId),"PUT",mutRankPayload(player));
+    }else{
+      const existing=mutDBRankings.find(p=>p.name.trim()===player.name&&p.gym.trim()===player.gym&&String(p.belt).toUpperCase()===player.belt);
+      if(existing){
+        player.gold+=Number(existing.gold||0);player.silver+=Number(existing.silver||0);player.bronze+=Number(existing.bronze||0);
+      }
+      await mutRankingRequest("/api/admin/rankings","POST",mutRankPayload(player));
+    }
+    cancelRankingEdit();clearRankingForm();await refreshAdminRankings();
+    alert("랭킹이 서버에 저장되었습니다.");
+  }catch(error){alert("랭킹 저장 실패: "+error.message);}
+}
+
+/* ==================================================
+   랭킹 점수 실시간
+================================================== */
+
+document.addEventListener(
+"input",
+function(event){
+
+if(
+
+event.target.id==="rankGold"
+
+||
+
+event.target.id==="rankSilver"
+
+||
+
+event.target.id==="rankBronze"
+
+){
+
+updateRankingScorePreview();
+
+}
+
+});
+
+
+/* ==================================================
+   랭킹 수정
+================================================== */
+
+function editRankingPlayer(id){
+
+const players=
+loadRankingPlayers();
+
+
+const player=
+players.find(function(item){
+
+return String(item.id)
+===
+String(id);
+
+});
+
+
+if(!player){
+
+alert("선수 정보를 찾을 수 없습니다.");
+return;
+
+}
+
+
+editingRankingId=id;
+
+
+document.getElementById("rankBelt").value=
+player.belt || "WHITE";
+
+document.getElementById("rankName").value=
+player.name || "";
+
+document.getElementById("rankGym").value=
+player.gym || "";
+
+document.getElementById("rankGold").value=
+Number(player.gold || 0);
+
+document.getElementById("rankSilver").value=
+Number(player.silver || 0);
+
+document.getElementById("rankBronze").value=
+Number(player.bronze || 0);
+
+
+document.getElementById(
+"rankingSaveButton"
+).textContent="선수 정보 수정";
+
+
+document.getElementById(
+"rankingCancelButton"
+).classList.remove("hidden");
+
+
+updateRankingScorePreview();
+
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}
+
+
+/* ==================================================
+   랭킹 수정 취소
+================================================== */
+
+function cancelRankingEdit(){
+
+editingRankingId=null;
+
+clearRankingForm();
+
+
+document.getElementById(
+"rankingSaveButton"
+).textContent="랭킹 선수 저장";
+
+
+document.getElementById(
+"rankingCancelButton"
+).classList.add("hidden");
+
+}
+
+
+function clearRankingForm(){
+
+document.getElementById("rankBelt").value="WHITE";
+document.getElementById("rankName").value="";
+document.getElementById("rankGym").value="";
+document.getElementById("rankGold").value="0";
+document.getElementById("rankSilver").value="0";
+document.getElementById("rankBronze").value="0";
+
+
+updateRankingScorePreview();
+
+}
+
+
+/* ==================================================
+   랭킹 삭제
+================================================== */
+
+async function deleteRankingPlayer(id){
+  const player=loadRankingPlayers().find(p=>String(p.id)===String(id));
+  if(!player||!confirm(player.name+" 선수를 서버 랭킹에서 삭제하시겠습니까?"))return;
+  try{
+    await mutRankingRequest("/api/admin/rankings/"+encodeURIComponent(id),"DELETE");
+    if(String(editingRankingId)===String(id))cancelRankingEdit();
+    await refreshAdminRankings();
+  }catch(error){alert("랭킹 삭제 실패: "+error.message);}
+}
+
+/* ==================================================
+   랭킹 목록
+================================================== */
+
+function renderRankingPlayers(){
+
+const table=
+document.getElementById("rankTable");
+
+
+if(!table){
+return;
+}
+
+
+table.innerHTML="";
+
+
+let players=
+loadRankingPlayers();
+
+
+const search=
+(
+document.getElementById(
+"rankingSearchInput"
+)?.value || ""
+)
+.trim()
+.toLowerCase();
+
+
+const belt=
+document.getElementById(
+"rankingBeltFilter"
+)?.value || "";
+
+
+players=
+players.filter(function(player){
+
+const text=
+
+(
+player.name || ""
+)
+.toLowerCase()
+
++
+" "
+
++
+(
+player.gym || ""
+)
+.toLowerCase();
+
+
+if(search &&
+!text.includes(search)
+){
+
+return false;
+
+}
+
+
+if(belt &&
+getParticipantBelt(player)!==belt
+){
+
+return false;
+
+}
+
+
+return true;
+
+});
+
+
+players.sort(function(a,b){
+
+const pointDifference=
+Number(b.points || 0)
+-
+Number(a.points || 0);
+
+
+if(pointDifference!==0){
+return pointDifference;
+}
+
+
+const goldDifference=
+Number(b.gold || 0)
+-
+Number(a.gold || 0);
+
+
+if(goldDifference!==0){
+return goldDifference;
+}
+
+
+const silverDifference=
+Number(b.silver || 0)
+-
+Number(a.silver || 0);
+
+
+if(silverDifference!==0){
+return silverDifference;
+}
+
+
+return String(a.name || "")
+.localeCompare(
+String(b.name || ""),
+"ko"
+);
+
+});
+
+
+if(players.length===0){
+
+table.innerHTML=`
+
+<tr>
+
+<td
+colspan="9"
+class="empty-ranking">
+
+등록된 랭킹 선수가 없습니다.
+
+</td>
+
+</tr>
+
+`;
+
+return;
+
+}
+
+
+players.forEach(function(player,index){
+
+const points=
+calculateRankingPoints(
+player.gold,
+player.silver,
+player.bronze
+);
+
+
+const row=
+document.createElement("tr");
+
+
+row.innerHTML=`
+
+<td class="rank-number">
+${index+1}
+</td>
+
+<td>
+${escapeHTML(getParticipantBelt(player))}
+</td>
+
+<td>
+${escapeHTML(player.name || "-")}
+</td>
+
+<td>
+${escapeHTML(player.gym || "-")}
+</td>
+
+<td>
+${Number(player.gold || 0)}
+</td>
+
+<td>
+${Number(player.silver || 0)}
+</td>
+
+<td>
+${Number(player.bronze || 0)}
+</td>
+
+<td class="points">
+${points}점
+</td>
+
+<td>
+
+<div class="ranking-actions">
+
+<button
+class="small-button edit-button"
+onclick="editRankingPlayer('${escapeJS(player.id)}')">
+
+수정
+
+</button>
+
+<button
+class="small-button delete-button"
+onclick="deleteRankingPlayer('${escapeJS(player.id)}')">
+
+삭제
+
+</button>
+
+</div>
+
+</td>
+
+`;
+
+
+table.appendChild(row);
+
+});
+
+}
+
+
+/* ==================================================
+   랭킹 통계
+================================================== */
+
+function updateRankingStats(){
+
+const players=
+loadRankingPlayers();
+
+
+let gold=0;
+let silver=0;
+let points=0;
+
+
+players.forEach(function(player){
+
+gold+=
+Number(player.gold || 0);
+
+silver+=
+Number(player.silver || 0);
+
+
+points+=
+calculateRankingPoints(
+player.gold,
+player.silver,
+player.bronze
+);
+
+});
+
+
+document.getElementById(
+"rankingPlayerCount"
+).textContent=
+players.length;
+
+
+document.getElementById(
+"rankingGoldCount"
+).textContent=
+gold;
+
+
+document.getElementById(
+"rankingSilverCount"
+).textContent=
+silver;
+
+
+document.getElementById(
+"rankingTotalPoints"
+).textContent=
+points;
+
+}
+
+
+/* ==================================================
+   NOTICE
+================================================== */
+
+/* ==================================================
+   공지사항 - 서버 DB 연결
+   PC와 모바일에서 같은 공지사항을 사용합니다.
+================================================== */
+
+let adminNoticesCache = [];
+
+function getNoticeAuthHeaders(){
+  const token = sessionStorage.getItem("MUT_ADMIN_TOKEN");
+  if(!token){
+    throw new Error("관리자 로그인이 만료되었습니다. 다시 로그인해주세요.");
+  }
+  return {
+    "Authorization": "Bearer " + token,
+    "Accept": "application/json"
+  };
+}
+
+async function loadNotices(){
+  const response = await fetch("/api/admin/notices", {
+    method: "GET",
+    headers: getNoticeAuthHeaders(),
+    cache: "no-store"
+  });
+
+  let result = {};
+  try{
+    result = await response.json();
+  }catch(error){
+    throw new Error("공지사항 서버 응답을 확인할 수 없습니다.");
+  }
+
+  if(!response.ok || !result.ok || !Array.isArray(result.notices)){
+    throw new Error(result.error || "공지사항을 불러오지 못했습니다.");
+  }
+
+  adminNoticesCache = result.notices.map(function(notice){
+    const createdAt = notice.created_at || "";
+    return {
+      id: notice.id,
+      title: notice.title || "",
+      content: notice.content || "",
+      published: Number(notice.published) === 1,
+      created_at: createdAt,
+      date: getNoticeDateValue(createdAt),
+      createdAt: createdAt
+    };
+  });
+
+  return adminNoticesCache;
+}
+
+function getNoticeDateValue(value){
+  if(!value) return "";
+  const match = String(value).match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if(match) return match[1] + "-" + match[2] + "-" + match[3];
+
+  const parsed = new Date(value);
+  if(Number.isNaN(parsed.getTime())) return "";
+
+  return [
+    parsed.getFullYear(),
+    String(parsed.getMonth()+1).padStart(2,"0"),
+    String(parsed.getDate()).padStart(2,"0")
+  ].join("-");
+}
+
+/* ==================================================
+   공지사항 페이지
+================================================== */
+
+function openNotice(){
+  hideAllPages();
+  document.getElementById("noticePage").classList.remove("hidden");
+  setTodayNoticeDate();
+  loadNoticeList();
+}
+
+function closeNotice(){
+  hideAllPages();
+  document.getElementById("eventPage").classList.remove("hidden");
+  loadEvents();
+}
+
+/* DB의 created_at을 공지 등록일로 표시합니다. */
+function setTodayNoticeDate(){
+  const dateInput = document.getElementById("noticeDate");
+  if(!dateInput) return;
+
+  const today = new Date();
+  dateInput.value = [
+    today.getFullYear(),
+    String(today.getMonth()+1).padStart(2,"0"),
+    String(today.getDate()).padStart(2,"0")
+  ].join("-");
+
+  dateInput.disabled = true;
+  dateInput.title = "공지사항 등록일은 서버에서 자동으로 저장됩니다.";
+}
+
+/* ==================================================
+   공지사항 저장 / 수정
+================================================== */
+
+async function saveNotice(){
+  const title = document.getElementById("noticeTitle").value.trim();
+  const content = document.getElementById("noticeContent").value.trim();
+
+  if(!title){
+    alert("공지사항 제목을 입력해주세요.");
+    return;
+  }
+
+  if(!content){
+    alert("공지사항 내용을 입력해주세요.");
+    return;
+  }
+
+  const saveButton = document.getElementById("noticeSaveButton");
+  const originalButtonText = saveButton.textContent;
+  saveButton.disabled = true;
+  saveButton.textContent = "저장 중...";
+
+  try{
+    const isEditing = editingNoticeId !== null;
+    const url = isEditing
+      ? "/api/admin/notices/" + encodeURIComponent(editingNoticeId)
+      : "/api/admin/notices";
+
+    const response = await fetch(url, {
+      method: isEditing ? "PUT" : "POST",
+      headers: {
+        ...getNoticeAuthHeaders(),
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        title: title,
+        content: content,
+        published: true
+      })
+    });
+
+    let result = {};
+    try{
+      result = await response.json();
+    }catch(error){
+      throw new Error("서버 응답을 확인할 수 없습니다.");
+    }
+
+    if(!response.ok || !result.ok){
+      throw new Error(result.error || "공지사항 저장에 실패했습니다.");
+    }
+
+    alert(isEditing ? "공지사항이 수정되었습니다." : "공지사항이 등록되었습니다.");
+    clearNoticeForm();
+    await loadNoticeList();
+
+  }catch(error){
+    console.error("공지사항 저장 오류:", error);
+    alert(error.message || "공지사항 저장 중 오류가 발생했습니다.");
+  }finally{
+    saveButton.disabled = false;
+    saveButton.textContent = originalButtonText;
+  }
+}
+
+/* ==================================================
+   공지사항 입력창 초기화
+================================================== */
+
+function clearNoticeForm(){
+  editingNoticeId = null;
+
+  document.getElementById("noticeTitle").value = "";
+  document.getElementById("noticeContent").value = "";
+
+  setTodayNoticeDate();
+
+  document.getElementById("noticeSaveButton").textContent = "공지사항 등록";
+  document.getElementById("noticeCancelButton").classList.add("hidden");
+}
+
+function cancelNoticeEdit(){
+  clearNoticeForm();
+}
+
+/* ==================================================
+   공지사항 수정
+================================================== */
+
+async function editNotice(id){
+  try{
+    const notices = await loadNotices();
+    const notice = notices.find(function(item){
+      return String(item.id) === String(id);
+    });
+
+    if(!notice){
+      alert("공지사항을 찾을 수 없습니다.");
+      return;
+    }
+
+    editingNoticeId = id;
+
+    document.getElementById("noticeTitle").value = notice.title || "";
+    document.getElementById("noticeDate").value = notice.date || "";
+    document.getElementById("noticeContent").value = notice.content || "";
+
+    document.getElementById("noticeSaveButton").textContent = "공지사항 수정";
+    document.getElementById("noticeCancelButton").classList.remove("hidden");
+
+    window.scrollTo({top:0, behavior:"smooth"});
+
+  }catch(error){
+    console.error("공지사항 조회 오류:", error);
+    alert(error.message || "공지사항을 불러오지 못했습니다.");
+  }
+}
+
+/* ==================================================
+   공지사항 삭제
+================================================== */
+
+async function deleteNotice(id){
+  try{
+    const notices = await loadNotices();
+    const notice = notices.find(function(item){
+      return String(item.id) === String(id);
+    });
+
+    if(!notice) return;
+
+    if(!confirm("「" + notice.title + "」 공지사항을 삭제하시겠습니까?")){
+      return;
+    }
+
+    const response = await fetch(
+      "/api/admin/notices/" + encodeURIComponent(id),
+      {
+        method: "DELETE",
+        headers: getNoticeAuthHeaders()
+      }
+    );
+
+    let result = {};
+    try{
+      result = await response.json();
+    }catch(error){
+      throw new Error("서버 응답을 확인할 수 없습니다.");
+    }
+
+    if(!response.ok || !result.ok){
+      throw new Error(result.error || "공지사항 삭제에 실패했습니다.");
+    }
+
+    if(String(editingNoticeId) === String(id)){
+      clearNoticeForm();
+    }
+
+    await loadNoticeList();
+    alert("공지사항이 삭제되었습니다.");
+
+  }catch(error){
+    console.error("공지사항 삭제 오류:", error);
+    alert(error.message || "공지사항 삭제 중 오류가 발생했습니다.");
+  }
+}
+
+/* ==================================================
+   날짜 표시
+================================================== */
+
+function formatNoticeDate(date){
+  if(!date) return "-";
+  return String(date).replace(/-/g,".");
+}
+
+function renderNoticeSort(notices){
+  return notices.sort(function(a,b){
+    const dateA = new Date(a.created_at || a.date || 0).getTime();
+    const dateB = new Date(b.created_at || b.date || 0).getTime();
+    return dateB - dateA;
+  });
+}
+
+/* ==================================================
+   공지사항 목록 - 서버 DB에서 조회
+================================================== */
+
+async function loadNoticeList(){
+  const table = document.getElementById("noticeTable");
+  if(!table) return;
+
+  table.innerHTML = `
+    <tr><td colspan="3" style="padding:40px;color:#777;text-align:center;">
+      공지사항을 불러오는 중입니다...
+    </td></tr>
+  `;
+
+  try{
+    const notices = await loadNotices();
+    renderNoticeSort(notices);
+
+    if(notices.length === 0){
+      table.innerHTML = `
+        <tr><td colspan="3" style="padding:40px;color:#777;text-align:center;">
+          등록된 공지사항이 없습니다.
+        </td></tr>
+      `;
+      return;
+    }
+
+    table.innerHTML = "";
+
+    notices.forEach(function(notice){
+      const row = document.createElement("tr");
+
+      row.innerHTML = `
+        <td class="notice-date">
+          ${escapeHTML(formatNoticeDate(notice.date))}
+        </td>
+        <td class="notice-title-cell">
+          ${escapeHTML(notice.title || "-")}
+        </td>
+        <td>
+          <div class="notice-actions">
+            <button class="small-button edit-button"
+              onclick="editNotice('${escapeJS(notice.id)}')">수정</button>
+            <button class="small-button delete-button"
+              onclick="deleteNotice('${escapeJS(notice.id)}')">삭제</button>
+          </div>
+        </td>
+      `;
+
+      table.appendChild(row);
+    });
+
+  }catch(error){
+    console.error("공지사항 목록 조회 오류:", error);
+    table.innerHTML = `
+      <tr><td colspan="3" style="padding:40px;color:#ff7777;text-align:center;">
+        ${escapeHTML(error.message || "공지사항을 불러오지 못했습니다.")}
+      </td></tr>
+    `;
+  }
+}
+
+
+/* ==================================================
+   대진표 · 타임테이블 관리
+================================================== */
+
+function openEventFiles(){
+
+hideAllPages();
+
+document.getElementById("eventFilePage").classList.remove("hidden");
+
+loadEventFileSelect();
+
+}
+
+function closeEventFiles(){
+
+hideAllPages();
+
+document.getElementById("eventPage").classList.remove("hidden");
+
+loadEvents();
+
+}
+
+function loadEventFileSelect(){
+
+const select=document.getElementById("eventFileSelect");
+
+if(!select){
+return;
+}
+
+const events=loadMUTEventsAdmin();
+
+select.innerHTML="";
+
+if(events.length===0){
+
+select.innerHTML='<option value="">등록된 대회가 없습니다.</option>';
+
+loadEventFileInfo();
+return;
+
+}
+
+events.sort(function(a,b){
+return String(a.date || "").localeCompare(String(b.date || ""));
+});
+
+events.forEach(function(event){
+
+const option=document.createElement("option");
+option.value=String(event.id);
+option.textContent=(event.name || "MUT CHAMPIONSHIP")+" · "+(event.date || "");
+select.appendChild(option);
+
+});
+
+loadEventFileInfo();
+
+}
+
+function loadEventFileInfo(){
+
+const select=document.getElementById("eventFileSelect");
+const bracketStatus=document.getElementById("bracketFileStatus");
+const timetableStatus=document.getElementById("timetableFileStatus");
+
+if(!select){
+return;
+}
+
+const events=loadMUTEventsAdmin();
+const event=events.find(function(item){
+return String(item.id)===String(select.value);
+});
+
+if(!event){
+if(bracketStatus) bracketStatus.textContent="현재 파일 없음";
+if(timetableStatus) timetableStatus.textContent="현재 파일 없음";
+return;
+}
+
+if(bracketStatus){
+bracketStatus.textContent=event.bracket ? "대진표 파일이 등록되어 있습니다. 새 파일을 선택하면 교체됩니다." : "현재 대진표 파일 없음";
+}
+
+if(timetableStatus){
+timetableStatus.textContent=event.timetable ? "타임테이블 파일이 등록되어 있습니다. 새 파일을 선택하면 교체됩니다." : "현재 타임테이블 파일 없음";
+}
+
+}
+
+function readAdminFile(file){
+
+return new Promise(function(resolve,reject){
+
+const reader=new FileReader();
+
+reader.onload=function(e){
+resolve(e.target.result);
+};
+
+reader.onerror=function(){
+reject(new Error("파일을 읽을 수 없습니다."));
+};
+
+reader.readAsDataURL(file);
+
+});
+
+}
+
+async function saveEventFiles(){
+
+const select=document.getElementById("eventFileSelect");
+const bracketInput=document.getElementById("bracketFileInput");
+const timetableInput=document.getElementById("timetableFileInput");
+
+if(!select || !select.value){
+alert("대회를 먼저 선택해주세요.");
+return;
+}
+
+const events=loadMUTEventsAdmin();
+const event=events.find(function(item){
+return String(item.id)===String(select.value);
+});
+
+if(!event){
+alert("대회를 찾을 수 없습니다.");
+return;
+}
+
+try{
+
+if(bracketInput.files[0]){
+ event.bracket=await readAdminFile(bracketInput.files[0]);
+}
+
+if(timetableInput.files[0]){
+ event.timetable=await readAdminFile(timetableInput.files[0]);
+}
+
+localStorage.setItem("MUT_EVENTS",JSON.stringify(events));
+
+bracketInput.value="";
+timetableInput.value="";
+
+alert("대진표와 타임테이블 파일이 저장되었습니다.");
+
+loadEventFileInfo();
+
+}catch(error){
+console.error(error);
+alert("파일 저장 중 오류가 발생했습니다.");
+}
+
+}
+
+function removeEventFiles(){
+
+const select=document.getElementById("eventFileSelect");
+
+if(!select || !select.value){
+alert("대회를 먼저 선택해주세요.");
+return;
+}
+
+const events=loadMUTEventsAdmin();
+const event=events.find(function(item){
+return String(item.id)===String(select.value);
+});
+
+if(!event){
+return;
+}
+
+if(!confirm("선택한 대회의 대진표와 타임테이블 연결을 모두 해제할까요?")){
+return;
+}
+
+delete event.bracket;
+delete event.timetable;
+
+localStorage.setItem("MUT_EVENTS",JSON.stringify(events));
+
+loadEventFileInfo();
+
+alert("파일 연결이 해제되었습니다.");
+
+}
+
+
+
+
+/* ==================================================
+   대회 관리 - schedule.html 통합
+================================================== */
+
+let eventManagerPosterData="";
+let eventManagerEditingId=null;
+
+function saveMUTEventsFromAdmin(events){
+  const value=JSON.stringify(events);
+  localStorage.setItem("MUT_EVENTS",value);
+  try{
+    window.dispatchEvent(new StorageEvent("storage",{key:"MUT_EVENTS",newValue:value}));
+  }catch(error){}
+}
+
+function getEventManagerEvents(){
+  const saved=localStorage.getItem("MUT_EVENTS");
+  if(!saved)return [];
+  try{
+    const parsed=JSON.parse(saved);
+    return Array.isArray(parsed)?parsed:[];
+  }catch(error){
+    console.error(error);
+    return [];
+  }
+}
+
+function getAdminEventHeaders(){
+  const token=sessionStorage.getItem("MUT_ADMIN_TOKEN");
+  if(!token)throw new Error("관리자 로그인이 만료되었습니다. 다시 로그인해주세요.");
+  return {
+    "Content-Type":"application/json",
+    "Accept":"application/json",
+    "Authorization":"Bearer "+token
+  };
+}
+
+function dbEventToLocalEvent(dbEvent, localEvent){
+  const local=localEvent||{};
+  return {
+    ...local,
+    id:dbEvent.id,
+    legacyId:local.id && String(local.id)!==String(dbEvent.id) ? local.id : (local.legacyId||null),
+    name:dbEvent.name||local.name||"MUT CHAMPIONSHIP",
+    date:dbEvent.event_date||local.date||"",
+    place:dbEvent.venue||local.place||"",
+    time:dbEvent.event_time||local.time||"",
+    description:dbEvent.description||local.description||"",
+    registrationOpen:dbEvent.registration_open===true || Number(dbEvent.registration_open)===1,
+    participants_public:dbEvent.participants_public===true || Number(dbEvent.participants_public)===1 ? 1 : 0,
+    earlyBirdStart:dbEvent.early_bird_start||"",
+    earlyBirdEnd:dbEvent.early_bird_end||"",
+    poster:local.poster || dbEvent.poster_url || "",
+    poster_url:dbEvent.poster_url||"",
+    photoUrl:dbEvent.photo_url||"",
+    registration_start:dbEvent.registration_start||"",
+    registration_end:dbEvent.registration_end||""
+  };
+}
+
+function findMatchingLocalEvent(dbEvent, localEvents){
+  return localEvents.find(item=>String(item.id)===String(dbEvent.id)) ||
+    localEvents.find(item=>
+      String(item.name||"").trim()===String(dbEvent.name||"").trim() &&
+      String(item.date||"")===String(dbEvent.event_date||"") &&
+      String(item.place||"").trim()===String(dbEvent.venue||"").trim()
+    ) || null;
+}
+
+function makeServerEventPayload(event, existingDbEvent){
+  const localPoster=String(event.poster||"");
+  const posterUrl=(localPoster && !localPoster.startsWith("data:") && localPoster.length<=2000)
+    ? localPoster
+    : (existingDbEvent?.poster_url||event.poster_url||"");
+  return {
+    name:event.name||"MUT CHAMPIONSHIP",
+    event_date:event.date||"",
+    venue:event.place||"",
+    event_time:event.time||"",
+    description:event.description||"",
+    registration_open:event.registrationOpen!==false,
+    participants_public:existingDbEvent
+      ? (existingDbEvent.participants_public===true || Number(existingDbEvent.participants_public)===1)
+      : (event.participants_public===true || Number(event.participants_public)===1),
+    early_bird_start:event.earlyBirdStart||"",
+    early_bird_end:event.earlyBirdEnd||"",
+    registration_start:existingDbEvent?.registration_start||event.registration_start||"",
+    registration_end:existingDbEvent?.registration_end||event.registration_end||"",
+    poster_url:posterUrl,
+    photo_url:event.photoUrl??existingDbEvent?.photo_url??""
+  };
+}
+
+async function fetchAdminEventsFromServer(){
+  const response=await fetch("/api/admin/events",{method:"GET",headers:getAdminEventHeaders()});
+  const result=await response.json();
+  if(!response.ok || !result.ok)throw new Error(result.error||"서버 대회 목록을 불러오지 못했습니다.");
+  return Array.isArray(result.events)?result.events:[];
+}
+
+async function syncEventManagerFromServer(){
+  const localEvents=getEventManagerEvents();
+  let dbEvents=await fetchAdminEventsFromServer();
+  const usedLocalIds=new Set();
+  const merged=dbEvents.map(dbEvent=>{
+    const local=findMatchingLocalEvent(dbEvent,localEvents);
+    if(local)usedLocalIds.add(String(local.id));
+    return dbEventToLocalEvent(dbEvent,local);
+  });
+
+  // 예전에 브라우저에만 저장되어 있던 대회는 서버에 한 번 옮깁니다.
+  for(const local of localEvents){
+    if(usedLocalIds.has(String(local.id)))continue;
+    const payload=makeServerEventPayload(local,null);
+    const response=await fetch("/api/admin/events",{
+      method:"POST",
+      headers:getAdminEventHeaders(),
+      body:JSON.stringify(payload)
+    });
+    const result=await response.json();
+    if(!response.ok || !result.ok || !result.id){
+      throw new Error(result.error||`「${local.name||"대회"}」 서버 이전에 실패했습니다.`);
+    }
+    merged.push({...local,id:result.id,legacyId:local.id});
+  }
+
+  merged.sort((a,b)=>String(a.date||"").localeCompare(String(b.date||"")));
+  saveMUTEventsFromAdmin(merged);
+  return merged;
+}
+
+async function findServerEventForLocal(localEvent){
+  const dbEvents=await fetchAdminEventsFromServer();
+  return dbEvents.find(item=>String(item.id)===String(localEvent.id)) ||
+    dbEvents.find(item=>
+      String(item.name||"").trim()===String(localEvent.name||"").trim() &&
+      String(item.event_date||"")===String(localEvent.date||"") &&
+      String(item.venue||"").trim()===String(localEvent.place||"").trim()
+    ) || null;
+}
+
+async function openEventManager(){
+  hideAllPages();
+  document.getElementById("eventManagerPage").classList.remove("hidden");
+  resetEventManagerForm();
+  const list=document.getElementById("eventManagerList");
+  if(list)list.innerHTML='<div style="padding:25px;color:#888;">서버에서 대회 정보를 불러오는 중...</div>';
+  try{
+    await syncEventManagerFromServer();
+  }catch(error){
+    console.error("서버 대회 동기화 오류:",error);
+    alert(error.message||"서버 대회 정보를 불러오지 못했습니다.");
+  }
+  renderEventManagerList();
+}
+
+function closeEventManager(){
+  hideAllPages();
+  document.getElementById("eventPage").classList.remove("hidden");
+  loadEvents();
+}
+
+function handleEventManagerPoster(){
+  const input=document.getElementById("eventManagerPosterInput");
+  const file=input.files && input.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    eventManagerPosterData=e.target.result;
+    document.getElementById("eventManagerPreviewImage").src=eventManagerPosterData;
+    document.getElementById("eventManagerPosterPreview").style.display="block";
+  };
+  reader.readAsDataURL(file);
+}
+
+function updateEventManagerEarlyBirdStatus(){
+  const start=document.getElementById("eventManagerEarlyBirdStart").value;
+  const end=document.getElementById("eventManagerEarlyBirdEnd").value;
+  const status=document.getElementById("eventManagerEarlyBirdStatus");
+  if(!start||!end){
+    status.className="event-manager-early-status";
+    status.textContent="얼리버드 기간을 설정해주세요.";
+    return;
+  }
+  const now=new Date();
+  const today=now.getFullYear()+"-"+String(now.getMonth()+1).padStart(2,"0")+"-"+String(now.getDate()).padStart(2,"0");
+  if(today<start){
+    status.className="event-manager-early-status";
+    status.textContent=`얼리버드 예정 · ${start} ~ ${end}`;
+  }else if(today<=end){
+    status.className="event-manager-early-status active";
+    status.textContent=`🟢 현재 얼리버드 진행 중 · ${start} ~ ${end}`;
+  }else{
+    status.className="event-manager-early-status";
+    status.textContent=`🔴 얼리버드 종료 · ${end} 이후 일반 가격`;
+  }
+}
+
+async function saveEventFromAdmin(){
+  const name=document.getElementById("eventManagerName").value.trim();
+  const date=document.getElementById("eventManagerDate").value;
+  const place=document.getElementById("eventManagerPlace").value.trim();
+  const time=document.getElementById("eventManagerTime").value;
+  const description=document.getElementById("eventManagerDescription").value.trim();
+  const photoUrl=document.getElementById("eventManagerPhotoUrl").value.trim();
+  if(photoUrl){try{const u=new URL(photoUrl);if(u.protocol!=="https:"||!["drive.google.com","docs.google.com"].includes(u.hostname)){alert("구글 드라이브 HTTPS 공유 링크만 입력해주세요.");return;}}catch{alert("올바른 구글 드라이브 링크를 입력해주세요.");return;}}
+  const earlyBirdStart=document.getElementById("eventManagerEarlyBirdStart").value;
+  const earlyBirdEnd=document.getElementById("eventManagerEarlyBirdEnd").value;
+
+  if(!eventManagerPosterData && eventManagerEditingId===null){alert("대회 포스터를 선택해주세요.");return;}
+  if(!name){alert("대회명을 입력해주세요.");return;}
+  if(!date){alert("대회 날짜를 입력해주세요.");return;}
+  if(!place){alert("개최 장소를 입력해주세요.");return;}
+  if(!time){alert("대회 시작 시간을 입력해주세요.");return;}
+  if((earlyBirdStart&&!earlyBirdEnd)||(!earlyBirdStart&&earlyBirdEnd)){alert("얼리버드 시작일과 종료일을 모두 입력해주세요.");return;}
+  if(earlyBirdStart&&earlyBirdEnd&&earlyBirdStart>earlyBirdEnd){alert("얼리버드 종료일은 시작일보다 빠를 수 없습니다.");return;}
+
+  const wasEditing=eventManagerEditingId!==null;
+  const saveButton=document.getElementById("eventManagerSaveButton");
+  const oldButtonText=saveButton.textContent;
+  saveButton.disabled=true;
+  saveButton.textContent="서버 저장 중...";
+
+  try{
+    let events=getEventManagerEvents();
+    let localIndex=events.findIndex(event=>String(event.id)===String(eventManagerEditingId));
+    let current=localIndex>=0?events[localIndex]:null;
+    const eventData={
+      ...(current||{}),
+      id:current?.id,
+      name,date,place,time,description,photoUrl,
+      earlyBirdStart,earlyBirdEnd,
+      poster:eventManagerPosterData||(current?.poster||""),
+      registrationOpen:current?.registrationOpen!==false
+    };
+
+    let dbEvent=current?await findServerEventForLocal(current):null;
+    if(dbEvent){
+      const payload=makeServerEventPayload(eventData,dbEvent);
+      const response=await fetch("/api/admin/events/"+encodeURIComponent(dbEvent.id),{
+        method:"PUT",headers:getAdminEventHeaders(),body:JSON.stringify(payload)
+      });
+      const result=await response.json();
+      if(!response.ok||!result.ok)throw new Error(result.error||"대회 수정 내용을 서버에 저장하지 못했습니다.");
+      eventData.id=dbEvent.id;
+      eventData.legacyId=current?.legacyId||((String(current.id)!==String(dbEvent.id))?current.id:null);
+      events[localIndex]=eventData;
+    }else{
+      const payload=makeServerEventPayload(eventData,null);
+      const response=await fetch("/api/admin/events",{
+        method:"POST",headers:getAdminEventHeaders(),body:JSON.stringify(payload)
+      });
+      const result=await response.json();
+      if(!response.ok||!result.ok||!result.id)throw new Error(result.error||"대회를 서버에 등록하지 못했습니다.");
+      eventData.id=result.id;
+      if(current)eventData.legacyId=current.id;
+      if(localIndex>=0)events[localIndex]=eventData;
+      else events.push(eventData);
+    }
+
+    saveMUTEventsFromAdmin(events);
+    resetEventManagerForm();
+    renderEventManagerList();
+    loadEvents();
+    alert(wasEditing?"대회 정보가 서버에 수정되었습니다.":"대회가 서버 DB에 등록되었습니다.");
+  }catch(error){
+    console.error("대회 저장 오류:",error);
+    alert(error.message||"대회 저장 중 오류가 발생했습니다.");
+  }finally{
+    saveButton.disabled=false;
+    saveButton.textContent=oldButtonText;
+  }
+}
+
+function editEventFromAdmin(id){
+  const events=getEventManagerEvents();
+  const event=events.find(item=>String(item.id)===String(id));
+  if(!event){alert("대회 정보를 찾을 수 없습니다.");return;}
+  eventManagerEditingId=id;
+  eventManagerPosterData=event.poster||"";
+  document.getElementById("eventManagerName").value=event.name||"";
+  document.getElementById("eventManagerDate").value=event.date||"";
+  document.getElementById("eventManagerPlace").value=event.place||"";
+  document.getElementById("eventManagerTime").value=event.time||"";
+  document.getElementById("eventManagerDescription").value=event.description||"";
+  document.getElementById("eventManagerPhotoUrl").value=event.photoUrl||"";
+  document.getElementById("eventManagerEarlyBirdStart").value=event.earlyBirdStart||"";
+  document.getElementById("eventManagerEarlyBirdEnd").value=event.earlyBirdEnd||"";
+  document.getElementById("eventManagerFormTitle").textContent="대회 정보 수정";
+  document.getElementById("eventManagerSaveButton").textContent="대회 정보 수정";
+  document.getElementById("eventManagerCancelButton").classList.remove("hidden");
+  if(event.poster){
+    document.getElementById("eventManagerPreviewImage").src=event.poster;
+    document.getElementById("eventManagerPosterPreview").style.display="block";
+  }
+  updateEventManagerEarlyBirdStatus();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function cancelEventManagerEdit(){
+  resetEventManagerForm();
+}
+
+function resetEventManagerForm(){
+  eventManagerEditingId=null;
+  eventManagerPosterData="";
+  document.getElementById("eventManagerName").value="";
+  document.getElementById("eventManagerDate").value="";
+  document.getElementById("eventManagerPlace").value="";
+  document.getElementById("eventManagerTime").value="";
+  document.getElementById("eventManagerDescription").value="";
+  document.getElementById("eventManagerPhotoUrl").value="";
+  document.getElementById("eventManagerEarlyBirdStart").value="";
+  document.getElementById("eventManagerEarlyBirdEnd").value="";
+  document.getElementById("eventManagerPosterInput").value="";
+  document.getElementById("eventManagerPreviewImage").src="";
+  document.getElementById("eventManagerPosterPreview").style.display="none";
+  document.getElementById("eventManagerFormTitle").textContent="대회 일정 등록";
+  document.getElementById("eventManagerSaveButton").textContent="대회 저장";
+  document.getElementById("eventManagerCancelButton").classList.add("hidden");
+  updateEventManagerEarlyBirdStatus();
+}
+
+async function toggleEventRegistrationFromManager(id){
+  const events=getEventManagerEvents();
+  const index=events.findIndex(event=>String(event.id)===String(id));
+  if(index===-1)return;
+  const event=events[index];
+  try{
+    const dbEvent=await findServerEventForLocal(event);
+    if(!dbEvent)throw new Error("서버 DB에서 대회를 찾을 수 없습니다.");
+    const nextOpen=!(dbEvent.registration_open===true || Number(dbEvent.registration_open)===1);
+    const payload=makeServerEventPayload({...event,registrationOpen:nextOpen},dbEvent);
+    const response=await fetch("/api/admin/events/"+encodeURIComponent(dbEvent.id),{
+      method:"PUT",headers:getAdminEventHeaders(),body:JSON.stringify(payload)
+    });
+    const result=await response.json();
+    if(!response.ok||!result.ok)throw new Error(result.error||"접수 상태 저장에 실패했습니다.");
+    events[index].id=dbEvent.id;
+    events[index].registrationOpen=nextOpen;
+    saveMUTEventsFromAdmin(events);
+    renderEventManagerList();
+    loadEvents();
+  }catch(error){
+    console.error("접수 상태 변경 오류:",error);
+    alert(error.message||"접수 상태를 변경하지 못했습니다.");
+  }
+}
+
+async function toggleEventParticipantVisibilityFromManager(id){
+  try{
+    const next = await toggleParticipantVisibilityOnServer(id);
+    renderEventManagerList();
+    loadEvents();
+    alert(next
+      ? "서버 DB에 참가자 현황 공개 설정을 저장했습니다."
+      : "서버 DB에서 참가자 현황을 비공개로 전환했습니다.");
+  }catch(error){
+    console.error("참가자 공개 설정 저장 오류:", error);
+    alert(error.message || "참가자 공개 설정을 저장하지 못했습니다.");
+  }
+}
+
+async function deleteEventFromAdmin(id){
+  const event=getEventManagerEvents().find(item=>String(item.id)===String(id));
+  if(!event)return;
+  if(!confirm(`「${event.name||"해당 대회"}」 대회를 삭제하시겠습니까?`))return;
+  try{
+    const dbEvent=await findServerEventForLocal(event);
+    if(dbEvent){
+      const response=await fetch("/api/admin/events/"+encodeURIComponent(dbEvent.id),{
+        method:"DELETE",headers:getAdminEventHeaders()
+      });
+      const result=await response.json();
+      if(!response.ok||!result.ok)throw new Error(result.error||"서버에서 대회를 삭제하지 못했습니다.");
+    }
+    const events=getEventManagerEvents().filter(item=>String(item.id)!==String(id));
+    saveMUTEventsFromAdmin(events);
+    const visibility=getParticipantVisibilityMap();
+    delete visibility[String(id)];
+    if(dbEvent)delete visibility[String(dbEvent.id)];
+    localStorage.setItem("MUT_PARTICIPANTS_VISIBLE_BY_EVENT",JSON.stringify(visibility));
+    if(String(eventManagerEditingId)===String(id))resetEventManagerForm();
+    renderEventManagerList();
+    loadEvents();
+    alert("대회가 서버 DB에서 삭제되었습니다.");
+  }catch(error){
+    console.error("대회 삭제 오류:",error);
+    alert(error.message||"대회를 삭제하지 못했습니다.");
+  }
+}
+
+function renderEventManagerList(){
+  const list=document.getElementById("eventManagerList");
+  if(!list)return;
+  const events=getEventManagerEvents().slice().sort((a,b)=>String(a.date||"").localeCompare(String(b.date||"")));
+  list.innerHTML="";
+  if(events.length===0){
+    list.innerHTML=`<div style="padding:50px 20px;text-align:center;border:1px solid #292929;color:#777;">아직 등록된 대회가 없습니다.</div>`;
+    return;
+  }
+  events.forEach(function(event){
+    if(typeof event.registrationOpen==="undefined")event.registrationOpen=true;
+    const publicNow=isParticipantEventPublic(event.id);
+    const poster=event.poster?`<img src="${escapeHTML(event.poster)}" alt="${escapeHTML(event.name||"MUT Championship")}">`:`<div style="padding:80px 20px;text-align:center;color:#777;">포스터 없음</div>`;
+    const early=event.earlyBirdStart&&event.earlyBirdEnd?`${escapeHTML(event.earlyBirdStart)} ~ ${escapeHTML(event.earlyBirdEnd)}`:"미설정";
+    const card=document.createElement("div");
+    card.className="event-manager-card";
+    card.innerHTML=`
+      <div class="event-manager-card-poster">${poster}</div>
+      <div class="event-manager-card-info">
+        <h3>${escapeHTML(event.name||"MUT CHAMPIONSHIP")}</h3>
+        <p><strong>날짜</strong>${escapeHTML(event.date||"-")}</p>
+        <p><strong>장소</strong>${escapeHTML(event.place||"-")}</p>
+        <p><strong>시간</strong>${escapeHTML(event.time||"-")}</p>
+        <p><strong>얼리버드</strong>${early}</p>
+        <p><strong>PHOTO</strong>${event.photoUrl?"🔴 링크 등록됨":"⚪ 준비중"}</p>
+        ${event.description?`<p><strong>설명</strong>${escapeHTML(event.description)}</p>`:""}
+        <div class="event-manager-status ${event.registrationOpen!==false?"open":"closed"}">${event.registrationOpen!==false?"🟢 참가 신청 진행 중":"🔴 참가 신청 마감"}</div>
+        <div class="event-manager-public">${publicNow?"🟢 홈페이지 참가자 현황 공개 중":"🔴 홈페이지 참가자 현황 비공개"}</div>
+        <div class="event-manager-card-buttons">
+          <button type="button" onclick="toggleEventRegistrationFromManager('${escapeJS(event.id)}')">${event.registrationOpen!==false?"참가 신청 마감":"참가 신청 다시 열기"}</button>
+          <button type="button" onclick="toggleEventParticipantVisibilityFromManager('${escapeJS(event.id)}')">${publicNow?"참가자 현황 비공개":"참가자 현황 공개"}</button>
+        </div>
+        <div class="event-manager-card-buttons">
+          <button type="button" class="edit-button" onclick="editEventFromAdmin('${escapeJS(event.id)}')">수정</button>
+          <button type="button" class="event-manager-delete" onclick="deleteEventFromAdmin('${escapeJS(event.id)}')">삭제</button>
+        </div>
+      </div>`;
+    list.appendChild(card);
+  });
+}
+
+
+
+
+const eventManagerPosterInput=document.getElementById("eventManagerPosterInput");
+if(eventManagerPosterInput){eventManagerPosterInput.addEventListener("change",handleEventManagerPoster);}
+const eventManagerStart=document.getElementById("eventManagerEarlyBirdStart");
+const eventManagerEnd=document.getElementById("eventManagerEarlyBirdEnd");
+if(eventManagerStart)eventManagerStart.addEventListener("change",updateEventManagerEarlyBirdStatus);
+if(eventManagerEnd)eventManagerEnd.addEventListener("change",updateEventManagerEarlyBirdStatus);
+
+/* ==================================================
+   시작
+================================================== */
+
+/* ==========================================
+   MUT ADMIN LOGIN
+========================================== */
+
+const MUT_ADMIN_LOGIN_API = "/api/admin/login";
+
+document.addEventListener("DOMContentLoaded", function () {
+  const loginPage = document.getElementById("adminLoginPage");
+  const loginForm = document.getElementById("adminLoginForm");
+  const passwordInput = document.getElementById("adminPassword");
+  const loginButton = document.getElementById("adminLoginButton");
+  const loginMessage = document.getElementById("adminLoginMessage");
+  const adminWrap = document.querySelector(".admin-wrap");
+
+  if (!loginPage || !loginForm || !passwordInput || !loginButton ||
+      !loginMessage || !adminWrap) {
+    console.error("관리자 로그인 화면 요소를 찾을 수 없습니다.");
+    return;
+  }
+
+  // 현재 브라우저 탭에서 이미 로그인했다면 관리자 화면 표시
+  if (sessionStorage.getItem("MUT_ADMIN_TOKEN")) {
+   loginPage.style.display = "none";
+adminWrap.style.display = "block";
+adminWrap.classList.remove("auth-locked");
+  }
+
+  loginForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const password = passwordInput.value;
+    if (!password) {
+      loginMessage.textContent = "비밀번호를 입력해 주세요.";
+      return;
+    }
+
+    loginButton.disabled = true;
+    loginButton.textContent = "로그인 중...";
+    loginMessage.textContent = "";
+
+    try {
+      const response = await fetch(MUT_ADMIN_LOGIN_API, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ password })
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.ok || !result.token) {
+        throw new Error("비밀번호를 확인해 주세요.");
+      }
+
+      sessionStorage.setItem("MUT_ADMIN_TOKEN", result.token);
+try{ await syncEventManagerFromServer(); }catch(syncError){ console.error("대회 서버 동기화 오류:",syncError); }
+await loadRegistrations();
+loadEvents();
+  loginPage.style.display = "none";
+adminWrap.style.display = "block";
+adminWrap.classList.remove("auth-locked");
+      passwordInput.value = "";
+
+    } catch (error) {
+      loginMessage.textContent =
+        error.message === "비밀번호를 확인해 주세요."
+          ? error.message
+          : "로그인 서버에 연결할 수 없습니다. 잠시 후 다시 시도해 주세요.";
+    } finally {
+      loginButton.disabled = false;
+      loginButton.textContent = "로그인";
+    }
+  });
+});
+
+window.onload = async function(){
+
+  await loadRegistrations();
+
+  loadEvents();
+
+  loadNoticeList();
+
+  updateRankingScorePreview();
+
+};
+
+
+
+/* ========================================================
+   MUT ADMIN DASHBOARD EXTENSIONS · preserves legacy handlers
+======================================================== */
+function mutMoney(n){return "₩ " + Math.max(0,Number(n)||0).toLocaleString("ko-KR");}
+function mutSetText(id,text){const el=document.getElementById(id);if(el)el.textContent=text;}
+function mutUpdateRevenuePanels(){
+  const all=Array.isArray(registrations)?registrations:[];
+  const paid=all.filter(p=>p.payment==="완료");
+  const amount=p=>{const n=Number(p.totalPrice??p.total_price??0);return Number.isFinite(n)&&n>=0?n:0;};
+  mutSetText("mutAllPaidCount",paid.length.toLocaleString("ko-KR")+"명");
+  mutSetText("mutAllPaidAmount",mutMoney(paid.reduce((n,p)=>n+amount(p),0)));
+  const current=all.filter(p=>String(p.eventId)===String(selectedEvent));
+  const currentPaid=current.filter(p=>p.payment==="완료");
+  mutSetText("mutRevenueApplicants",current.length.toLocaleString("ko-KR")+"명");
+  mutSetText("mutRevenuePaidCount",currentPaid.length.toLocaleString("ko-KR")+"명");
+  mutSetText("mutRevenuePaidAmount",mutMoney(currentPaid.reduce((n,p)=>n+amount(p),0)));
+  mutSetText("mutRevenueExpected",mutMoney(current.reduce((n,p)=>n+amount(p),0)));
+}
+function mutToggleSidebar(){
+  const sidebar=document.getElementById("mutAdminSidebar");
+  const isOpen=sidebar?.classList.toggle("is-open")||false;
+  document.querySelector(".mut-admin-overlay")?.classList.toggle("is-open",isOpen);
+  document.querySelector(".mut-menu-toggle")?.setAttribute("aria-expanded",String(isOpen));
+}
+function mutCloseSidebar(){
+  document.getElementById("mutAdminSidebar")?.classList.remove("is-open");
+  document.querySelector(".mut-admin-overlay")?.classList.remove("is-open");
+  document.querySelector(".mut-menu-toggle")?.setAttribute("aria-expanded","false");
+}
+function mutAdminLogout(){sessionStorage.removeItem("MUT_ADMIN_TOKEN");localStorage.removeItem("MUT_ADMIN_TOKEN");location.reload();}
+const mutAdminViews=[
+  ["eventManagerPage","events","대회 관리"],["eventPage","participants","참가자 관리"],
+  ["playerPage","participants","참가자 관리"],["rankingPage","ranking","랭킹 관리"],
+  ["noticePage","notices","공지사항 관리"],["eventFilePage","files","대진표 · 타임테이블"],
+  ["mutPhotoManagerPage","photo","PHOTO 관리"],["mutSponsorManagerPage","sponsor","스폰서 관리"]
+];
+function mutSyncAdminNav(){
+  const current=mutAdminViews.find(item=>{const el=document.getElementById(item[0]);return el&&!el.classList.contains("hidden");});
+  if(!current)return;
+  mutSetText("mutAdminPageTitle",current[2]);
+  document.querySelectorAll(".admin-menu [data-mut-page]").forEach(btn=>{
+    const active=btn.dataset.mutPage===current[1];btn.classList.toggle("active",active);
+    if(active)btn.setAttribute("aria-current","page");else btn.removeAttribute("aria-current");
+  });
+}
+function mutOpenParticipants(){hideAllPages();document.getElementById("eventPage")?.classList.remove("hidden");loadEvents();mutUpdateRevenuePanels();mutCloseSidebar();}
+
+/* Photo links live in existing D1 events.photo_url field. */
+let mutPhotoEvents=[];
+function mutValidDriveLink(text){
+  if(!text)return true;
+  try {const u=new URL(text);return u.protocol==="https:"&&(u.hostname==="drive.google.com"||u.hostname==="docs.google.com");}
+  catch {return false;}
+}
+async function mutOpenPhotoManager(){
+  hideAllPages();document.getElementById("mutPhotoManagerPage")?.classList.remove("hidden");mutCloseSidebar();
+  mutSetText("mutPhotoStatus","서버 대회 목록을 확인하는 중...");
+  try{mutPhotoEvents=await fetchAdminEventsFromServer();mutRenderPhotoManager();mutSetText("mutPhotoStatus","");}
+  catch(error){mutSetText("mutPhotoStatus","조회 실패: "+error.message);}
+}
+function mutRenderPhotoManager(){
+  mutPhotoEvents.sort((a,b)=>String(b.event_date||"").localeCompare(String(a.event_date||""))||Number(b.id)-Number(a.id));
+  const sel=document.getElementById("mutPhotoEventSelect");const old=sel.value;
+  sel.replaceChildren();
+  mutPhotoEvents.forEach(e=>{const o=document.createElement("option");o.value=e.id;o.textContent=(e.name||"MUT CHAMPIONSHIP")+" ("+(e.event_date||"날짜 미정")+")";sel.appendChild(o);});
+  if(mutPhotoEvents.some(e=>String(e.id)===old))sel.value=old;
+  mutPhotoSelectChange();
+  const list=document.getElementById("mutPhotoManagerList");list.replaceChildren();
+  if(!mutPhotoEvents.length){list.textContent="등록된 대회가 없습니다. 대회 관리에서 먼저 대회를 등록해 주세요.";return;}
+  mutPhotoEvents.forEach(e=>{
+    const row=document.createElement("div");row.className="mut-photo-item";
+    const info=document.createElement("div");const title=document.createElement("strong");title.textContent=e.name||"MUT CHAMPIONSHIP";
+    const date=document.createElement("small");date.textContent=e.event_date||"날짜 미정";info.append(title,date);
+    const state=document.createElement(e.photo_url?"a":"span");state.className="mut-photo-state"+(e.photo_url?" is-ready":"");
+    state.textContent=e.photo_url?"PHOTO ↗":"준비중";
+    if(e.photo_url&&mutValidDriveLink(e.photo_url)){state.href=e.photo_url;state.target="_blank";state.rel="noopener noreferrer";}
+    row.append(info,state);list.appendChild(row);
+  });
+}
+function mutPhotoSelectChange(){
+  const id=document.getElementById("mutPhotoEventSelect")?.value;
+  const e=mutPhotoEvents.find(e=>String(e.id)===String(id));
+  document.getElementById("mutPhotoEditUrl").value=e?.photo_url||"";
+}
+function mutPhotoClearLink(){document.getElementById("mutPhotoEditUrl").value="";mutSetText("mutPhotoStatus","저장 버튼을 누르면 PHOTO 상태가 준비중으로 변경됩니다.");}
+async function mutSavePhotoLink(){
+  const id=document.getElementById("mutPhotoEventSelect").value;
+  const dbEvent=mutPhotoEvents.find(e=>String(e.id)===String(id));
+  const link=document.getElementById("mutPhotoEditUrl").value.trim();
+  if(!dbEvent){alert("대회를 선택해 주세요.");return;}
+  if(!mutValidDriveLink(link)){alert("구글 드라이브 HTTPS 공유 링크만 등록할 수 있습니다.");return;}
+  const btn=document.getElementById("mutPhotoSaveBtn");btn.disabled=true;
+  try{
+    const local=dbEventToLocalEvent(dbEvent,findMatchingLocalEvent(dbEvent,getEventManagerEvents()));
+    const body=makeServerEventPayload({...local,photoUrl:link},dbEvent);
+    const res=await fetch("/api/admin/events/"+encodeURIComponent(id),{method:"PUT",headers:getAdminEventHeaders(),body:JSON.stringify(body)});
+    const data=await res.json();if(!res.ok||!data.ok)throw new Error(data.error||"링크 저장 실패");
+    mutPhotoEvents=await fetchAdminEventsFromServer();
+    const saved=mutPhotoEvents.find(e=>String(e.id)===String(id));
+    const stored=getEventManagerEvents();const idx=stored.findIndex(e=>String(e.id)===String(id));
+    if(idx>=0){stored[idx].photoUrl=saved?.photo_url||"";saveMUTEventsFromAdmin(stored);}
+    mutRenderPhotoManager();document.getElementById("mutPhotoEventSelect").value=id;mutPhotoSelectChange();
+    mutSetText("mutPhotoStatus",link?"PHOTO 링크를 서버에 저장했습니다.":"준비중 상태로 저장했습니다.");
+  }catch(error){mutSetText("mutPhotoStatus","저장 실패: "+error.message);}
+  finally{btn.disabled=false;}
+}
+
+/* Sponsor images are optimized to WebP before being written to D1. */
+let mutSponsors=[];
+let mutSponsorEditingId=null;
+let mutSponsorImageData="";
+async function mutOpenSponsorManager(){
+  hideAllPages();document.getElementById("mutSponsorManagerPage")?.classList.remove("hidden");mutCloseSidebar();
+  await mutLoadSponsors();
+}
+async function mutSponsorRequest(path,method="GET",body){
+  const res=await fetch(path,{method,cache:"no-store",headers:{"Authorization":"Bearer "+mutAdminToken(),...(body?{"Content-Type":"application/json"}:{})},...(body?{body:JSON.stringify(body)}:{})});
+  const data=await res.json();if(!res.ok||!data.ok)throw new Error(data.error||"서버 요청 실패");return data;
+}
+async function mutLoadSponsors(){
+  mutSetText("mutSponsorStatus","스폰서 목록을 불러오는 중...");
+  try{const data=await mutSponsorRequest("/api/admin/sponsors");mutSponsors=Array.isArray(data.sponsors)?data.sponsors:[];mutRenderSponsors();mutSetText("mutSponsorStatus","");}
+  catch(error){mutSetText("mutSponsorStatus","불러오기 실패: "+error.message+" (데이터베이스 변경 SQL 실행 여부 확인)");}
+}
+function mutSponsorValidImageUrl(text){if(!text)return false;try{return new URL(text).protocol==="https:";}catch{return false;}}
+function mutResetSponsorForm(){
+  mutSponsorEditingId=null;mutSponsorImageData="";
+  document.getElementById("mutSponsorName").value="";
+  document.getElementById("mutSponsorOrder").value="0";
+  document.getElementById("mutSponsorFile").value="";
+  document.getElementById("mutSponsorUrl").value="";
+  mutSetText("mutSponsorFormTitle","공식 스폰서 추가");mutSetText("mutSponsorSaveBtn","스폰서 저장");
+  document.getElementById("mutSponsorPreview").textContent="이미지 미리보기";
+  mutSetText("mutSponsorStatus","");
+}
+function mutSponsorShowPreview(src){const box=document.getElementById("mutSponsorPreview");box.replaceChildren();if(!src){box.textContent="이미지 미리보기";return;}const img=document.createElement("img");img.src=src;img.alt="스폰서 로고 미리보기";box.appendChild(img);}
+function mutCompressSponsor(file){
+  return new Promise((resolve,reject)=>{
+    if(!/^image\/(png|jpeg|webp)$/.test(file.type)){reject(new Error("PNG, JPG, WebP 이미지 파일만 가능합니다."));return;}
+    if(file.size>12*1024*1024){reject(new Error("원본 이미지가 12MB를 초과합니다."));return;}
+    const reader=new FileReader();reader.onerror=()=>reject(new Error("이미지를 읽지 못했습니다."));
+    reader.onload=()=>{
+      const img=new Image();img.onerror=()=>reject(new Error("지원하지 않는 이미지입니다."));
+      img.onload=()=>{
+        let edge=680,quality=.84,output="";
+        for(let i=0;i<7;i++){
+          const rate=Math.min(1,edge/Math.max(img.naturalWidth,img.naturalHeight));
+          const canvas=document.createElement("canvas");canvas.width=Math.max(1,Math.round(img.naturalWidth*rate));canvas.height=Math.max(1,Math.round(img.naturalHeight*rate));
+          const ctx=canvas.getContext("2d");ctx.imageSmoothingQuality="high";ctx.drawImage(img,0,0,canvas.width,canvas.height);
+          output=canvas.toDataURL("image/webp",quality);
+          if(output.startsWith("data:image/webp;")&&output.length<=340000){resolve(output);return;}
+          edge=Math.round(edge*.8);quality=Math.max(.5,quality-.06);
+        }
+        reject(new Error("로고 이미지가 너무 복잡합니다. 더 작은 이미지로 다시 시도해주세요."));
+      };
+      img.src=reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+async function mutPreviewSponsorFile(){
+  const file=document.getElementById("mutSponsorFile").files?.[0];if(!file)return;
+  mutSetText("mutSponsorStatus","이미지 최적화 중...");
+  try{mutSponsorImageData=await mutCompressSponsor(file);mutSponsorShowPreview(mutSponsorImageData);mutSetText("mutSponsorStatus","이미지 준비 완료. 저장 버튼을 눌러주세요.");}
+  catch(error){mutSponsorImageData="";mutSetText("mutSponsorStatus",error.message);}
+}
+async function mutSaveSponsor(){
+  const name=document.getElementById("mutSponsorName").value.trim();
+  const order=Number(document.getElementById("mutSponsorOrder").value||0);
+  const url=document.getElementById("mutSponsorUrl").value.trim();
+  const existing=mutSponsors.find(s=>String(s.id)===String(mutSponsorEditingId));
+  const image=mutSponsorImageData || url || existing?.image_url || "";
+  if(!name){alert("스폰서 이름을 입력해 주세요.");return;}
+  if(!image || (!image.startsWith("data:image/")&&!mutSponsorValidImageUrl(image))){alert("이미지 파일을 올리거나 HTTPS 이미지 주소를 입력해 주세요.");return;}
+  if(!Number.isSafeInteger(order)||order<0||order>100000){alert("정렬 순서를 확인해 주세요.");return;}
+  const button=document.getElementById("mutSponsorSaveBtn");button.disabled=true;
+  try{
+    await mutSponsorRequest(mutSponsorEditingId?"/api/admin/sponsors/"+encodeURIComponent(mutSponsorEditingId):"/api/admin/sponsors",mutSponsorEditingId?"PUT":"POST",{name,image_url:image,sort_order:order});
+    mutResetSponsorForm();await mutLoadSponsors();mutSetText("mutSponsorStatus","스폰서를 서버에 저장했습니다. 홈페이지에 자동 표시됩니다.");
+  }catch(error){mutSetText("mutSponsorStatus","저장 실패: "+error.message);}
+  finally{button.disabled=false;}
+}
+function mutEditSponsor(id){
+  const item=mutSponsors.find(s=>String(s.id)===String(id));if(!item)return;
+  mutSponsorEditingId=item.id;mutSponsorImageData="";
+  document.getElementById("mutSponsorName").value=item.name||"";
+  document.getElementById("mutSponsorOrder").value=String(item.sort_order||0);
+  document.getElementById("mutSponsorFile").value="";
+  document.getElementById("mutSponsorUrl").value=item.image_url?.startsWith("https://")?item.image_url:"";
+  mutSponsorShowPreview(item.image_url);
+  mutSetText("mutSponsorFormTitle","스폰서 정보 수정");mutSetText("mutSponsorSaveBtn","수정 내용 저장");
+  document.getElementById("mutSponsorFormTitle").scrollIntoView({behavior:"smooth",block:"center"});
+}
+async function mutDeleteSponsor(id){
+  const item=mutSponsors.find(s=>String(s.id)===String(id));if(!item)return;
+  if(!confirm("「"+(item.name||"이 스폰서")+"」를 삭제할까요?"))return;
+  try{await mutSponsorRequest("/api/admin/sponsors/"+encodeURIComponent(id),"DELETE");if(String(mutSponsorEditingId)===String(id))mutResetSponsorForm();await mutLoadSponsors();}
+  catch(error){alert("삭제 실패: "+error.message);}
+}
+function mutRenderSponsors(){
+  const list=document.getElementById("mutSponsorList");list.replaceChildren();
+  if(!mutSponsors.length){list.textContent="등록된 스폰서가 없습니다.";return;}
+  mutSponsors.forEach(item=>{
+    const row=document.createElement("div");row.className="mut-sponsor-entry";
+    const img=document.createElement("img");img.src=item.image_url;img.alt=item.name||"공식 스폰서";img.loading="lazy";
+    const info=document.createElement("div");info.className="mut-sponsor-details";
+    const title=document.createElement("strong");title.textContent=item.name||"공식 스폰서";
+    const sub=document.createElement("small");sub.textContent="정렬 순서: "+String(item.sort_order??0);info.append(title,sub);
+    const actions=document.createElement("div");actions.className="mut-sponsor-buttons";
+    const edit=document.createElement("button");edit.type="button";edit.textContent="수정";edit.onclick=()=>mutEditSponsor(item.id);
+    const del=document.createElement("button");del.type="button";del.className="mut-remove";del.textContent="삭제";del.onclick=()=>mutDeleteSponsor(item.id);
+    actions.append(edit,del);row.append(img,info,actions);list.appendChild(row);
+  });
+}
+document.addEventListener("DOMContentLoaded",()=>{
+  mutUpdateRevenuePanels();mutSyncAdminNav();
+  const nodes=mutAdminViews.map(a=>document.getElementById(a[0])).filter(Boolean);
+  const observer=new MutationObserver(()=>{mutSyncAdminNav();});
+  nodes.forEach(el=>observer.observe(el,{attributes:true,attributeFilter:["class"]}));
+  document.addEventListener("click",event=>{
+    if(event.target.closest(".admin-menu button"))mutCloseSidebar();
+  });
+});
+
+</script>
+
+</body>
+</html>
 
